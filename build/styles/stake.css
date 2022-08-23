@@ -1,0 +1,71 @@
+.heading-banner{
+    background: #384BD9;
+    width: 80%;
+    border-radius: 15px;
+}
+
+.heading-info{
+    margin: 1rem;
+}
+
+.heading-info-value{
+    font-weight: bold;
+}
+
+.staking{
+    width: 40%;
+}
+
+.stake-main{
+    width: 80%;
+}
+
+.staking{
+    width: 45%;
+}
+
+.benefits{
+    width: 40%;
+
+}
+
+.staking, .benefits{
+    margin: 3rem 0px;
+    /* margin-right:; */
+    background: #141724;
+    border-radius: 15px;
+}
+
+.staking-tab{
+    cursor: pointer;
+}
+
+.staking-tabs-sel{
+    border-bottom: 3px solid white;
+}
+
+#staking-input, .staking-btn{
+    background: #30313D;
+    border: 0px;
+    color: white;
+    outline: none;
+    height: 40px;
+}
+
+#staking-input{
+    width: 80%;
+}
+
+.staking-btn{
+    width: 20%;
+}
+
+.staking-button{
+    width: 100%;
+    margin-top: 1rem;
+    border-radius: 10px;
+    background: #384BD9;
+    color: white;
+    border: 0px;
+    height: 35px;
+}

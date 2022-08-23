@@ -1,0 +1,15 @@
+.sidebar{
+    width: 300px;
+    background: #141724;
+    color: white;
+}
+
+.sidebar-sel{
+    background: #2A3690;
+    border-radius: 17px;
+}
+
+.coin{
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}

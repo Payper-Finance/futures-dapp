@@ -1,0 +1,69 @@
+body{
+    background: #080A15;
+    color: aliceblue;
+}
+
+.main-section{
+    width: calc(100% - 300px);
+}
+
+.nav-tab{
+    height: 50px;
+}
+
+.tabs{
+    height: fit-content;
+    margin: auto 3rem;
+    position: relative;
+    color: aliceblue;
+    cursor: pointer;
+}
+
+.tabs-sel{
+    color: #8D99EF;
+}
+
+.tabs-sel::before{
+    content: '';
+    position: absolute;
+    background: #8D99EF;
+    top: 90%;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    transform:perspective(1em) rotateX(40deg) scale(1, 0.25);
+    /* box-shadow: 0px 0px 30px #1cd6ea; */
+    filter: blur(1em);
+}
+
+.graph-info{
+    margin: 0px 1rem;
+}
+
+/* .graph-infos{
+} */
+
+.trade-graph-enclosure, .long-short-enclosure, .history-enclosure{
+    padding: 1.5rem;
+    background: #141724;
+    margin: 2rem;
+}
+
+.custom_btn{
+    color: antiquewhite;
+  border: 1px solid #384BD9;
+  border-radius: 30px;
+  transition: 0.125s linear;
+  background: transparent;
+  width: 140px;
+  height: 40px;
+  margin-top: 1rem;
+  margin-right: 1rem;
+}
+
+.custom_btn:hover{
+  color: white;
+  background-color: #384BD9;
+  border-color: #384BD9;
+  box-shadow: 0px 0px 24px -2px #384BD9;
+}

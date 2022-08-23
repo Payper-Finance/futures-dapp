@@ -1,0 +1,93 @@
+.historylist {
+    height: 240px;
+    /* min-height: 91px; */
+    overflow: scroll;
+    margin: auto;
+    padding-left: 0px;
+    border-bottom: 1px solid gray;
+    border-top: 1px solid gray;
+    font-size: 14px;
+    /* border-right: 1px solid antiquewhite; */
+  }
+
+  .long-short-btns button{
+    padding: 5px 3rem;
+  }
+  
+  /* 
+  .historylist::-webkit-scrollbar {
+    width: 40px; */
+  /* } */
+  
+  .txn_elements {
+    display: flex;
+    border-bottom: 1px solid #212121;
+    padding: 2px 20px;
+    color: white;
+    height: 47px;
+  }
+  
+  .txn-head {
+    height: 55px;
+    padding: 0px !important;
+  }
+  
+  .txn_item {
+    margin: auto;
+    width: 120px;
+    text-align: center;
+  }
+  
+  .list-heading {
+      background: #141724;
+    }
+    
+    .txn_elements{
+      /* border-bottom: 1px solid wheat; */
+  }
+  
+  .list-heading ul {
+    margin-bottom: 0px;
+  }
+  
+  .historylist .txn_elements {
+    background: #141724;
+  }
+  
+  .historylist::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  .historylist::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+  }
+  
+  .historylist::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  }
+  
+  
+  .exchangelist-options ul {
+    list-style: none;
+    padding-left: 0px;
+    display: flex;
+    border-bottom: 1px solid #000;
+    padding: 0px 20px;
+    color: grey;
+  }
+  
+  .exchangelist-options li {
+    width: calc(100%/8);
+    /* margin: auto; */
+    height: 57px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+  }
+  
+  .exchangelist-options li:hover {
+    opacity: 0.8;
+  }
