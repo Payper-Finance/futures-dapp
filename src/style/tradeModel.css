@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;800&display=swap');
+.tradeboxhead{
+    
+    width:100%;
+    font-weight:800;
+    font-size:20px;
+    font-family: 'Inter', sans-serif;
+}
+.tradebox_main{
+    min-width: 50vh;
+	height: auto;
+}
+.css-eg0mwd-MuiSlider-thumb{
+    width: 12px !important;
+    height: 12px !important;
+    background-color:#A9A9A9!important;
+}
+.css-fb7w07-MuiSlider-root{
+    color: #A9A9A9 !important;
+}
+.tradebox_leverage{
+
+    position: relative;
+    background: #30313D;
+border-radius: 6px;
+min-width: 100% !important;
+min-height: 90px;
+top: 10px;
+left: -10px;
+padding: 10px;
+margin: auto;
+color: #A9A9A9;
+}
+.tradebox_amount{
+    position: relative;
+    width: 100% !important;
+}
+.tradebox_levslider{
+    position: relative;
+    left: 13px;
+    font-size: 13px !important;
+}
+.tradebox_inputicon{
+    position: absolute;
+    top: 20%;
+font-size: 13px;
+font-weight: 600;
+
+    z-index: 2;
+}
+.tradebox{
+    position: relative;
+    width: 100% !important;
+height: 40px;
+color: white;
+padding-right: 10px;
+left: -10px;
+border: 0;
+font-size: 14px;
+text-align: end;
+background: #30313D;
+border-radius: 6px;
+}
+.tradebox_table1{
+    position: relative;
+    left: -10px;
+    margin-top: 40px!important;
+    width: 100% !important;
+}
+.tradebox_table1 tr{
+    font-size: 12px !important;
+    font-weight:500;
+}
+.tradebox_table1 td{
+    padding: 6px 0;
+}
+.tradebox_button{
+    position: relative;
+    left: -10px;
+
+}
+@media screen and (max-width:768px)and (min-width:540px){
+    .tradebox_main{
+        min-width: 30vh;
+    }
+}
+@media screen and (max-width:540px)and (min-width:340px){
+    .tradebox_main{
+        min-width: 20vh;
+    }
+}

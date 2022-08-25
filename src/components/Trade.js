@@ -9,20 +9,19 @@ import { Slider } from '@mui/material';
 import {openLong, closeLong, openShort, closeShort} from '../utils/tezos'
 import {getAccount} from '../utils/wallet';
 import axios from 'axios';
+import "../style/tradeModel.css"
 import SnackbarUtils from '../utils/SnackbarUtils';
+import {ScaleLoader} from 'react-spinners'
 
 const style = {
 	position: 'absolute',
+
+	background:" #141724",
 	top: '50%',
 	left: '50%',
 	transform: 'translate(-50%, -50%)',
-	width: "30%",
-	bgcolor: 'black',
-	border: '2px solid #000',
-	// boxShadow: 24,
 	p: 4,
 	'& > :not(style)': { m: 1, width: '25ch' },
-	boxShadow: '0 0 0 1px white'
 };
 
 const Trade = (props) => {
@@ -527,17 +526,23 @@ return (
 		aria-labelledby="modal-modal-title"
 		aria-describedby="modal-modal-description"
 	>
-		<Box sx={style} component="form" noValidate autoComplete="off">
-		<Typography id="modal-modal-title" variant="h4" component="h2" style={{width: '100%'}}>
+		<Box sx={style} className="tradebox_main" component="form" noValidate autoComplete="off">
+		<Typography id="modal-modal-title" variant="h4" component="h2" style={{position:"relative",left:'-10px',width: '100%',fontFamily:"'Inter', sans-serif",fontWeight:"800",fontSize:"25px"}}>
 			Long
 		</Typography>
-		<input value = {baseValue} id="outlined-basic" placeholder="vUSD Amount" variant="outlined" focused style={{width: '100%', color: 'white', backgroundColor: 'black', border:'1px solid white', borderRadius: '2%', padding: '10px', marginBottom:"20px"}} onChange = {(event)=>setBaseValue(parseInt(event.target.value))}/> <br/>
-		Leverage <br/>
-		<Slider
+		<div className='tradebox_amount'>
+		<span className='tradebox_inputicon'><img style={{padding:"0 6px",marginTop:"-4px",height:"32px"}} src="img/kusd.png"  alt=""/>kUSD</span>
+		<input value = {baseValue} style={{fontFamily:"'Inter', sans-serif"}} className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" focused  onChange = {(event)=>setBaseValue(parseInt(event.target.value))}/> 
+		</div>
+		
+		<div className='tradebox_leverage'>
+			<h6>Leverage</h6>
+			<Slider
 			aria-label="Temperature"
 			defaultValue={1}
 			// getAriaValueText={valuetext}
 			// valueLabelDisplay="auto" 
+			className="tradebox_levslider"
 			value={rangeValue}
 			onChange={onChangeRange}
 			color={'primary'}
@@ -545,32 +550,47 @@ return (
 			step={1}
 			marks
 			min={1}
-			max={3}
-			style={{width: '90%'}}/> {rangeValue} x <br/>
-			<table style = {{width:"100%"}}>
+			max={5}
+			style={{width: '90%'}}/> <span style={{position:"absolute",bottom:"6px",fontSize:"14px",right:"25px",fontWeight:"bold"}}>{rangeValue}x</span> <br/>
+		</div> 
+		<table className='tradebox_table1' style = {{width:"100%"}}>
+			<p style={{fontFamily:"'Inter', sans-serif",fontSize:"13px",fontWeight:"600"}}>You are buying in the long</p>
 			<tr style = {{width:"100%"}}>
-				<td style = {{width:"70%"}}>Amount</td>
-				<td style = {{width:"30%"}}>0 vUSD</td>
+				<td style = {{width:"70%",fontFamily:"'Inter', sans-serif",color:"#797979",fontWeight:"600"}}>Positon size</td>
+				<td style = {{width:"30%",textAlign:"end",fontFamily:"'Inter', sans-serif"}}>0 BTC <img src="img/btc.svg" /></td>
 			</tr>
 			<tr style = {{width:"100%"}}>
-				<td style = {{width:"70%"}}>Commission</td>
-				<td style = {{width:"30%"}}>0 vUSD</td>
-			</tr>
-			<tr style = {{width:"100%"}}>
-				<td style = {{width:"70%"}}>Price impact</td>
-				<td style = {{width:"30%"}}>0%</td>
-			</tr>
-			<tr style = {{width:"100%"}}>
-				<td style = {{width:"70%"}}>Slippage tolerance</td>
-				<td style = {{width:"30%"}}>2%</td>
+				<td style = {{width:"70%",fontFamily:"'Inter', sans-serif",color:"#797979",fontWeight:"600"}}>Entry price</td>
+				<td style = {{width:"30%",textAlign:"end",fontFamily:"'Inter', sans-serif"}}>0 kUSD <img style={{width:"20px"}} src="img/kusd.png" /></td>
 			</tr>
 			</table>
-			{isTxn ?<p>Transaction in Process ...</p>  : <Button style={{align: 'center', width: '100%', marginTop:"20px"}}variant="contained" color="success"
+			<hr style={{position:"relative",left:"-10px",width:"100%",top:"20px"}}/>
+		
+		
+			<table className='tradebox_table1' style = {{width:"100%"}}>
+			<tr style = {{width:"100%",}}>
+				<td style = {{width:"70%",fontFamily:"'Inter', sans-serif",fontWeight:"600",color:"#C0C0C0"}}>Amount</td>
+				<td style = {{width:"30%",textAlign:"end",fontFamily:"'Inter', sans-serif"}}>0 vUSD</td>
+			</tr>
+			<tr style = {{width:"100%"}}>
+				<td style = {{width:"70%",fontFamily:"'Inter', sans-serif",fontWeight:"600",color:"#C0C0C0"}}>Commission</td>
+				<td style = {{width:"30%",textAlign:"end",fontFamily:"'Inter', sans-serif"}}>0 vUSD</td>
+			</tr>
+			<tr style = {{width:"100%"}}>
+				<td style = {{width:"70%",fontFamily:"'Inter', sans-serif",fontWeight:"600",color:"#C0C0C0"}}>Price impact</td>
+				<td style = {{width:"30%",textAlign:"end",fontFamily:"'Inter', sans-serif"}}>0%</td>
+			</tr>
+			<tr style = {{width:"100%"}}>
+				<td style = {{width:"70%",fontFamily:"'Inter', sans-serif",fontWeight:"600",color:"#C0C0C0"}}>Slippage tolerance</td>
+				<td style = {{width:"30%",textAlign:"end",fontFamily:"'Inter', sans-serif"}}>2%</td>
+			</tr>
+			</table>
+			{isTxn ?<span style={{width:"100% !important",position:"relative",left:"35%"}}><ScaleLoader color='#1ECC89' width={7} margin={6}/> </span> : <Button className="tradebox_button" style={{align: 'center', width: '100%', borderRadius: "8px",marginTop:"20px",fontWeight:"600",backgroundColor:"#1ECC89",fontFamily:"'Inter', sans-serif"}}variant="contained" color="success"
 				onClick={async()=>{ setIsTxn(true);
 								console.log(baseValue , rangeValue , 'XTZ');
 								await openLong(baseValue , rangeValue , 'XTZ');
 								setIsTxn(false)
-				}}>Go Long</Button>}
+				}}>Long</Button>}
 		</Box>
 	</Modal> : <Modal
 		open={open}
@@ -578,17 +598,22 @@ return (
 		aria-labelledby="modal-modal-title"
 		aria-describedby="modal-modal-description"
 	>
-		<Box sx={style} component="form" noValidate autoComplete="off">
-		<Typography id="modal-modal-title" variant="h4" component="h2" style={{width: '100%'}}>
-			Short
+		<Box sx={style} className="tradebox_main" component="form" noValidate autoComplete="off">
+		<Typography id="modal-modal-title" variant="h4" component="h2" style={{position:"relative",left:'-10px',width: '100%',fontFamily:"'Inter', sans-serif",fontWeight:"800",fontSize:"25px"}}>
+			Long
 		</Typography>
-		<input id="outlined-basic" placeholder="vUSD Amount" variant="outlined" focused style={{width: '100%', color: 'white', backgroundColor: 'black', border:'1px solid white', borderRadius: '2%', padding: '10px', marginBottom:"20px"}} onChange = {(event)=>setBaseValue(parseInt(event.target.value))}/> <br/>
-		Leverage <br/>
-		<Slider
+		<div className='tradebox_amount'>
+		<span className='tradebox_inputicon'><img style={{padding:"0 6px",marginTop:"-4px",height:"32px"}} src="img/kusd.png"  alt=""/>kUSD</span>
+		<input value = {baseValue} style={{fontFamily:"'Inter', sans-serif"}} className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" focused  onChange = {(event)=>setBaseValue(parseInt(event.target.value))}/> 
+		</div>
+		<div className='tradebox_leverage'>
+			<h6>Leverage</h6>
+			<Slider
 			aria-label="Temperature"
 			defaultValue={1}
 			// getAriaValueText={valuetext}
 			// valueLabelDisplay="auto" 
+			className="tradebox_levslider"
 			value={rangeValue}
 			onChange={onChangeRange}
 			color={'primary'}
@@ -596,32 +621,47 @@ return (
 			step={1}
 			marks
 			min={1}
-			max={3}
-			style={{width: '90%'}}/> {rangeValue} x <br/>
-			<table style = {{width:"100%"}}>
+			max={5}
+			style={{width: '90%'}}/> <span style={{position:"absolute",bottom:"6px",fontSize:"14px",right:"25px",fontWeight:"bold"}}>{rangeValue}x</span> <br/>
+		</div> 
+		<table className='tradebox_table1' style = {{width:"100%"}}>
+			<p style={{fontFamily:"'Inter', sans-serif",fontSize:"13px",fontWeight:"600"}}>You are buying in the long</p>
 			<tr style = {{width:"100%"}}>
-				<td style = {{width:"70%"}}>Amount</td>
-				<td style = {{width:"30%"}}>0 vUSD</td>
+				<td style = {{width:"70%",fontFamily:"'Inter', sans-serif",color:"#797979",fontWeight:"600"}}>Positon size</td>
+				<td style = {{width:"30%",textAlign:"end",fontFamily:"'Inter', sans-serif"}}>0 BTC <img src="img/btc.svg" /></td>
 			</tr>
 			<tr style = {{width:"100%"}}>
-				<td style = {{width:"70%"}}>Commission</td>
-				<td style = {{width:"30%"}}>0 vUSD</td>
-			</tr>
-			<tr style = {{width:"100%"}}>
-				<td style = {{width:"70%"}}>Price impact</td>
-				<td style = {{width:"30%"}}>0%</td>
-			</tr>
-			<tr style = {{width:"100%"}}>
-				<td style = {{width:"70%"}}>Slippage tolerance</td>
-				<td style = {{width:"30%"}}>2%</td>
+				<td style = {{width:"70%",fontFamily:"'Inter', sans-serif",color:"#797979",fontWeight:"600"}}>Entry price</td>
+				<td style = {{width:"30%",textAlign:"end",fontFamily:"'Inter', sans-serif"}}>0 kUSD <img style={{width:"20px"}} src="img/kusd.png" /></td>
 			</tr>
 			</table>
-			{isTxn ? <Button style={{align: 'center', width: '100%', marginTop:"20px"}}variant="contained"  disabled>Transaction in Process ... </Button>: <Button style={{align: 'center', width: '100%', marginTop:"20px"}}variant="contained" color="success"
+			<hr style={{position:"relative",left:"-10px",width:"100%",top:"20px"}}/>
+		
+		
+			<table className='tradebox_table1' style = {{width:"100%"}}>
+			<tr style = {{width:"100%",}}>
+				<td style = {{width:"70%",fontFamily:"'Inter', sans-serif",fontWeight:"600",color:"#C0C0C0"}}>Amount</td>
+				<td style = {{width:"30%",textAlign:"end",fontFamily:"'Inter', sans-serif"}}>0 vUSD</td>
+			</tr>
+			<tr style = {{width:"100%"}}>
+				<td style = {{width:"70%",fontFamily:"'Inter', sans-serif",fontWeight:"600",color:"#C0C0C0"}}>Commission</td>
+				<td style = {{width:"30%",textAlign:"end",fontFamily:"'Inter', sans-serif"}}>0 vUSD</td>
+			</tr>
+			<tr style = {{width:"100%"}}>
+				<td style = {{width:"70%",fontFamily:"'Inter', sans-serif",fontWeight:"600",color:"#C0C0C0"}}>Price impact</td>
+				<td style = {{width:"30%",textAlign:"end",fontFamily:"'Inter', sans-serif"}}>0%</td>
+			</tr>
+			<tr style = {{width:"100%"}}>
+				<td style = {{width:"70%",fontFamily:"'Inter', sans-serif",fontWeight:"600",color:"#C0C0C0"}}>Slippage tolerance</td>
+				<td style = {{width:"30%",textAlign:"end",fontFamily:"'Inter', sans-serif"}}>2%</td>
+			</tr>
+			</table>
+			{isTxn ?<span style={{width:"100% !important",position:"relative",left:"35%"}}><ScaleLoader color='#1ECC89' width={7} margin={6}/> </span> : <Button className="tradebox_button" style={{align: 'center', width: '100%', borderRadius: "8px",marginTop:"20px",fontWeight:"600",backgroundColor:"#E01B3C",fontFamily:"'Inter', sans-serif"}}variant="contained" color="success"
 				onClick={async()=>{ setIsTxn(true);
 								console.log(baseValue , rangeValue , 'XTZ');
-								await openShort(baseValue , rangeValue , 'XTZ').catch(setIsTxn(false));
+								await openLong(baseValue , rangeValue , 'XTZ');
 								setIsTxn(false)
-				}}>Go Short</Button>}
+				}}>SHORT</Button>}
 		</Box>
 	</Modal>}
 	</div>
