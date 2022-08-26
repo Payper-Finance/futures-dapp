@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import '../style/sidebar.css'
 
 const Sidebar = (props) => {
     const {coinSelect, setCoinSelect} = props
   return (
-    <div className='sidebar px-3 py-5'>
-        <link rel="stylesheet" href="/styles/sidebar.css" />
+    <div className='sidebar '>
+      <div className='Logo'><img style={{width:"50px",height:"50px",marginRight:"10px"}} src="img/Logo.png" />Zenith</div>
       <div className="coins">
         <div className={`${coinSelect === 'tezos'? 'sidebar-sel': '' } coin my-3 d-flex text-start`} onClick={()=>{setCoinSelect('tezos')}} >
             <div className='mx-2'><img src="/img/tz.svg" style={{width:'20px'}} alt="" /></div>

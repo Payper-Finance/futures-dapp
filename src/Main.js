@@ -36,7 +36,7 @@ const Main = () => {
         <div className="nav-tab d-flex w-100 ">
             <div className={`${tradeOrStake === 'trade'?'tabs-sel':''} tabs`} onClick={()=>{setTradeOrStake('trade')}}>Trade</div>
             <div className={`${tradeOrStake === 'stake'?'tabs-sel':''} tabs`} onClick={()=>{setTradeOrStake('stake')}}>Stake</div>
-            <button className="ms-auto custom_btn" onClick={!account ? onConnectWallet : onDisconnectWallet} >{!account ? "Connect Wallet" : "Disconnect"}</button>
+            <button className="ms-auto custom_btn" onClick={!account ? onConnectWallet : onDisconnectWallet} >{!account ? <span>Connect Wallet</span> : "Disconnect"}</button>
             
         </div>
         {

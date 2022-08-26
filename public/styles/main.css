@@ -1,52 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;800&display=swap');
 body{
-    background: #080A15;
+    background: #0E0F18;
     color: aliceblue;
 }
 
 .main-section{
-    width: calc(100% - 300px);
+    width: calc(100% - 400px);
 }
 
 .nav-tab{
-    height: 50px;
+    height: 70px;
+    border-bottom: 1px solid #787878;
+    font-family: 'Inter',sans-serif;
 }
 
 .tabs{
     height: fit-content;
-    margin: auto 3rem;
+    margin: auto -1rem auto 6rem;
     position: relative;
     color: aliceblue;
     cursor: pointer;
+    font-weight: bold;
+
 }
 
-.tabs-sel{
-    color: #8D99EF;
-}
+
 
 .tabs-sel::before{
     content: '';
     position: absolute;
-    background: #8D99EF;
-    top: 90%;
-    right: 0;
-    height: 100%;
-    width: 100%;
-    transform:perspective(1em) rotateX(40deg) scale(1, 0.25);
-    /* box-shadow: 0px 0px 30px #1cd6ea; */
-    filter: blur(1em);
+    background-color:  #2A3690;
+    top: 110%;
+    left: -18px;
+    height: 3.5px;
+    width: 80px;
 }
 
 .graph-info{
-    margin: 0px 1rem;
+    margin: 0px 3rem;
+}
+.coin-name{
+    margin:  0.5rem 4rem 0 4rem !important;
+    border-radius: 10px;
 }
 
-/* .graph-infos{
-} */
-
-.trade-graph-enclosure, .long-short-enclosure, .history-enclosure{
+.long-short-enclosure{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 24vh;
+    width: 400px;
+    background: #000614;
+    padding: 30px;
+    border-radius: 0 10px 10px 0px;
+}
+.trade-graph-enclosure{
     padding: 1.5rem;
-    background: #141724;
-    margin: 2rem;
+    background: rgba(172, 105, 255, 0.38);
+    border-radius: 14px;
+    margin: 0.5rem 4rem;
+}
+.trade_chart{
+    background-color:000614 ;
+    padding: 1.5rem;
+    background: #000614;
+    margin: 0.5rem 4rem;
+    height: 40vh;
+  }
+.history-enclosure{
+    padding: 1.5rem;
+    background: #000614;
+    margin: 0.8rem 4rem 0.5rem 4rem;
+    border-radius: 10px;
+    min-height: 29vh;
+    max-height: 250px;
 }
 
 .custom_btn{
@@ -58,7 +85,7 @@ body{
   width: 140px;
   height: 40px;
   margin-top: 1rem;
-  margin-right: 1rem;
+  margin-right: 3rem;
 }
 
 .custom_btn:hover{
