@@ -5,68 +5,295 @@ body{
 }
 
 .main-section{
-    width: calc(100% - 400px);
+    width: calc(100% - 350px);
+    position: relative;
+    font-family: 'Inter',sans-serif;
+    left: 350px;
+
 }
 
 .nav-tab{
-    height: 70px;
+    background: #0e0f18 !important;
+    width:100% !important;
+    z-index: 2;
+    position: fixed;
+    height: 60px;
     border-bottom: 1px solid #787878;
     font-family: 'Inter',sans-serif;
+}
+.hamburger-react{
+    display: none !important;
+}
+.unactivemenu{
+    display: none;
+}
+
+.Logo{
+    flex-basis: 350px;
+    height: 60px;
+    text-align: left;
+    background:#000614 ;
+    border-bottom: 1px solid #787878;
+    font-family: 'Inter',sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    padding-top: 8px;
+    padding-left: 10px;
+}
+.tradeNav{
+    width: 75%;
 }
 
 .tabs{
     height: fit-content;
-    margin: auto -1rem auto 6rem;
+    margin: auto -1rem auto 4rem;
     position: relative;
     color: aliceblue;
     cursor: pointer;
     font-weight: bold;
+    font-size: 14px;
 
 }
 
 
 
-.tabs-sel::before{
-    content: '';
-    position: absolute;
+
+.tabs-sel{
+    border-bottom: 3px solid  #2A3690 !important;
+    
+    /* position: absolute;
     background-color:  #2A3690;
     top: 110%;
-    left: -18px;
-    height: 3.5px;
-    width: 80px;
+    left: -12px;
+    height: 3px;
+    width: 60px; */
 }
-
+.info-title{
+    font-size: 13px;
+}
+.info-values {
+    font-size: 13px;
+}
 .graph-info{
-    margin: 0px 3rem;
+    margin: 0px 2rem;
 }
 .coin-name{
-    margin:  0.5rem 4rem 0 4rem !important;
+    margin:  2.4rem 4rem 0 4rem !important;
     border-radius: 10px;
+}
+.coin-name h4{
+    font-size: 16px;
+    font-weight: bold;
+}
+.coin-name img{
+    position: relative;
+    top: 30px;
+}
+.coin-name h6{
+    font-size: 14px;
+}
+.coin-name .coin-name{
+    margin-left: 0.5rem !important;
 }
 
 .long-short-enclosure{
-    position: absolute;
-    left: 0;
-    bottom: 0;
+    position: fixed;
+    left: 0px;
+    top: 76vh;
     height: 24vh;
-    width: 400px;
+    width: 350px;
     background: #000614;
     padding: 30px;
     border-radius: 0 10px 10px 0px;
+    text-align: center;
 }
+.long-short-enclosure h5{
+    font-size: 16px;
+}
+.long-short-enclosure button{
+    padding: 3px 25px !important;
+}
+
 .trade-graph-enclosure{
-    padding: 1.5rem;
-    background: rgba(172, 105, 255, 0.38);
+    padding: 0.8rem 1.5rem;
+    background: rgba(172, 105, 255, 0.16);
     border-radius: 14px;
     margin: 0.5rem 4rem;
 }
 .trade_chart{
     background-color:000614 ;
-    padding: 1.5rem;
+    padding: 0rem 1.5rem;
     background: #000614;
-    margin: 0.5rem 4rem;
-    height: 40vh;
-  }
+    margin: 0.2rem 4rem 0.2rem 4rem;
+    min-height: 55vh;
+    height: auto;
+}
+/* ---------------------------- tradPostion -----------------------------*/
+
+.tradePostion{
+    margin: 0.4rem 4rem 0.2rem 4rem;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 35vh;
+    height: auto;
+}
+.positon_Health{
+    background: rgba(172, 105, 255, 0.16);
+border-radius: 18px;
+    flex-basis: 39%;
+    margin-right:2% ;
+    padding: 1rem;
+}
+.progress{
+    height: 13px;
+    border: 0.5px solid #12AA70;
+    background:#096340;
+    padding: 2px;
+}
+.progress-bar{
+    background-color:#12AA70 ;
+    border-radius: 4px;
+}
+.phWeak{
+    height: 13px;
+    border: 0.5px solid #E01B3C;
+    background:#a31e34;
+    padding: 2px;
+}
+.phWeak .progress-bar{
+    background-color:#E01B3C ;
+    border-radius: 4px;
+}
+.positon_Health h3{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+
+}
+.figure_values{
+    display: flex;
+    margin: 20px 10px;
+
+}
+.tpfigures{
+flex-basis: 50%;
+}
+.tpfigures p{
+    margin: 10px 0;
+    font-style: normal;
+font-weight: 500;
+font-size: 11px;
+line-height: 16px;
+}
+.tpValues{
+    text-align: right;
+    flex-basis: 50%;
+}
+.tpValues p{
+    margin: 10px 0;
+    font-style: normal;
+font-weight: 500;
+font-size: 10px;
+line-height: 16px;
+}
+.positon_Health button{
+    width: 110px;
+border-radius: 8px;
+font-weight: 700;
+font-size: 13px;
+line-height: 22px;
+}
+.tphAdd{
+border: 1px solid #1ECC89;
+
+    background: #1ECC89;
+    color:#ffff ;
+    margin-right: 10px;
+    font-weight: 700;
+}
+
+.tphDec{
+border: 1px solid #E01B3C;
+
+    background: #E01B3C;
+    color:#ffff ;
+    font-weight: 700;
+
+}
+
+
+
+
+.positon_Status{
+    background:rgba(172, 105, 255, 0.38);
+    flex-basis: 59%;
+    border-radius: 10px;
+    padding: 1rem;
+    box-sizing: border-box;
+    min-height: 100%;
+}
+.positon_Status h3{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+
+}
+.tpstatus{
+    flex-basis: 50%;
+    position: relative;
+    min-height: 100%;
+
+}
+.tpstatus p{
+    font-size: 10px;
+}
+.tpstatus button{
+    position: absolute;
+    bottom: 0;
+    display: inline-block;
+    font-size: 10px;
+    background: rgba(0, 6, 20, 0.38);
+    color: #ffff;
+border: 1px solid #FFFFFF;
+border-radius: 18px;
+padding: 5px 20px;
+}
+.positon_Status>div{
+    display: flex;
+    
+}
+.tps_figures_values{
+    flex-basis: 50%;
+}
+.tps_figures_values>div{
+    display: flex;
+}
+.tpsfigure{
+    flex-basis: 50%;
+}
+.tpsValues{
+    flex-basis: 50%;
+}
+.tpsfigure p{
+    margin: 10px 0;
+    font-style: normal;
+font-weight: 500;
+font-size: 11px;
+line-height: 16px;
+
+}
+.tpsValues p{
+    margin: 10px 0;
+    font-style: normal;
+font-weight: 500;
+font-size: 11px;
+line-height: 16px;
+text-align: right;
+}
+/* ---------------------------- tradPostion -----------------------------*/
+
 .history-enclosure{
     padding: 1.5rem;
     background: #000614;
@@ -82,10 +309,11 @@ body{
   border-radius: 30px;
   transition: 0.125s linear;
   background: transparent;
+  margin-top: 15px;
+  margin-right: 40px;
   width: 140px;
-  height: 40px;
-  margin-top: 1rem;
-  margin-right: 3rem;
+  height: 30px;
+  font-size: 14px;
 }
 
 .custom_btn:hover{
@@ -94,3 +322,203 @@ body{
   border-color: #384BD9;
   box-shadow: 0px 0px 24px -2px #384BD9;
 }
+
+@media screen and (max-width:766px) and (min-width:270px){
+    .hamburger-react{
+        display: block !important;
+    }
+    .nav-tab{
+        background: #000614 !important;
+        width:100% !important;
+        z-index: 2;
+        position: fixed;
+        height: 60px;
+        border-bottom: 1px solid #787878;
+        font-family: 'Inter',sans-serif;
+    }
+    .Logo{
+        flex-basis: 85%;
+        height: 60px;
+        text-align: left;
+        background:#000614 ;
+        border-bottom: 1px solid #787878;
+        font-family: 'Inter',sans-serif;
+        font-weight: bold;
+        font-size: 14px;
+        padding-top: 8px;
+        padding-left: 10px;
+    }
+    .tradeNav{
+        display: none !important;
+        box-sizing: border-box;
+    }
+    .mainbox{
+        display: flex;
+        flex-direction: column;
+    }
+    .main-section{
+        width: 100%;
+     box-sizing: border-box;
+     overflow-x: hidden;
+        position: relative;
+        left: 0;
+    }
+    .longbg{
+        background: #1ECC89 !important ;
+        color: white !important;
+        border: none !important;
+        font-weight: bold;
+    }
+    .shortbg{
+        background: #E01B3C !important ;
+        color: white !important;
+        border: none !important;
+        font-weight: bold;
+    }
+.long-short-enclosure{
+    margin: 0.5rem 0.3rem -0.1rem 0.3rem;
+
+    position: fixed;
+    top:auto;
+    bottom: 0;
+    width: 98% !important;
+    z-index: 2;
+    height: 150px!important;
+}
+
+.trade-graph-enclosure{
+    padding: 0.5rem 0.5rem;
+    background: rgba(172, 105, 255, 0.16);
+    border-radius: 14px;
+    margin: 0.5rem 0.5rem;
+    box-sizing: border-box;
+
+}
+.info-title{
+    font-size: 10px;
+}
+.graph-infos{
+    margin: 0px 0.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.graph-info{
+    margin: 0.2rem 0.2rem;
+    flex-basis: 48%;
+}
+.trade_chart{
+    margin: 0.4rem 0.2rem;
+    min-height: auto;
+    padding: 0.2rem 0.2rem;
+}
+.tradePostion{
+    margin: 0.4rem 0.2rem 0.2rem 0.2rem;
+    display: flex;
+    min-height: 35vh;
+    height: auto;
+}
+.history-enclosure{
+    padding: 0.5rem 0.5rem;
+    margin: 1rem 0.5rem;
+    height: auto !important;
+    margin-bottom: 165px;
+}
+.coin-name{
+    margin: 5px 15px 5px 15px !important;
+}
+.coin-name img {
+    position: relative; 
+    top: 0px;
+    width: 25px !important;
+    height: 25px !important;
+}
+.tradePostion{
+    margin: 0.5rem;
+}
+.positon_Health{
+    flex-basis: 100%;
+    margin-bottom: 1rem;
+}
+.positon_Health button{
+    width: 150px;
+}
+.positon_Status{
+    position: relative;
+    flex-basis: 100%;
+    background: rgba(172, 105, 255, 0.16);
+}
+.positon_Status>div {
+    flex-direction: column;
+    justify-content: center;
+}
+.tpstatus button{
+    position: absolute;
+    bottom: 10px;
+    left: 30%;
+}
+.positon_Health button{
+    width: 48.5%;
+}
+.tphAdd{
+    width: 48.5%;
+}
+.tphDec{
+    width: 48.5%;
+
+}
+.tpstatus{
+    position: static;
+}
+.tps_figures_values{
+    margin-bottom: 40px;
+}
+.mobilemenu{
+    background: rgb(148, 93, 216);
+    border-radius: 18px;
+    width: 92%;
+    margin: auto;
+    margin-top: 20px;
+    padding: 15px;
+
+}
+.mobilemenu h3{
+    font-size: 14px;
+    font-weight: bold;
+}
+.mobilemenu h3 img{
+    width: 20px;
+    height: 20px;
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+.mobilemenu hr{
+    margin: 0;
+    background: #737373;
+    border: 0.5px solid #737373;
+}
+.mobile_tabs{
+    margin: 10px 0;
+}
+.mobilemenu p{
+    margin-bottom: 5px;
+
+}
+.menubar{
+    position: fixed;
+    z-index: 3;
+    width: 100%;
+    top: 6.5vh;
+    height: 94vh;
+    background: rgb(14, 15, 24,0.8);
+    transition-duration: 1s;
+}
+.unactivemenu{
+    position: absolute;
+    background: #0E0F18;
+    width: 100%;
+    left: -50vh;
+    transition-duration: 1s;
+}
+}
+

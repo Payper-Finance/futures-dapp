@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { TradeChart } from './TradeChart'
+import TradeChart from './TradeChart'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -12,7 +12,7 @@ import axios from 'axios';
 import "../style/tradeModel.css"
 import SnackbarUtils from '../utils/SnackbarUtils';
 import { ScaleLoader } from 'react-spinners'
-import Table from 'react-bootstrap/Table';
+import {Table,ProgressBar } from 'react-bootstrap';
 
 const style = {
 	position: 'absolute',
@@ -38,6 +38,8 @@ const Trade = (props) => {
 	const [shortPositions, setShortPositions] = useState([]);
 	const [isTxn, setIsTxn] = useState(false);
 	const [selectTable, setselectTable] = useState('position')
+	const [currentPosition,setCurrentPosition] = useState(true)
+	const [phbar, setPhbar] = useState(100)
 
 
 
@@ -57,365 +59,7 @@ const Trade = (props) => {
 		return () => clearInterval(interval);
 	}, []);
 
-	const order_history_data = [
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-		{
-			symbol: '02:00:05',
-			quantity: 'LONG',
-			execution_price: 'BTC',
-			value: 169.234,
-			role: 'Maker',
-			fees_paid: 0.189,
-			order_type: 'Limit',
-			order_id: 8897877674,
-			gas_fees: 0.1234,
-			collateral: '+3245',
-			time: '24 May 10:32:50 ',
-			'p&l': '0.00 USDC',
-			type: '1.60 USDC',
-			bidding_price: 0.24234,
-			estimated_fees: 0.345,
-			status: 'Pending',
-			locked_amount: 0.4,
-			balance: 0.2,
-			action: 'withdraw'
-		},
-	]
+
 	const onChangeRange = (e) => {
 		setRangeValue(e.target.value)
 	}
@@ -425,11 +69,12 @@ const Trade = (props) => {
 		<div>
 			<link rel="stylesheet" href="/styles/trade.css" />
 			<div className="coin-name d-flex m-3">
-				<div className="icon fs-2"><img style={{width:"40px",height:"40px",marginRight:"-50px"}} src={`img/${coinSelect === 'tezos' ? 'tz' : coinSelect === 'btc' ? 'btc' : 'eth'}.svg`} alt="" /></div>
+				<div className="icon fs-2"><img style={{ width: "35px", height: "35px" }} src={`img/${coinSelect === 'tezos' ? 'tz' : coinSelect === 'btc' ? 'btc' : 'eth'}.svg`} alt="" /></div>
 				<div className="coin-name d-flex flex-column ms-2">
 					<h4 className='mb-0 text-start'>{coinSelect === 'tezos' ? 'XTZ-PREP' : coinSelect === 'btc' ? 'BTC-PREP' : 'ETH-PREP'}</h4>
 					<h6 className='text-start'>{coinSelect === 'tezos' ? 'Tezos' : coinSelect === 'btc' ? 'Bitcoin' : 'Ethereum'}</h6>
 				</div>
+				
 			</div>
 
 			<div className="trade-graph-enclosure">
@@ -454,22 +99,19 @@ const Trade = (props) => {
 						<div className="info-title">Next funding</div>
 						<div className="info-values">11:34 Hrs</div>
 					</div>
-					<div className="graph-info">
-						<div className="info-title">24hr Volume</div>
-						<div className="info-values">$00.000</div>
-					</div>
+				
 				</div>
 			</div>
 
 			<div className="long-short-enclosure">
 				<h5>By adding short position, you can earn 49.056% APR</h5>
 				<div className="long-short-btns mt-4">
-					<button className={`mx-3 btn btn-outline-white ${longOrShort === 'long' ? 'bg-success' : 'btn-outline-success'} `} onClick={() => {
+					<button className={` longbg mx-3 btn btn-outline-white ${longOrShort === 'long' ? 'bg-success' : 'btn-outline-success'} `} onClick={() => {
 						setLongOrShort('long')
 						setIsLong(true)
 						handleOpen()
 					}} >Long</button>
-					<button className={`mx-3 btn btn-outline-white ${longOrShort === 'short' ? 'bg-danger' : 'btn-outline-danger'} `} onClick={() => {
+					<button className={`shortbg mx-3 btn btn-outline-white ${longOrShort === 'short' ? 'bg-danger' : 'btn-outline-danger'} `} onClick={() => {
 						setLongOrShort('short')
 						setIsLong(false)
 						handleOpen()
@@ -478,11 +120,73 @@ const Trade = (props) => {
 				</div>
 			</div>
 			<div className='trade_chart'>
-				chart
+				<TradeChart />
+
 			</div>
 
+					{
+						!currentPosition?"":(
+							<section className='tradePostion'>
+				<div className='positon_Health'>
+					<h3>Position Health</h3>
+					{phbar>30?<div><ProgressBar now={phbar} /></div>:(
+					<div><ProgressBar className='phWeak' now={phbar} /></div>
+					)}
+					
+					<div className='figure_values'>
+						<div className='tpfigures'>
+							<p>Margin</p>
+							<p>Margin Ratio</p>
+							<p>Liquidation Price</p>
+						</div>
+						<div className='tpValues'>
+							<p>00.01 kUSD</p>
+							<p>00.001</p>
+							<p>00.01 kUSD</p>
+						</div>
+					</div>
+					<Button className="tphAdd">+ADD</Button>
+					<Button className="tphDec">-Reduce</Button>
+				</div>
+				<div className='positon_Status'>
+					<h3>Position Status</h3>
+					<div>
+						<div className='tpstatus'>
+							<p>Long position /short position</p>
+							<p>00.000 BTC</p>
+							<Button>Close Position</Button>
+						</div>
+						<div className='tps_figures_values' >
+							<div>
+								<div className='tpsfigure'>
+									<p>Entry</p>
+									<p>Market</p>
+									<p>Expected Close Price</p>
+									<p>Unrealized PNL</p>
+									<p>Net Funding</p>
+								</div>
+								<div className='tpsValues'>
+									<p>98.01 kUSD</p>
+									<p>98.01 kUSD</p>
+									<p>98.01 kUSD</p>
+									<p>Unrealized PNL</p>
+									<p>Net Funding</p>
+								</div>
+							</div>
+							<Button className='tphAdd'>+INCREASE</Button>
+							<Button className='tphDec'>-DECREASE</Button>
+						</div>
+
+					</div>
+
+				</div>
+			</section>
 
 
+
+						)
+					}
+			
 
 
 
@@ -490,183 +194,136 @@ const Trade = (props) => {
 
 
 				<div style={{ display: "flex" }}>
-					<Button onClick={()=>setselectTable("position")} className ={`${selectTable =='position'?'activeButton':''} tradedetailsbtn text-start`}  >Position</Button>
-					<Button onClick={()=>setselectTable("history")} className ={`${selectTable =='history'?'activeButton':''} tradedetailsbtn text-start`}>Ordered History</Button>
+					<Button onClick={() => setselectTable("position")} className={`${selectTable == 'position' ? 'activeButton' : ''} tradedetailsbtn text-start`}  >Position</Button>
+					<Button onClick={() => setselectTable("history")} className={`${selectTable == 'history' ? 'activeButton' : ''} tradedetailsbtn text-start`}>Ordered History</Button>
 				</div>
 
 
 				{
-					selectTable=="position"?(
+					selectTable == "position" ? (
 						<Table className='trading_details' borderless="false" responsive>
-					<thead>
-						<tr>
-							<th>TIME</th>
-							<th>DIRECTION</th>
-							<th>COLLATERAL</th>
-							<th>POSION SIZE</th>
-							<th>REALIZE PNL</th>
-							<th>ACTION</th>
-						</tr>
-					</thead>
-					<tbody >
-						<tr>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td><Button color="error" onClick={() => { closeShort('XTZ') }}>CLOSE</Button></td>
-						</tr>
-						<tr>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td><Button color="error" onClick={() => { closeShort('XTZ') }}>CLOSE</Button></td>
-						</tr>
-						<tr>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td><Button color="error" onClick={() => { closeShort('XTZ') }}>CLOSE</Button></td>
-						</tr>
-						<tr>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td><Button color="error" onClick={() => { closeShort('XTZ') }}>CLOSE</Button></td>
-						</tr>
-						<tr>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td><Button color="error" onClick={() => { closeShort('XTZ') }}>CLOSE</Button></td>
-						</tr>
-						<tr>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td><Button color="error" onClick={() => { closeShort('XTZ') }}>CLOSE</Button></td>
-						</tr>
-						<tr>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td>Table cell</td>
-							<td><Button color="error" onClick={() => { closeShort('XTZ') }}>CLOSE</Button></td>
-						</tr>
-						{
-							longPositions.map((element) => {
-								return (
-									<tr>
-										<td>TIME</td>
-										<td>XTZ</td>
-										<td>{element.value.token_amount / 1000000} vUSD</td>
-										<td>{element.value.vUSD_Amount / 1000000} vUSD</td>
-										<td>Table cell</td>
-										<td><Button color="error" onClick={() => { closeShort('XTZ') }}>CLOSE</Button></td>
-									</tr>
-								)
-							})}
-						{
-							shortPositions.map((element) => {
-								return (
+							<thead>
+								<tr>
+									<th >TIME</th>
+									<th >DIRECTION</th>
+									<th >COLLATERAL</th>
+									<th>POSION SIZE</th>
+									<th >REALIZE PNL</th>
+									<th>ACTION</th>
+								</tr>
+							</thead>
+							<tbody >
 
-									<tr>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td><Button color="error" onClick={() => { closeShort('XTZ') }}>CLOSE</Button></td>
-									</tr>
-								)
-							})}
+								<tr>
+									<td>Table cell</td>
+									<td>Table cell</td>
+									<td>Table cell</td>
+									<td>Table cell</td>
+									<td>Table cell</td>
+									<td><Button color="error" onClick={() => { closeShort('XTZ') }}>CLOSE</Button></td>
+								</tr>
+								{
+									longPositions.map((element) => {
+										return (
+											<tr>
+												<td>TIME</td>
+												<td>XTZ</td>
+												<td>{element.value.token_amount / 1000000} vUSD</td>
+												<td>{element.value.vUSD_Amount / 1000000} vUSD</td>
+												<td>Table cell</td>
+												<td><Button color="error" onClick={() => { closeShort('XTZ') }}>CLOSE</Button></td>
+											</tr>
+										)
+									})}
+								{
+									shortPositions.map((element) => {
+										return (
 
-					</tbody>
-				</Table>
+											<tr>
+												<td>Table cell</td>
+												<td>Table cell</td>
+												<td>Table cell</td>
+												<td>Table cell</td>
+												<td>Table cell</td>
+												<td><Button color="error" onClick={() => { closeShort('XTZ') }}>CLOSE</Button></td>
+											</tr>
+										)
+									})}
+
+							</tbody>
+						</Table>
 
 
-					):(
+					) : (
 
 						<Table className='trading_details' borderless="false" responsive>
-						<thead>
-							<tr>
-								<th>TIME</th>
-								<th>DIRECTION</th>
-								<th>SYMBOL</th>
-								<th>COLLATERAL</th>
-								<th>POSION SIZE</th>
-								<th>REALIZE PNL</th>
-							</tr>
-						</thead>
-						<tbody >
-							<tr>
-								<td>Table cell</td>
-								<td>Table cell</td>
-								<td>Table cell</td>
-								<td>Table cell</td>
-								<td>Table cell</td>
-								<td>Table cell</td>
-							</tr>
-							<tr>
-								<td>Table cell</td>
-								<td>Table cell</td>
-								<td>Table cell</td>
-								<td>Table cell</td>
-								<td>Table cell</td>
-								<td>Table cell</td>
-							</tr>
-	
-							{
-								longPositions.map((element) => {
-									return (
-	
-	
-										<tr>
-											<td>Table cell</td>
-											<td>Table cell</td>
-											<td>Table cell</td>
-											<td>Table cell</td>
-											<td>Table cell</td>
-											<td>Table cell</td>
-										</tr>
-	
-	
-									)
-								})}
-							{
-								shortPositions.map((element) => {
-									return (
-	
-										<tr>
-											<td>Table cell</td>
-											<td>Table cell</td>
-											<td>Table cell</td>
-											<td>Table cell</td>
-											<td>Table cell</td>
-											<td>Table cell</td>
-										</tr>
-	
-									)
-								})}
-						</tbody>
-					</Table>
-	
+							<thead>
+								<tr>
+									<th>TIME</th>
+									<th>DIRECTION</th>
+									<th>SYMBOL</th>
+									<th>COLLATERAL</th>
+									<th>POSION SIZE</th>
+									<th>REALIZE PNL</th>
+								</tr>
+							</thead>
+							<tbody >
+								<tr>
+									<td>Table cell</td>
+									<td>Table cell</td>
+									<td>Table cell</td>
+									<td>Table cell</td>
+									<td>Table cell</td>
+									<td>Table cell</td>
+								</tr>
+								<tr>
+									<td>Table cell</td>
+									<td>Table cell</td>
+									<td>Table cell</td>
+									<td>Table cell</td>
+									<td>Table cell</td>
+									<td>Table cell</td>
+								</tr>
+
+								{
+									longPositions.map((element) => {
+										return (
+
+
+											<tr>
+												<td>Table cell</td>
+												<td>Table cell</td>
+												<td>Table cell</td>
+												<td>Table cell</td>
+												<td>Table cell</td>
+												<td>Table cell</td>
+											</tr>
+
+
+										)
+									})}
+								{
+									shortPositions.map((element) => {
+										return (
+
+											<tr>
+												<td>Table cell</td>
+												<td>Table cell</td>
+												<td>Table cell</td>
+												<td>Table cell</td>
+												<td>Table cell</td>
+												<td>Table cell</td>
+											</tr>
+
+										)
+									})}
+							</tbody>
+						</Table>
+
 					)
 				}
 
-				
+
 
 
 
@@ -694,8 +351,6 @@ const Trade = (props) => {
 						<Slider
 							aria-label="Temperature"
 							defaultValue={1}
-							// getAriaValueText={valuetext}
-							// valueLabelDisplay="auto" 
 							className="tradebox_levslider"
 							value={rangeValue}
 							onChange={onChangeRange}
@@ -766,8 +421,6 @@ const Trade = (props) => {
 						<Slider
 							aria-label="Temperature"
 							defaultValue={1}
-							// getAriaValueText={valuetext}
-							// valueLabelDisplay="auto" 
 							className="tradebox_levslider"
 							value={rangeValue}
 							onChange={onChangeRange}

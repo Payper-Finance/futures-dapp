@@ -1,0 +1,125 @@
+.LeaderboardMain{
+    position: fixed;
+    left: 0;
+    width: 100% !important;
+    min-height: 100vh !important;
+    z-index: 3 !important;
+    top: 60px;
+    background-color: #0e0f18 !important;
+    padding-top: 5vh;
+    overflow-y: scroll ;
+
+}
+
+
+.Leaderboardcontainer{
+    width: 70%;
+    margin: 10px auto;
+}
+.Leaderboardcontainer input{
+  padding-left: 40px;
+    width: 100%;
+    background-color: #281e3d;
+    border-radius: 10px;
+    border: 1px solid #59219d;
+    height: 35px;
+    margin-bottom: 20px;
+    color: whitesmoke !important;
+
+}
+input::placeholder{
+  color: whitesmoke;
+}
+input, select, textarea{
+  color: whitesmoke;
+}
+.Leaderboardcontainer h2{
+    font-size: 18px;
+    height: 50px;
+    color: whitesmoke;
+    width: 100%;
+    border: 0.5px solid #59219d;
+    background: #59219d;
+    font-weight: bold;
+    border-bottom: none;
+    margin-bottom: 0;
+    border-radius: 10px 10px 0px 0px;
+    text-align: left;
+    padding-top: 14px;
+    padding-left: 20px;
+}
+.Leaderboardcontainer table{
+  width: 100%;
+    border: 0.5px solid #59219d;
+    margin-bottom: 0;
+    background: #281e3d !important;
+} 
+.Leaderboardcontainer th{
+      height: 40px;
+      text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: whitesmoke;
+
+}
+.Leaderboardcontainer td{
+  height: 35px;
+  text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgb(232, 204, 204) ;
+}
+.Leaderboardcontainer tr{
+ border-style: none !important;
+ border-bottom : 0.2px solid #59219d !important;
+}
+
+tbody, td, tfoot, th, thead, tr {
+    border-color: inherit;
+    border-style: none;
+    border-width: 0;
+}
+.Leaderboardcontainer .table_div{
+  min-height: 390px !important;
+  border: 0.5px solid #59219d;
+  margin-bottom: 0;
+  background: #281e3d !important;
+}
+.table > :not(caption) > * > * {
+    padding: .5rem .5rem;
+    border-bottom-width: 1px;
+  }
+  .pagination{
+    width: 100%;
+    border-radius:  0 0 10px 10px;
+  }
+  .middlepagination{
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .page-item a{
+  
+    background: #59219d !important;
+    color: whitesmoke !important;
+    border: none !important;
+    font-size: 13px;
+
+  }
+  .page-item :hover{
+  
+    background: #59219d !important;
+    color: whitesmoke !important;
+    border: none !important;
+  }
+  .page-item {
+  
+    background: #59219d !important;
+    color: whitesmoke !important;
+    border: none !important;
+    box-shadow: none;
+  }
+  .react-bootstrap-table-pagination-list{
+    width: 100%;
+  }

@@ -1,11 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+
 import Main from './Main';
+import {Routes,Route} from 'react-router-dom'
+import TradeChart from './components/TradeChart';
 
 function App() {
   return (
     <div className="App">
-      <Main/>
+      <Routes>
+        <Route path="/chart" element={<TradeChart/>}/>
+        <Route path="/" element={<Main/>}/>
+      </Routes>
+
     </div>
   );
 }

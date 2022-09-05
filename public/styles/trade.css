@@ -94,7 +94,7 @@
 
   .tradedetailsbtn{
     font-family: "Inter", sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     color: rgb(130, 127, 127);
     font-weight: 600;
     margin-right: 20px;
@@ -102,7 +102,7 @@
   }
   .activeButton{
     font-family: "Inter", sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     color: rgb(170, 165, 165);
     font-weight: 600;
     margin-right: 20px;
@@ -118,16 +118,23 @@
     border-top: 1px solid white;
     border-bottom: 1px solid white;
   }
+  .trading_details th{
+    text-align: center;
+    font-size: 12px;
+  }
   .trading_details tbody{
     color: rgb(174, 158, 158);
     border:none !important;
     overflow-y: scroll !important;
   }
-  /* table {
-    display: flex;
-    flex-flow: column;
-    width: 100%;
-} */
+  .trading_details td{
+    text-align: center;
+    font-size: 10px;
+  }
+  .trading_details tr button{
+    text-align: center;
+    font-size: 10px;
+  }
 
 
 
@@ -143,4 +150,28 @@ tr {
     width: 100%;
     display: table;
     table-layout: fixed;
+}
+
+@media screen and (max-width:766px) and (min-width:270px) {
+
+  tbody {
+      height: 12vh;
+      width: 100%;
+      overflow-x: visible;
+  }
+  .trading_details{
+    overflow-y: scroll;
+    max-height: auto !important;
+  }
+
+  .trading_details th{
+    text-align: center;
+    font-size: 11px;
+    width: 100px;
+  }
+  .trading_details td{
+    text-align: center;
+    font-size: 10px;
+    width: 100px;
+  }
 }
