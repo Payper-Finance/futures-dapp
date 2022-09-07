@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import '../style/sidebar.css'
+import {DropdownButton,Dropdown} from 'react-bootstrap'
 
 const Sidebar = (props) => {
-    const {coinSelect, setCoinSelect} = props
+    const {coinSelect, setCoinSelect,stake} = props
   return (
-    <div className='sidebar '>
-      <div className='Logo'><img style={{width:"50px",height:"50px",marginRight:"10px"}} src="img/Logo.png" />Zenith</div>
+    <>
+    <div style={{height:`${stake=='stake'?'100%':""}`}} className='sidebar '>
       <div className="coins">
         <div className={`${coinSelect === 'tezos'? 'sidebar-sel': '' } coin my-3 d-flex text-start`} onClick={()=>{setCoinSelect('tezos')}} >
             <div className='mx-2'><img src="/img/tz.svg" style={{width:'20px'}} alt="" /></div>
@@ -24,6 +25,15 @@ const Sidebar = (props) => {
         </div>
       </div>
     </div>
+    <div style={{display:`${stake =='stake'?"none":""}`}} className="Dropdown">
+      <span style={{position:"absolute", zIndex:"1", right:"10%",marginTop:"6px"}}><img src ="img/Star 1.png" /> </span>
+    <DropdownButton id="dropdown-item-button" title={`${coinSelect}`}>
+      <Dropdown.Item onClick={()=>setCoinSelect("btc")}>Bitcoin</Dropdown.Item>
+      <Dropdown.Item onClick={()=>setCoinSelect("tezos")} >Tezos</Dropdown.Item>
+      <Dropdown.Item onClick={()=>setCoinSelect("tezos")}>Ethereum</Dropdown.Item>
+    </DropdownButton>
+    </div>
+  </> 
   )
 }
 
