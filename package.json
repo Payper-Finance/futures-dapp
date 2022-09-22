@@ -17,6 +17,7 @@
     "hamburger-react": "^2.5.0",
     "jquery": "^3.6.1",
     "lightweight-charts": "^3.8.0",
+    "mdb-react-ui-kit": "^4.2.0",
     "notistack": "^2.0.5",
     "npm": "^8.18.0",
     "react": "^18.2.0",
@@ -27,6 +28,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "^4.0.3",
     "react-spinners": "^0.13.4",
+    "socket.io-client": "^4.5.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

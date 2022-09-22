@@ -5,7 +5,6 @@ import Trade from './components/Trade'
 import Hamburger from 'hamburger-react'
 import { connectWallet, getAccount, disconnectWallet } from "./utils/wallet";
 import LeaderBoard from './components/LeaderBoard'
-
 const Main = () => {
   const [tradeOrStake, setTradeOrStake] = useState('trade')
   const [coinSelect, setCoinSelect] = useState('tezos');

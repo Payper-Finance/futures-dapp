@@ -38,7 +38,7 @@ export const openLong = async (base_value, leverage_multiple, state_name) => {
         SnackbarUtils.error("Error Please Try Again")
     
     });
-    SnackbarUtils.success("Transaction Success")
+    SnackbarUtils.success("Transaction Success").then()
     
 }
 

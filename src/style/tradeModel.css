@@ -1,4 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;800&display=swap');
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 .tradeboxhead{
     
     width:100%;
@@ -93,4 +103,30 @@ border-radius: 6px;
         min-width: 40vh;
         max-width: 40vh;
     }
+}
+
+
+/* popovers css */
+.btn-close{
+    display: none;
+}
+
+.modal-content{
+    padding: 15px;
+    margin: auto;
+    width: 75%;
+    height: auto;
+    background-color: #141724;
+}
+.marginbodydiv{
+    display: flex;
+}
+.marginbodydiv p{
+    flex-basis: 50%;
+}
+.marginbodydiv p:last-child{
+    text-align: right;
+}
+.model-body{
+    border: none !important;
 }

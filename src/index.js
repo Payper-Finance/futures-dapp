@@ -8,9 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-  <SnackbarProvider maxSnack={3} preventDuplicate autoHideDuration={10000}>
     <App />
-  </SnackbarProvider>
   </BrowserRouter>
 );
 

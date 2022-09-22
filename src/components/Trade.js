@@ -5,18 +5,19 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
-import { Slider } from '@mui/material';
+import { Popover, Slider, Snackbar } from '@mui/material';
 import { openLong, closeLong, openShort, closeShort } from '../utils/tezos'
 import { getAccount } from '../utils/wallet';
 import axios from 'axios';
 import "../style/tradeModel.css"
 import SnackbarUtils from '../utils/SnackbarUtils';
 import { ScaleLoader } from 'react-spinners'
-import {Table,ProgressBar } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
+import Position from './Position';
+import Snackbar1 from './Snackbar';
 
 const style = {
 	position: 'absolute',
-
 	background: " #141724",
 	top: '50%',
 	left: '50%',
@@ -38,31 +39,54 @@ const Trade = (props) => {
 	const [shortPositions, setShortPositions] = useState([]);
 	const [isTxn, setIsTxn] = useState(false);
 	const [selectTable, setselectTable] = useState('position')
-	const [currentPosition,setCurrentPosition] = useState(true)
-	const [phbar, setPhbar] = useState(100)
+	const [currentPosition, setCurrentPosition] = useState(true)
+	const [graphValues, setGraphValues] = useState({
+		marketprice: 0,
+		indexprice: 0,
+		rate: 0,
+		funding: "00:00",
+		longfundingrate: 0,
+		shortfundingrate: 0
+	})
+	const [show,setShow] = useState(false)
 
 
 
-	const getHistory = async () => {
-		const address = await getAccount()
-		if (address) {
-			const history = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/KT1CkJSoxa8Wm9fD2RSkfnpsEZch55jKB3Nj/storage`)
-			setLongPositions(history.data.longPositions)
-			setShortPositions(history.data.shortPositions)
+
+
+	// const getHistory = async () => {
+	// 	const address = await getAccount()
+	// 	if (address) {
+	// 		const history = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/KT1CkJSoxa8Wm9fD2RSkfnpsEZch55jKB3Nj/storage`)
+	// 		setLongPositions(history.data.longPositions)
+	// 		setShortPositions(history.data.shortPositions)
+	// 	}
+
+	// }
+
+	const gettradeenclosure = () => {
+		const getvalues = {
+			marketprice: 0,
+			indexprice: 0,
+			rate: 0,
+			funding: "00:00 hrs",
+			longfundingrate: 0,
+			shortfundingrate: 0
 		}
-
+		setGraphValues(getvalues)
 	}
-	useEffect(() => {
-		const interval = setInterval(() => {
-			getHistory();
-		}, 4000);
-		return () => clearInterval(interval);
-	}, []);
+	// useEffect(() => {
+	// 	const interval = setInterval(() => {
+	// 		getHistory();
+	// 	}, 4000);
+	// 	return () => clearInterval(interval);
+	// }, []);
 
 
 	const onChangeRange = (e) => {
 		setRangeValue(e.target.value)
 	}
+
 
 
 	return (
@@ -73,45 +97,52 @@ const Trade = (props) => {
 				<div className="coin-name d-flex flex-column ms-2">
 					<h4 className='mb-0 text-start'>{coinSelect === 'tezos' ? 'XTZ-PREP' : coinSelect === 'btc' ? 'BTC-PREP' : 'ETH-PREP'}</h4>
 					<h6 className='text-start'>{coinSelect === 'tezos' ? 'Tezos' : coinSelect === 'btc' ? 'Bitcoin' : 'Ethereum'}</h6>
+					<button onClick={()=>setShow(true)}>show</button>
 				</div>
-				
-			</div>
 
+			</div>
+			<Snackbar1 show ={show} setshow={setShow} />
 			<div className="trade-graph-enclosure">
 				<div className="graph-infos d-flex text-start">
 					<div className="graph-info">
 						<div className="info-title">Market Price</div>
-						<div className="info-values text-success">$1.85</div>
+						<div className="info-values text-success">${graphValues.marketprice}</div>
 					</div>
 					<div className="graph-info">
 						<div className="info-title">Index Price</div>
-						<div className="info-values">1.87 vUSD</div>
+						<div className="info-values">{graphValues.indexprice} vUSD</div>
 					</div>
 					<div className="graph-info">
-						<div className="info-title">Long funding rate</div>
-						<div className="info-values">-</div>
+						<div className="info-title">Long/short funding rate</div>
+						<div className="info-values">{graphValues.rate}</div>
 					</div>
-					<div className="graph-info">
-						<div className="info-title">Short funding rate</div>
-						<div className="info-values">-</div>
-					</div>
+
 					<div className="graph-info">
 						<div className="info-title">Next funding</div>
-						<div className="info-values">11:34 Hrs</div>
+						<div className="info-values">{graphValues.funding}Hrs</div>
 					</div>
-				
+					<div className="graph-info">
+						<div className="info-title">Expected Long
+							funding rate</div>
+						<div className="info-values">{graphValues.longfundingrate}%</div>
+					</div>
+					<div className="graph-info">
+						<div className="info-title">Expected Short
+							funding rate</div>
+						<div className="info-values">{graphValues.shortfundingrate}%</div>
+					</div>
 				</div>
 			</div>
 
 			<div className="long-short-enclosure">
 				<h5>By adding short position, you can earn 49.056% APR</h5>
 				<div className="long-short-btns mt-4">
-					<button className={` longbg mx-3 btn btn-outline-white ${longOrShort === 'long' ? 'bg-success' : 'btn-outline-success'} `} onClick={() => {
+					<button className={`  mx-3 btn  `} style={{ color: "white", fontWeight: "bold", background: "#1ECC89" }} onClick={() => {
 						setLongOrShort('long')
 						setIsLong(true)
 						handleOpen()
 					}} >Long</button>
-					<button className={`shortbg mx-3 btn btn-outline-white ${longOrShort === 'short' ? 'bg-danger' : 'btn-outline-danger'} `} onClick={() => {
+					<button className={` mx-3 btn `} style={{ color: "white", fontWeight: "bold", background: "#E01B3C" }} onClick={() => {
 						setLongOrShort('short')
 						setIsLong(false)
 						handleOpen()
@@ -124,69 +155,16 @@ const Trade = (props) => {
 
 			</div>
 
-					{
-						!currentPosition?"":(
-							<section className='tradePostion'>
-				<div className='positon_Health'>
-					<h3>Position Health</h3>
-					{phbar>30?<div><ProgressBar now={phbar} /></div>:(
-					<div><ProgressBar className='phWeak' now={phbar} /></div>
-					)}
-					
-					<div className='figure_values'>
-						<div className='tpfigures'>
-							<p>Margin</p>
-							<p>Margin Ratio</p>
-							<p>Liquidation Price</p>
-						</div>
-						<div className='tpValues'>
-							<p>00.01 kUSD</p>
-							<p>00.001</p>
-							<p>00.01 kUSD</p>
-						</div>
-					</div>
-					<Button className="tphAdd">+ADD</Button>
-					<Button className="tphDec">-Reduce</Button>
-				</div>
-				<div className='positon_Status'>
-					<h3>Position Status</h3>
-					<div>
-						<div className='tpstatus'>
-							<p>Long position /short position</p>
-							<p>00.000 BTC</p>
-							<Button>Close Position</Button>
-						</div>
-						<div className='tps_figures_values' >
-							<div>
-								<div className='tpsfigure'>
-									<p>Entry</p>
-									<p>Market</p>
-									<p>Expected Close Price</p>
-									<p>Unrealized PNL</p>
-									<p>Net Funding</p>
-								</div>
-								<div className='tpsValues'>
-									<p>98.01 kUSD</p>
-									<p>98.01 kUSD</p>
-									<p>98.01 kUSD</p>
-									<p>Unrealized PNL</p>
-									<p>Net Funding</p>
-								</div>
-							</div>
-							<Button className='tphAdd'>+INCREASE</Button>
-							<Button className='tphDec'>-DECREASE</Button>
-						</div>
-
-					</div>
-
-				</div>
-			</section>
+			{
+				!currentPosition ? "" : (
+					<Position />
+				)
+			}
 
 
 
-						)
-					}
-			
+
+
 
 
 
@@ -194,134 +172,59 @@ const Trade = (props) => {
 
 
 				<div style={{ display: "flex" }}>
-					<Button onClick={() => setselectTable("position")} className={`${selectTable == 'position' ? 'activeButton' : ''} tradedetailsbtn text-start`}  >Position</Button>
-					<Button onClick={() => setselectTable("history")} className={`${selectTable == 'history' ? 'activeButton' : ''} tradedetailsbtn text-start`}>Ordered History</Button>
+					<h5 className={`tradedetailsbtn text-start`} style={{ color: "whitesmoke" }}>Position</h5>
+					{/* <Button onClick={() => setselectTable("history")} className={`${selectTable == 'history' ? 'activeButton' : ''} tradedetailsbtn text-start`}>Ordered History</Button> */}
 				</div>
 
 
-				{
-					selectTable == "position" ? (
-						<Table className='trading_details' borderless="false" responsive>
-							<thead>
-								<tr>
-									<th >TIME</th>
-									<th >DIRECTION</th>
-									<th >COLLATERAL</th>
-									<th>POSION SIZE</th>
-									<th >REALIZE PNL</th>
-									<th>ACTION</th>
-								</tr>
-							</thead>
-							<tbody >
 
-								<tr>
-									<td>Table cell</td>
-									<td>Table cell</td>
-									<td>Table cell</td>
-									<td>Table cell</td>
-									<td>Table cell</td>
-									<td><Button color="error" onClick={() => { closeShort('XTZ') }}>CLOSE</Button></td>
-								</tr>
-								{
-									longPositions.map((element) => {
-										return (
-											<tr>
-												<td>TIME</td>
-												<td>XTZ</td>
-												<td>{element.value.token_amount / 1000000} vUSD</td>
-												<td>{element.value.vUSD_Amount / 1000000} vUSD</td>
-												<td>Table cell</td>
-												<td><Button color="error" onClick={() => { closeShort('XTZ') }}>CLOSE</Button></td>
-											</tr>
-										)
-									})}
-								{
-									shortPositions.map((element) => {
-										return (
+				<Table className='trading_details' borderless="false" responsive>
+					<thead>
+						<tr>
+							<th >TIME</th>
+							<th >DIRECTION</th>
+							<th >COLLATERAL</th>
+							<th>POSION SIZE</th>
+							<th >LIVE PNL</th>
+						</tr>
+					</thead>
+					<tbody >
 
-											<tr>
-												<td>Table cell</td>
-												<td>Table cell</td>
-												<td>Table cell</td>
-												<td>Table cell</td>
-												<td>Table cell</td>
-												<td><Button color="error" onClick={() => { closeShort('XTZ') }}>CLOSE</Button></td>
-											</tr>
-										)
-									})}
+						<tr>
+							<td>Table cell</td>
+							<td>Table cell</td>
+							<td>Table cell</td>
+							<td>Table cell</td>
+							<td>Table cell</td>
+						</tr>
+						{
+							longPositions.map((element) => {
+								return (
+									<tr>
+										<td>TIME</td>
+										<td>XTZ</td>
+										<td>{element.value.token_amount / 1000000} vUSD</td>
+										<td>{element.value.vUSD_Amount / 1000000} vUSD</td>
+										<td>Table cell</td>
+									</tr>
+								)
+							})}
+						{
+							shortPositions.map((element) => {
+								return (
 
-							</tbody>
-						</Table>
+									<tr>
+										<td>Table cell</td>
+										<td>Table cell</td>
+										<td>Table cell</td>
+										<td>Table cell</td>
+										<td>Table cell</td>
+									</tr>
+								)
+							})}
 
-
-					) : (
-
-						<Table className='trading_details' borderless="false" responsive>
-							<thead>
-								<tr>
-									<th>TIME</th>
-									<th>DIRECTION</th>
-									<th>SYMBOL</th>
-									<th>COLLATERAL</th>
-									<th>POSION SIZE</th>
-									<th>REALIZE PNL</th>
-								</tr>
-							</thead>
-							<tbody >
-								<tr>
-									<td>Table cell</td>
-									<td>Table cell</td>
-									<td>Table cell</td>
-									<td>Table cell</td>
-									<td>Table cell</td>
-									<td>Table cell</td>
-								</tr>
-								<tr>
-									<td>Table cell</td>
-									<td>Table cell</td>
-									<td>Table cell</td>
-									<td>Table cell</td>
-									<td>Table cell</td>
-									<td>Table cell</td>
-								</tr>
-
-								{
-									longPositions.map((element) => {
-										return (
-
-
-											<tr>
-												<td>Table cell</td>
-												<td>Table cell</td>
-												<td>Table cell</td>
-												<td>Table cell</td>
-												<td>Table cell</td>
-												<td>Table cell</td>
-											</tr>
-
-
-										)
-									})}
-								{
-									shortPositions.map((element) => {
-										return (
-
-											<tr>
-												<td>Table cell</td>
-												<td>Table cell</td>
-												<td>Table cell</td>
-												<td>Table cell</td>
-												<td>Table cell</td>
-												<td>Table cell</td>
-											</tr>
-
-										)
-									})}
-							</tbody>
-						</Table>
-
-					)
-				}
+					</tbody>
+				</Table>
 
 
 
@@ -343,7 +246,7 @@ const Trade = (props) => {
 					</Typography>
 					<div className='tradebox_amount'>
 						<span className='tradebox_inputicon'><img style={{ padding: "0 6px", marginTop: "-4px", height: "32px" }} src="img/kusd.png" alt="" />kUSD</span>
-						<input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" focused onChange={(event) => setBaseValue(parseInt(event.target.value))} />
+						<input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" focused onChange={(event) => setBaseValue(event.target.value)} />
 					</div>
 
 					<div className='tradebox_leverage'>
@@ -414,7 +317,7 @@ const Trade = (props) => {
 					</Typography>
 					<div className='tradebox_amount'>
 						<span className='tradebox_inputicon'><img style={{ padding: "0 6px", marginTop: "-4px", height: "32px" }} src="img/kusd.png" alt="" />kUSD</span>
-						<input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" focused onChange={(event) => setBaseValue(parseInt(event.target.value))} />
+						<input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" focused onChange={(event) => setBaseValue(event.target.value)} />
 					</div>
 					<div className='tradebox_leverage'>
 						<h6>Leverage</h6>

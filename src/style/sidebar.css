@@ -20,6 +20,7 @@
 
 .coin{
     padding: 0.5rem 1rem;
+    font-weight: bold;
     cursor: pointer;
     margin: 1rem;
     font-size: 13px;

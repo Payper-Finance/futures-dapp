@@ -70,12 +70,14 @@ body{
 }
 .info-title{
     font-size: 13px;
+    font-weight: 600;
 }
 .info-values {
     font-size: 13px;
 }
 .graph-info{
-    margin: 0px 2rem;
+    margin: 0px 1rem;
+    width: 19.5%;
 }
 .coin-name{
     margin:  2.4rem 4rem 0 4rem !important;
@@ -115,7 +117,7 @@ body{
 }
 
 .trade-graph-enclosure{
-    padding: 0.8rem 1.5rem;
+    padding: 0.8rem 1rem;
     background: rgba(172, 105, 255, 0.16);
     border-radius: 14px;
     margin: 0.5rem 4rem;
@@ -125,7 +127,7 @@ body{
     padding: 0rem 1.5rem;
     background: #000614;
     margin: 0.2rem 4rem 0.2rem 4rem;
-    min-height: 55vh;
+    min-height: 60vh;
     height: auto;
 }
 /* ---------------------------- tradPostion -----------------------------*/
