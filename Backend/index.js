@@ -7,13 +7,14 @@ const socket = require('socket.io')
 const cors = require('cors');
 const axios= require('axios')
 const TradeData = require("./models/TradeData");
+const PositionHistory = require('./models/PositionHistory')
 dotenv.config();
 
 
 mongoose.connect(process.env.MONGO_URL,{useNewUrlParser: true,useUnifiedTopology: true})
 .then((result)=>{console.log("connected to db")}).catch((err)=>{console.log(err)});
 
-// const history = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/KT1CkJSoxa8Wm9fD2RSkfnpsEZch55jKB3Nj/storage`)
+
 
 
 
@@ -69,19 +70,131 @@ iO.on('connection', (client) => {
         console.log('UpDate action triggered'); //getting triggered thrice
         client.emit("data4", data.updateDescription.updatedFields.Close);
     });
-
- 
   });
-
   console.log('A user connected');
 
-app.post("/post",async(req,res)=>{
+
+
+
+app.post("/positionaction", async(req, res)=>{
+
   console.log(req.body)
-  let marketpricedata = req.body.marketprice;
+  let action = req.body.action
+  let address = req.body.address
+  let TransactionId = req.body.batchOp
+  let storage = await axios.get(`https://api.ghostnet.tzkt.io/v1/operations/transactions/${TransactionId}`).then(result =>{
+    return result.data[1]
+  })
+  if(storage == []){
+    res.send("empty")
+  }
+  if(storage.sender.address == address){
+    const result = await PositionHistory.findOne({ Address: address }).select("Address").lean();
+
+  if(result){
+    if(action =="close"){
+      let positionsdetails = storage.storage.positions[address] 
+      var date = Date(storage.timestamp);
+      let lastData ={
+        time: date.toLocaleString(),
+        position:positionsdetails.position,
+        entry_price:(positionsdetails.entry_price/1000000).toFixed(2),
+        vUSD_amount:(positionsdetails.vUSD_amount/1000000).toFixed(2),
+        position_value:(positionsdetails.position_value/1000000).toFixed(2),
+        collateral_amount:(positionsdetails.collateral_amount/1000000).toFixed(2)
+      }
+      await PositionHistory.findOneAndUpdate({Address:address},{
+        $push:{
+          CompletedPosition:lastData
+        }
+      })
+      let data = {
+        $set:{
+
+          LivePosition: {}
+        }
+      }
+  
+      PositionHistory.findOneAndUpdate({Address:address},data,function(err, res) {
+        if (err) throw err;
+        console.log("position closed");})
+      res.send("position closed")
+    }
+    else{
+      let positionsdetails = storage.storage.positions[address] 
+      var date = Date(storage.timestamp);
+      let data = {
+        time: date.toLocaleString(),
+        position:positionsdetails.position,
+        entry_price:(positionsdetails.entry_price/1000000).toFixed(2),
+        vUSD_amount:(positionsdetails.vUSD_amount/1000000).toFixed(2),
+        position_value:(positionsdetails.position_value/1000000).toFixed(2),
+        collateral_amount:(positionsdetails.collateral_amount/1000000).toFixed(2)
+      }
+
+      await PositionHistory.findOneAndUpdate({Address:address},{
+        $set:{
+          LivePosition:data
+        }
+      })
+      res.send("position updated")
+
+    }
+  }
+  else{
+    let positionsdetails = storage.storage.positions[address] 
+    var date = Date(storage.timestamp);
+    let data = {
+      Address:address,
+      CompletedPosition:[],
+      LivePosition:{
+        time: date.toLocaleString(),
+        position:positionsdetails.position,
+        entry_price:(positionsdetails.entry_price/1000000).toFixed(2),
+        vUSD_amount:(positionsdetails.vUSD_amount/1000000).toFixed(2),
+        position_value:(positionsdetails.position_value/1000000).toFixed(2),
+        collateral_amount:(positionsdetails.collateral_amount/1000000).toFixed(2)
+      }
+    }
+    PositionHistory.create(data)
+    res.send("created ")
+  }
+
+  }
+  else{
+    res.send("False Address or Unmatched Transaction")
+  }
+  
+} )  
+
+app.post('/positionshistory',async(req,res)=>{
+  console.log("taken")
+  let address = req.body.address;
+  const result = await PositionHistory.findOne({ Address: address }).select("Address").lean();
+  if(result){
+    let data =await PositionHistory.findOne({Address:address}).then(res=>{
+      return res
+    }).catch(err=>{
+      return false
+    })
+    res.send(data.CompletedPosition)
+  }
+  else{
+    res.send(false)
+  }
+})
+
+
+app.post("/post",async(req,res)=>{
+  let storage = await axios.get("https://api.ghostnet.tzkt.io/v1/contracts/KT1WbA2H87o2RT9sTT4UaEgUAUgq6ZQhynbP/storage/").then(result =>{
+    return result.data
+  })
+  let marketpricedata = (storage.current_mark_price/1000000).toFixed(3)
 
  var previous_data = await TradeData.find().limit(1).sort({$natural:-1}).limit(1);
 var newdate =  new Date().getMinutes();
 console.log(previous_data)
+
  if(previous_data[0].Date.getMinutes()-newdate >= 5){
   let data = {
     Date:new Date(),
@@ -128,6 +241,8 @@ return result
 
 
 app.post('/granularity',async(req,res)=>{
+  console.log("yeh bhi taken")
+
   if(req.body.granularity =="5minute"){
     const result =  await getData();
     res.send(result)
@@ -237,9 +352,12 @@ app.post('/granularity',async(req,res)=>{
 var nextTick = function() {
   return 300000 - (new Date().getTime() % 300000);
 }, timerFunction = async()=> {
-  var previous_data = await TradeData.find().limit(1).sort({$natural:-1}).limit(1);
+  let storage = await axios.get("https://api.ghostnet.tzkt.io/v1/contracts/KT1WbA2H87o2RT9sTT4UaEgUAUgq6ZQhynbP/storage/").then(result =>{
+    return result.data
+  })
+  let marketpricedata = (storage.current_mark_price/1000000).toFixed(3)
 
-  let marketpricedata = previous_data[0].Close;
+
   if((await TradeData.find({})).length==0){
    let data = {
      Date: new Date(),
@@ -253,12 +371,10 @@ var nextTick = function() {
  else{
 
 var newdate = new Date().getMinutes();
-   // if(newdate - previous_data[0].Date.getMinutes() >= 1){
 
      var newvalues =  { Date:new Date(),Open:marketpricedata, Close: marketpricedata,High:marketpricedata,Low:marketpricedata };
      TradeData.create(newvalues);
      console.log(new Date())
-   // }
  }
   setTimeout(timerFunction, nextTick());
 };

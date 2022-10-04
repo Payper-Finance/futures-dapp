@@ -203,7 +203,6 @@ function TradeChart(props) {
         });
         processor.processMany(data);
 
-        console.log(data)
         valueSeries.data.setAll(data);
         sbSeries.data.setAll(data);
       }).catch(err => console.log(err))

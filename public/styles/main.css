@@ -69,14 +69,16 @@ body{
     width: 60px; */
 }
 .info-title{
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 12px;
+    
 }
 .info-values {
     font-size: 13px;
+    font-weight: 600;
+    
 }
 .graph-info{
-    margin: 0px 1rem;
+    margin: 0px 0rem;
     width: 19.5%;
 }
 .coin-name{
@@ -117,14 +119,16 @@ body{
 }
 
 .trade-graph-enclosure{
-    padding: 0.8rem 1rem;
+    padding: 1.2rem 1rem;
     background: rgba(172, 105, 255, 0.16);
     border-radius: 14px;
-    margin: 0.5rem 4rem;
+    margin: 1rem 4rem;
 }
 .trade_chart{
     background-color:000614 ;
     padding: 0rem 1.5rem;
+    padding-top: 1.5rem;
+    border-radius: 14px;
     background: #000614;
     margin: 0.2rem 4rem 0.2rem 4rem;
     min-height: 60vh;
@@ -207,19 +211,19 @@ font-size: 13px;
 line-height: 22px;
 }
 .tphAdd{
-border: 1px solid #1ECC89;
+border: 1px solid #1ECC89 !important;
 
-    background: #1ECC89;
-    color:#ffff ;
+    background: #1ECC89 !important;
+    color:#ffff  !important;
     margin-right: 10px;
     font-weight: 700;
 }
 
 .tphDec{
-border: 1px solid #E01B3C;
+border: 1px solid #E01B3C !important;
 
-    background: #E01B3C;
-    color:#ffff ;
+    background: #E01B3C !important;
+    color:#ffff !important;
     font-weight: 700;
 
 }
