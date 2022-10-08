@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import "../style/leaderbordcss.css"
 import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
@@ -11,8 +11,6 @@ import axios from 'axios'
 
 export default function LeaderBoard() {
 
-
-
   const [searchaddress,setsearchAddress] = useState("")
   const [isEmpty,setIsEmpty] = useState(false)
   const [array,setArray] = useState([])
@@ -22,40 +20,44 @@ export default function LeaderBoard() {
   const [startrange, setStartRange] = useState(0)
   const [range, setRange] = useState()
 
-  useEffect(()=>{
-    const getdata =async()=>{
+  const getdata =async()=>{
+    console.log("array")
+    await axios.get("http://localhost:8000/leaderboard/").then(result=>{
+     setArray(result.data.reverse())
+   })
+   setSize(Math.trunc(array.length/ 10)+ 1);
+   setRange(array.length>10?10:array.length)
+   setIsEmpty(true)
+ }
 
-       await axios.get("http://localhost:8000/leaderboard/").then(result=>{
-        setArray(result.data.reverse())
-       
-      })
-      setSize(Math.trunc(array.length/ 10)+ 1);
-      setRange(array.length>10?10:array.length)
-      setIsEmpty(true)
-    }
+  useLayoutEffect(()=>{
     getdata()
-
- 
-
-  },[array])
+  },[isEmpty])
 
 
   const onchange=(e)=>{
     var newvalue =searchaddress.concat(e)
     console.log(newvalue)
     if(e==""){
+
       axios.get("http://localhost:8000/leaderboard/").then(result=>{
         setArray(result.data.reverse())
       })
     }
     else{
+  
       var newArray = array.filter(function (el)
       {
         return el.Address.includes(newvalue)
                
       })
-      setArray(newArray)
-      console.log(newArray)
+      if(newArray.length==0){
+        alert("no result found")
+      }
+      else{
+
+        setArray(newArray)
+      }
     }
    
 
@@ -135,7 +137,7 @@ export default function LeaderBoard() {
                     )
                   })
                 
-              ):("")
+              ):(<tr></tr>)
             }
           
           </tbody>

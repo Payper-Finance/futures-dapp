@@ -29,7 +29,7 @@ const { CPosiitonUpdated } = useContext(UserContext)
         }
     }
     useEffect(()=>{
-        setInterval(fetchdata(),5000)
+        setInterval(fetchdata,5000)
     },[CPosiitonUpdated])
   return (
     
