@@ -330,10 +330,12 @@ text-align: right;
     min-height: 29vh;
     max-height: 250px;
 }
+.btncustmdiv{
+    position: relative;
+    margin-left: 30%;
 
+}
 .custom_btn{
-    position: absolute;
-    right: 10vh;
     color: antiquewhite;
   border: 1px solid #59219d;
   border-radius: 10px;
@@ -343,7 +345,7 @@ text-align: right;
   width: 140px;
   height: 30px;
   font-size: 14px;
-  margin-left: 10px !important;
+  margin-right: 10px;
 }
 
 .custom_btn:hover{
@@ -541,7 +543,7 @@ text-align: right;
 }
 .menubar{
     position: fixed;
-    z-index: 3;
+    z-index: 4;
     width: 100%;
     top: 6.5vh;
     height: 94vh;

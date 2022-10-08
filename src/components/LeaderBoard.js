@@ -114,11 +114,11 @@ export default function LeaderBoard() {
         <table>
           <thead>
           <tr>
-            <th>Rank</th>
-            <th>Address</th>
-            <th>Liquidation</th>
-            <th>Total Trades</th>
-            <th>PnL</th>
+            <th className='leaderboard_head'>Rank</th>
+            <th className='leaderboard_head'>Address</th>
+            <th className='leaderboard_head'>Liquidation</th>
+            <th className='leaderboard_head'>Total Trades</th>
+            <th className='leaderboard_head'>PnL</th>
           </tr>
           </thead>
           <tbody>
@@ -128,11 +128,11 @@ export default function LeaderBoard() {
                   array.slice(startrange, range).map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td>{index+1}</td>
-                        <td>{item.Address}</td>
-                        <td>N/A</td>
-                        <td>{item.CompletedPosition.length}</td>
-                        <td style={{color:`${item.Totalpnl<0?"#e01b3c":"#198754"}`,fontWeight:"bold"}}>${parseFloat(item.Totalpnl).toFixed(2)}</td>
+                        <td className='leaderboard_td' >{index+1}</td>
+                        <td className='leaderboard_td'>{item.Address}</td>
+                        <td className='leaderboard_td'>N/A</td>
+                        <td className='leaderboard_td'>{item.CompletedPosition.length}</td>
+                        <td className='leaderboard_td' style={{color:`${item.Totalpnl<0?"#e01b3c":"#198754"}`,fontWeight:"bold"}}>${parseFloat(item.Totalpnl).toFixed(2)}</td>
                       </tr>
                     )
                   })

@@ -123,3 +123,23 @@ tbody, td, tfoot, th, thead, tr {
   .react-bootstrap-table-pagination-list{
     width: 100%;
   }
+  @media screen and (min-width:270px) and (max-width:796px){
+    .Leaderboardcontainer{
+      box-sizing: border-box;
+      width: 90%;
+      margin: 10px auto;
+  }
+  .table_div{
+    overflow-y: scroll;
+
+  }
+  .table_div table{
+    width: 450px;
+  }
+  .leaderboard_head{
+    font-size: 10px !important;
+  }
+  .leaderboard_td{
+    font-size: 10px !important;
+  }
+  }
