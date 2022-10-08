@@ -318,7 +318,6 @@ function TradeChart(props) {
       });
       processor.processMany(dObj1);
       valueSeries.data.push(dObj1);
-      console.log(valueSeries.data)
       sbSeries.data.push(dObj1);
       previousDate = date;
 
@@ -345,7 +344,6 @@ function TradeChart(props) {
       greet(data)
     })
     socket.on("data3", (data) => {
-      console.log(data)
       insertvalue(data)
     })
 

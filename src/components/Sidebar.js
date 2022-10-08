@@ -33,11 +33,18 @@ const Sidebar = (props) => {
     </div>
     <div style={{display:`${stake =='stake'?"none":""}`}} className="Dropdown">
       <span style={{position:"absolute", zIndex:"1", right:"10%",marginTop:"6px"}}><img src ="img/Star 1.png" /> </span>
-    <DropdownButton id="dropdown-item-button" title={`${coinSelect}`}>
-      <Dropdown.Item onClick={()=>setCoinSelect("btc")}>Bitcoin</Dropdown.Item>
-      <Dropdown.Item  disabled>Tezos</Dropdown.Item>
-      <Dropdown.Item  disabled>Ethereum</Dropdown.Item>
-    </DropdownButton>
+    
+    <Dropdown>
+      <Dropdown.Toggle variant="success" id="dropdown-item-button">
+      <img style={{marginRight:"10px" ,position:"relative", bottom:"3px",marginBottom:"5px",width:"30px"}} src="img/tz.svg" /><span style={{marginRight:"10px" ,position:"relative", bottom:"3px",marginBottom:"5px",fontSize:"18px",fontWeight:"bold"}}>{coinSelect.toUpperCase()}</span>
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        <Dropdown.Item href="#/action-1">Tezos</Dropdown.Item>
+        <Dropdown.Item href="#/action-2">Bitcoin</Dropdown.Item>
+        <Dropdown.Item href="#/action-3">Ethereum</Dropdown.Item>
+      </Dropdown.Menu>
+      </Dropdown>
     </div>
   </> 
   )

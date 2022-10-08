@@ -3,61 +3,61 @@ import "../style/leaderbordcss.css"
 import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
+import axios from 'axios'
 
 
-const array1 = [
-  {id:1,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :906501.99},
-  {id:2,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :790805.00},
-  {id:3,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :594775.39},
-  {id:4,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :243486.20},
-  {id:5,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :-290741.09},
-  {id:6,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :-290741.09},
-  {id:7,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :243486.20},
-  {id:8,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :243486.20},
-  {id:9,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :594775.39},
-  {id:10,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :594775.39},
-  {id:11,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :594775.39},
-  {id:12,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :594775.39},
-  {id:13,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :594775.39},
-  {id:14,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :594775.39},
-  {id:15,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :-290741.09},
-  {id:16,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :594775.39},
-  {id:17,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :594775.39},
-  {id:18,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :594775.39},
-  {id:19,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :-290741.09},
-  {id:20,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :594775.39},
-  {id:21,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :594775.39},
-  {id:22,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :594775.39},
-  {id:23,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :594775.39},
-  {id:24,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :906501.99},
-  {id:25,address: "Wallet--Address", liquid:"liquidation", trades: "trades",pnl :906501.99},
-  
-]
+
 
 
 export default function LeaderBoard() {
-  // const [searchaddress,setsearchAddress] = useState("")
-  const [array,setArray] = useState(array1)
+
+
+
+  const [searchaddress,setsearchAddress] = useState("")
+  const [isEmpty,setIsEmpty] = useState(false)
+  const [array,setArray] = useState([])
   const [size,setSize] = useState(0);
-  const arrsize =Math.trunc(array.length / 10 )+ 1;
+  // const arrsize =Math.trunc(array.length / 10 )+ 1;
   const [page,setpage] = useState(1)
   const [startrange, setStartRange] = useState(0)
-  const [range, setRange] = useState(array.length>10?10:array.length)
-  useEffect(() => {
-    setSize(arrsize);
-  }, [])
-  const onchange=(e)=>{
-    console.log(typeof(e))
-    if(e==""){
-      setArray(array1)
+  const [range, setRange] = useState()
+
+  useEffect(()=>{
+    const getdata =async()=>{
+
+       await axios.get("http://localhost:8000/leaderboard/").then(result=>{
+        setArray(result.data.reverse())
+       
+      })
+      setSize(Math.trunc(array.length/ 10)+ 1);
+      setRange(array.length>10?10:array.length)
+      setIsEmpty(true)
     }
-    var newArray = array1.filter(function (el)
-{
-  return el.address.includes(e)
-         
-})
-setArray(newArray)
-console.log(newArray)
+    getdata()
+
+ 
+
+  },[array])
+
+
+  const onchange=(e)=>{
+    var newvalue =searchaddress.concat(e)
+    console.log(newvalue)
+    if(e==""){
+      axios.get("http://localhost:8000/leaderboard/").then(result=>{
+        setArray(result.data.reverse())
+      })
+    }
+    else{
+      var newArray = array.filter(function (el)
+      {
+        return el.Address.includes(newvalue)
+               
+      })
+      setArray(newArray)
+      console.log(newArray)
+    }
+   
 
   }
   const prevvalues = () => {
@@ -66,6 +66,7 @@ console.log(newArray)
         setpage(page-1);
         setStartRange(startrange-10) 
         setRange(startrange)
+       
       }
       else{
         setpage(page-1);
@@ -103,7 +104,7 @@ console.log(newArray)
   return (
     <div className='LeaderboardMain'>
       <div className='Leaderboardcontainer'>
-        <input placeholder='Search..'  onChange={e=>onchange(e.target.value)}  />
+        <input  placeholder='Search..'  onChange={e=>onchange(e.target.value)}  />
         <h2>
           All Traders
         </h2>
@@ -119,19 +120,24 @@ console.log(newArray)
           </tr>
           </thead>
           <tbody>
-          {
-            array.slice(startrange, range).map((item, index) => {
-              return (
-                <tr key={index}>
-                  <td>{item.id}</td>
-                  <td>{item.address}</td>
-                  <td>{item.liquid}</td>
-                  <td>{item.trades}</td>
-                  <td style={{color:`${item.pnl<0?"#e01b3c":"#198754"}`,fontWeight:"bold"}}>${item.pnl}</td>
-                </tr>
-              )
-            })
-          }
+            {
+              isEmpty?(
+                
+                  array.slice(startrange, range).map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{index+1}</td>
+                        <td>{item.Address}</td>
+                        <td>N/A</td>
+                        <td>{item.CompletedPosition.length}</td>
+                        <td style={{color:`${item.Totalpnl<0?"#e01b3c":"#198754"}`,fontWeight:"bold"}}>${parseFloat(item.Totalpnl).toFixed(2)}</td>
+                      </tr>
+                    )
+                  })
+                
+              ):("")
+            }
+          
           </tbody>
         </table>
 

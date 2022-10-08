@@ -19,6 +19,7 @@ export const disconnectWallet = async () => {
   };
 
 // TODO 2.c - Setup getAccount function
+
 export const getAccount = async () => {
   const activeAccount = await wallet.client.getActiveAccount();
   if (activeAccount) {

@@ -5,7 +5,7 @@ body{
 }
 
 .main-section{
-    width: calc(100% - 350px);
+    width: 1150px;
     position: relative;
     font-family: 'Inter',sans-serif;
     left: 350px;
@@ -43,7 +43,17 @@ body{
 .tradeNav{
     width: 75%;
 }
-
+.comingsoon{
+    position: absolute;
+    font-size: 8px;
+    margin-top: -12px;
+    width: 60px;
+    left: 20px;
+    background-color: #59219d;
+    text-align: center;
+    border-radius:4px;
+    padding-bottom: 2px;
+}
 .tabs{
     height: fit-content;
     margin: auto -1rem auto 4rem;
@@ -69,10 +79,13 @@ body{
     width: 60px; */
 }
 .info-title{
+    text-align: center;
     font-size: 12px;
     
 }
 .info-values {
+    text-align: center;
+
     font-size: 13px;
     font-weight: 600;
     
@@ -111,6 +124,7 @@ body{
     border-radius: 0 10px 10px 0px;
     text-align: center;
 }
+
 .long-short-enclosure h5{
     font-size: 16px;
 }
@@ -155,6 +169,7 @@ border-radius: 18px;
     border: 0.5px solid #12AA70;
     background:#096340;
     padding: 2px;
+    margin: 27px 0;
 }
 .progress-bar{
     background-color:#12AA70 ;
@@ -212,19 +227,24 @@ line-height: 22px;
 }
 .tphAdd{
 border: 1px solid #1ECC89 !important;
-
+    box-shadow: none !important;
     background: #1ECC89 !important;
     color:#ffff  !important;
     margin-right: 10px;
     font-weight: 700;
+    padding: 5px 20px !important;
+    border-radius: 8px;
 }
 
 .tphDec{
 border: 1px solid #E01B3C !important;
+box-shadow: none !important;
 
     background: #E01B3C !important;
     color:#ffff !important;
     font-weight: 700;
+    padding: 5px 20px !important;
+    border-radius: 8px;
 
 }
 
@@ -244,6 +264,7 @@ border: 1px solid #E01B3C !important;
     font-weight: 700;
     font-size: 20px;
     line-height: 24px;
+    margin-bottom: 25px;
 
 }
 .tpstatus{
@@ -275,6 +296,7 @@ padding: 5px 20px;
 }
 .tps_figures_values>div{
     display: flex;
+    margin-bottom: 5px;
 }
 .tpsfigure{
     flex-basis: 50%;
@@ -310,23 +332,25 @@ text-align: right;
 }
 
 .custom_btn{
+    position: absolute;
+    right: 10vh;
     color: antiquewhite;
-  border: 1px solid #384BD9;
-  border-radius: 30px;
+  border: 1px solid #59219d;
+  border-radius: 10px;
   transition: 0.125s linear;
   background: transparent;
   margin-top: 15px;
-  margin-right: 40px;
   width: 140px;
   height: 30px;
   font-size: 14px;
+  margin-left: 10px !important;
 }
 
 .custom_btn:hover{
   color: white;
-  background-color: #384BD9;
-  border-color: #384BD9;
-  box-shadow: 0px 0px 24px -2px #384BD9;
+  background-color: #59219d;
+  border-color: #59219d;
+  box-shadow: 0px 0px 24px -2px #59219d;
 }
 
 @media screen and (max-width:766px) and (min-width:270px){
@@ -363,6 +387,7 @@ text-align: right;
         flex-direction: column;
     }
     .main-section{
+
         width: 100%;
      box-sizing: border-box;
      overflow-x: hidden;
@@ -383,7 +408,6 @@ text-align: right;
     }
 .long-short-enclosure{
     margin: 0.5rem 0.3rem -0.1rem 0.3rem;
-
     position: fixed;
     top:auto;
     bottom: 0;
@@ -391,7 +415,12 @@ text-align: right;
     z-index: 2;
     height: 150px!important;
 }
-
+.long-short-btns .longbtn{
+    background: #1ECC89 !important;
+}
+.long-short-btns .shortbtn{
+    background: #E01B3C !important;
+}
 .trade-graph-enclosure{
     padding: 0.5rem 0.5rem;
     background: rgba(172, 105, 255, 0.16);
@@ -427,7 +456,7 @@ text-align: right;
 .history-enclosure{
     padding: 0.5rem 0.5rem;
     margin: 1rem 0.5rem;
-    height: auto !important;
+    min-height: 25vh !important;
     margin-bottom: 165px;
 }
 .coin-name{

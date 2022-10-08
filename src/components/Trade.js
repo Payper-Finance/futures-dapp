@@ -1,23 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import TradeChart from './TradeChart'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { Popover, Slider, Snackbar } from '@mui/material';
-import { openPosition, closeLong, openShort, closeShort } from '../utils/tezos'
+import {  Slider } from '@mui/material';
+import { openPosition} from '../utils/tezos'
 import { getAccount } from '../utils/wallet';
 import axios from 'axios';
 import "../style/tradeModel.css"
 import SnackbarUtils from '../utils/SnackbarUtils';
 import { ScaleLoader } from 'react-spinners'
-import { Table } from 'react-bootstrap';
 import Position from './Position';
-import Snackbar1 from './Snackbar';
-import qs from 'qs'
 import PositionTable from './PositionTable';
-import Countdown from 'react-countdown';
-
+import Snackbar from './Snackbar'
+import UserContext from "../ContextProvider.js";
 
 const style = {
 	position: 'absolute',
@@ -30,6 +27,7 @@ const style = {
 };
 
 const Trade = (props) => {
+const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -51,23 +49,45 @@ const Trade = (props) => {
 	const [show, setShow] = useState(false)
 	const [Vmm, setVmm] = useState(0)
 	const [priceImpact,setPriceImpact] = useState(0)
+	const [snackbarshow,setSnackbarshow] = useState(false)
+	const [type, setType] = useState(
+		{
+		  type: "",
+		  message: "",
+		  transaction:""
+		}
+	  )
 	
 
 	const getHistory = async () => {
 		const address = await getAccount()
 		if (address) {
-			const history = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/KT1WbA2H87o2RT9sTT4UaEgUAUgq6ZQhynbP/storage`)
-			let date = Date.now() - Date.parse(history.data.upcoming_funding_time)
+			const history = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/KT1MivLp4FjSMSJtMuQP6VPmsTrR2UFSoCNw/storage`)
+			let date =  Date.parse(history.data.upcoming_funding_time)-Date.now()
 			var minutes = Math.floor((date % (1000 * 60 * 60)) / (1000 * 60));
 			var seconds = Math.floor((date % (1000 * 60)) / 1000);
-			if(minutes<10){
-				minutes = `0${minutes}`
+			
+			if(seconds <0){
+				minutes ="00",
+				seconds ="00"
 			}
-			if(seconds<10){
-				seconds = `0${seconds}`
+			else{
+				if(minutes<10){
+					minutes = `0${minutes}`
+				}
+				if(seconds<10){
+					seconds = `0${seconds}`
+				}
 			}
+				
+		
+			
+
 
 			let Vmmdata = {
+				// invariant : storage.args[5].int/1000000,
+				// vUSD_amount : storage.args[7].int/1000000,
+				// token_amount: storage.args[6].int/1000000
 				invariant : history.data.vmm.invariant/1000000,
 				vUSD_amount : history.data.vmm.vUSD_amount/1000000,
 				token_amount: history.data.vmm.token_amount/1000000
@@ -79,10 +99,11 @@ const Trade = (props) => {
 				indexprice: (parseFloat(history.data.current_index_price) / 1000000).toFixed(2),
 				fundingTime: `${minutes}:${seconds}`,
 				rate: 0,
-				longfundingrate: history.data.long_funding_rate,
-				shortfundingrate: history.data.short_funding_rate
+				longfundingrate: (history.data.long_funding_rate/1000000).toFixed(2),
+				shortfundingrate: (history.data.short_funding_rate/1000000).toFixed(2)
 			})
 			var positions = history.data.positions;
+
 			if (address in positions) {
 				setCurrentPosition(true)
 				setliveposition(positions[address])
@@ -92,29 +113,12 @@ const Trade = (props) => {
 				setliveposition({})
 			}
 
+
 		}
 
 	}
 
-	var fundifsfngtime = 0;
 
-	// Renderer callback with condition
-	const renderer = ({ hours, minutes, seconds, completed }) => {
-		if (completed) {
-			// Render a completed state
-			return <span>00:00</span>;
-		} else {
-			// Render a countdown
-			return <span>{minutes}:{seconds}</span>;
-		}
-	};
-
-	const getfundingtime = async () => {
-		await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/KT1WbA2H87o2RT9sTT4UaEgUAUgq6ZQhynbP/storage`).then(res => {
-			let data = Date.now() - Date.parse(res.data.upcoming_funding_time)
-			setVmm(data)
-		})
-	}
 
 
 	useEffect(() => {
@@ -122,7 +126,6 @@ const Trade = (props) => {
 			getHistory()
 		}
 		setInterval(getHistory, 1000)
-
 	}, []);
 
 	useEffect(()=>{
@@ -144,18 +147,42 @@ const Trade = (props) => {
 		try {
 			setIsTxn(true)
 			await openPosition(baseValue, rangeValue, direction).then(res => {
-				console.log("reciept " + res)
-				setIsPosition("false")
+				setIsPosition(false)
 				setIsTxn(false)
+				if(res==undefined){
+                    setType(
+                        {
+                          type: "Failed",
+                          message: "Transaction Aborted !",
+                        }
+                      )
+                      setSnackbarshow(true)
+                }else{
+                    setType(
+                        {
+                          type: "success",
+                          message: "Transaction Successful!",
+                          transaction:res
+                        }
+                      )
+                      setSnackbarshow(true)
+                }
 			})
 
 		}
 		catch (err) {
 			console.log(err)
-			setIsPosition("false")
+			setIsPosition(false)
 			setShow(false)
-
 			setIsTxn(false)
+			setType(
+				{
+				  type: "Failed",
+				  message: "Transaction Failed !,",
+				}
+			  )
+			  setSnackbarshow(true)
+
 		}
 
 	}
@@ -186,6 +213,8 @@ const Trade = (props) => {
 
 	return (
 		<div>
+			<Snackbar show={snackbarshow} setshow={setSnackbarshow} type={type} />
+
 			<link rel="stylesheet" href="/styles/trade.css" />
 			<div className="coin-name d-flex m-3">
 				<div className="icon fs-2"><img style={{ width: "35px", height: "35px" }} src={`img/${coinSelect === 'tezos' ? 'tz' : coinSelect === 'btc' ? 'btc' : 'eth'}.svg`} alt="" /></div>
@@ -219,25 +248,31 @@ const Trade = (props) => {
 							funding rate</div>
 						<div className="info-values" style={{ color: "#E01B3C" }}>{graphValues.shortfundingrate}%</div>
 					</div>
+					{/* <div className="graph-info">
+						<div className="info-title"> Expected long/short rate</div>
+						<div className="info-values" style={{ color: "#E01B3C" }}>{graphValues.shortfundingrate}%</div>
+					</div> */}
 				</div>
 			</div>
 
 			<div className="long-short-enclosure">
-				<h5>You can go Long Or Short </h5>
 				{
 					!currentPosition ? (
+						<>
+						<h5>You can go Long or Short </h5>
 						<div className="long-short-btns mt-4">
-							<button className={`  mx-3 btn  `} style={{ color: "white", fontWeight: "bold", background: "#1ECC89" }} onClick={() => {
+							<button className={`longbtn  mx-3 btn  `} style={{ color: "white", fontWeight: "bold", background: "#1ECC89" }} onClick={() => {
 								setIsPosition("long")
 								handleOpen()
 							}} >Long</button>
-							<button className={` mx-3 btn `} style={{ color: "white", fontWeight: "bold", background: "#E01B3C" }} onClick={() => {
+							<button className={`shortbtn mx-3 btn `} style={{ color: "white", fontWeight: "bold", background: "#E01B3C" }} onClick={() => {
 								setIsPosition("short")
 								handleOpen()
 								SnackbarUtils.info("Works");
 							}} >Short</button>
 						</div>
-					) : ("")
+						</>
+					) : (<h5>You have taken a position. Now you can change the margin </h5>)
 				}
 
 			</div>
@@ -329,7 +364,7 @@ const Trade = (props) => {
 							</tr>
 							<tr style={{ width: "100%" }}>
 								<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Trading fee</td>
-								<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{(baseValue/100)*2}</td>
+								<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{(baseValue/100)*2} kUSD</td>
 							</tr>
 							<tr style={{ width: "100%" }}>
 								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Price impact</td>
@@ -412,13 +447,8 @@ const Trade = (props) => {
 							<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>2%</td>
 						</tr>
 					</table>
-					{isTxn ? <span style={{ width: "100% !important", position: "relative", left: "35%" }}><ScaleLoader color='#E01B3C' width={7} margin={6} /> </span> : <Button className="tradebox_button" style={{ align: 'center', width: '100%', borderRadius: "8px", marginTop: "20px", fontWeight: "600", backgroundColor: "#E01B3C", fontFamily: "'Inter', sans-serif" }} variant="contained" color="success"
-						onClick={async () => {
-							setIsTxn(true);
-							console.log(baseValue, rangeValue, 2);
-							await openPosition(baseValue, rangeValue, 2);
-							setIsTxn(false)
-						}}>SHORT</Button>}
+					{isTxn ? <span style={{ width: "100% !important", position: "relative", left: "35%" }}><ScaleLoader color='#E01B3C' width={7} margin={6} /> </span> : <Button className="tradebox_button" style={{ align: 'center', width: '100%', borderRadius: "8px", marginTop: "20px", fontWeight: "600", backgroundColor: "#E01B3C", fontFamily: "'Inter', sans-serif" }} variant="contained" 
+					onClick={() => funOpenPosition(baseValue, rangeValue, 2)}>SHORT</Button>}
 				</Box>
 			</Modal> : ""}
 		</div>

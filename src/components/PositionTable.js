@@ -27,10 +27,9 @@ const { CPosiitonUpdated } = useContext(UserContext)
         }else{
             setGetData([])
         }
-        
     }
     useEffect(()=>{
-        fetchdata();
+        setInterval(fetchdata(),5000)
     },[CPosiitonUpdated])
   return (
     
@@ -61,13 +60,17 @@ const { CPosiitonUpdated } = useContext(UserContext)
                         )}
                         <td> {item.collateral_amount}</td>
                         <td>{item.vUSD_amount} </td>
-                        <td>closed</td>
+                      {item.realizedpnl>0?(
+                            <td style={{color:"#1ecc89"}}>{(parseFloat(item.realizedpnl)).toFixed(3)}</td>
+                        ):(
+                            <td style={{color:"#e01b3c"}}>{(parseFloat(item.realizedpnl)).toFixed(3)}</td>
+                        )}
 
                     </tr>
                     )
                 
                 })
-            ) : (<div style ={{display:"flex",width:"100%", justifyContent:"center",alignItems:"center"}}><img style ={{height:"100px",width:"100px"}} src="img/nodata.png" /></div>)
+            ) : (<tr style ={{display:"flex",width:"100%", justifyContent:"center",alignItems:"center"}}><td><img style ={{height:"100px",width:"100px"}} src="img/nodata.png" /></td></tr>)
 
 
         }

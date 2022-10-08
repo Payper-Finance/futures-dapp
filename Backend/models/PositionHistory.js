@@ -11,6 +11,9 @@ const PositionHistory =new mongoose.Schema(
         },
         LivePosition:{
             type:Object
+        },
+        Totalpnl:{
+            type:Number
         }
 
     }

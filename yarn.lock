@@ -2253,6 +2253,13 @@
   dependencies:
     axios "^0.26.0"
 
+"@taquito/http-utils@^14.0.0":
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/@taquito/http-utils/-/http-utils-14.0.0.tgz#20470f8e08d33451241742221d416c72a70d881b"
+  integrity sha512-ZWZzod/+/OEE26b9CnDRjHGfUKBJft3aXv/e/A9bTHAtvRNJqGIhofHcDg/jTaolBMarCF2b3XBYw35aOOSk4A==
+  dependencies:
+    axios "^0.26.0"
+
 "@taquito/local-forging@^13.0.1":
   version "13.0.1"
   resolved "https://registry.npmjs.org/@taquito/local-forging/-/local-forging-13.0.1.tgz"
@@ -2285,6 +2292,15 @@
     "@taquito/utils" "^13.0.1"
     bignumber.js "^9.0.2"
 
+"@taquito/rpc@^14.0.0":
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/@taquito/rpc/-/rpc-14.0.0.tgz#30bd353a485abba0a74477e1b0eac454076b30e9"
+  integrity sha512-FMfb80sA+VJwNx8OTNN07boDAt2roISqLLCUgmOIwy/cFDqhII7gdS4aYWJWqlKbdPKCPqh3a3ZQD1X/jyQHOA==
+  dependencies:
+    "@taquito/http-utils" "^14.0.0"
+    "@taquito/utils" "^14.0.0"
+    bignumber.js "^9.0.2"
+
 "@taquito/taquito@^13.0.1":
   version "13.0.1"
   resolved "https://registry.yarnpkg.com/@taquito/taquito/-/taquito-13.0.1.tgz#806812b6853db555fcd614048ba36db4d14d8a57"
@@ -2307,6 +2323,21 @@
     "@stablelib/blake2b" "^1.0.1"
     "@stablelib/ed25519" "^1.0.2"
     "@types/bs58check" "^2.1.0"
+    blakejs "^1.2.1"
+    bs58check "^2.1.2"
+    buffer "^6.0.3"
+    elliptic "^6.5.4"
+    typedarray-to-buffer "^4.0.0"
+
+"@taquito/utils@^14.0.0":
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/@taquito/utils/-/utils-14.0.0.tgz#2fdbf0de677b5ef68e8a6d618a6a996195ae170b"
+  integrity sha512-0RSHn/CzbcbMdldJJIlXyxOvAajwmL6iPKJ6NaRyYJqqLM2CxYjG72KpXVv716pCMV1MbIWsOAr9FKbxW73PsA==
+  dependencies:
+    "@stablelib/blake2b" "^1.0.1"
+    "@stablelib/ed25519" "^1.0.2"
+    "@types/bs58check" "^2.1.0"
+    bignumber.js "^9.0.2"
     blakejs "^1.2.1"
     bs58check "^2.1.2"
     buffer "^6.0.3"
