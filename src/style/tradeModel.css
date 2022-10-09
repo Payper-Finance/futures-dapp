@@ -94,14 +94,43 @@ border-radius: 6px;
 }
 @media screen and (max-width:768px)and (min-width:540px){
     .tradebox_main{
-        min-width: 30vh;
-        max-width: 30vh;
+        min-width: 60vh;
+        max-width: 60vh;
     }
 }
-@media screen and (max-width:540px)and (min-width:340px){
+@media screen and (max-width:540px)and (min-width:410px){
     .tradebox_main{
-        min-width: 40vh;
-        max-width: 40vh;
+        min-width: 50vh;
+        max-width: 50vh;
+    }
+    .modal-content{
+        padding: 0 !important;
+        width: 85% !important;
+    }
+    .modal-body hr{
+        top: 0px !important;
+        margin: 0 !important;
+    }
+    
+}
+@media screen and (max-width:409px)and (min-width:240px){
+    .tradebox_main{
+        min-width: 50vh;
+        max-width: 50vh;
+    }
+    .css-h206zr{
+        padding: 15px !important;
+    }
+    .modal-title{
+        font-size: 18px !important;
+    }
+    .modal-content{
+        padding: 0 !important;
+        width: 85% !important;
+    }
+    .modal-body hr{
+        top: 0px !important;
+        margin: 0 !important;
     }
 }
 

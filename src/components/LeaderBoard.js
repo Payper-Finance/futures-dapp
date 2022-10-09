@@ -51,13 +51,9 @@ export default function LeaderBoard() {
         return el.Address.includes(newvalue)
                
       })
-      if(newArray.length==0){
-        alert("no result found")
-      }
-      else{
 
         setArray(newArray)
-      }
+      
     }
    
 

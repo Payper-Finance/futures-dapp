@@ -94,7 +94,7 @@ return (
 
       <div className='tradeNav d-flex '>
         <div className={`${tradeOrStake === 'trade' ? 'tabs-sel' : ''} tabs`} onClick={() => { setTradeOrStake('trade') }}>Trade</div>
-        <div className={`${tradeOrStake === 'stake' ? 'tabs-sel' : ''} tabs`} onClick={() => { setTradeOrStake('stake') }}>Stake <span className="comingsoon">coming soon</span></div>
+        <div className={`${tradeOrStake === 'stake' ? 'tabs-sel' : ''} tabs`} /*onClick={() => { setTradeOrStake('stake') }}*/>Stake <span className="comingsoon">coming soon</span></div>
         <div className={`${tradeOrStake === 'leaderboard' ? 'tabs-sel' : ''} tabs`} onClick={() => { setTradeOrStake('leaderboard') }}>Leaderboard</div>
         <div className={`tabs`} ><img style={{ width: "25px", height: "25px" }} src="img/discordnav.png" /> </div>
         <div className='btncustmdiv'>
@@ -110,7 +110,7 @@ return (
         <h3><img src='img/walletimg.png' />3Mw1vp.....G6ikCDH4</h3>
         <div className="mobile_tabs" onClick={() => { setTradeOrStake('trade') }}>Trade</div>
         <hr />
-        <div className="mobile_tabs" onClick={() => { setTradeOrStake('stake') }}>Stake</div>
+        <div className="mobile_tabs" /*onClick={() => { setTradeOrStake('stake') }}*/ >Stake</div>
         <hr />
 
         <div className="mobile_tabs" onClick={() => { setTradeOrStake('leaderboard') }}>LeaderBoard</div>

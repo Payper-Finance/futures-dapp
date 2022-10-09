@@ -5,13 +5,13 @@ body{
 }
 
 .main-section{
-    width: 1150px;
+    width: calc(100% - 350px);
     position: relative;
     font-family: 'Inter',sans-serif;
     left: 350px;
+    min-width: 1150px;
 
 }
-
 .nav-tab{
     background: #0e0f18 !important;
     width:100% !important;
@@ -389,7 +389,7 @@ text-align: right;
         flex-direction: column;
     }
     .main-section{
-
+        min-width: 100%;
         width: 100%;
      box-sizing: border-box;
      overflow-x: hidden;
@@ -432,9 +432,18 @@ text-align: right;
 
 }
 .info-title{
-    font-size: 10px;
+    text-align: left;
+    font-size: 13px;
+    margin-top: 10px;
+    padding-left: 10px;
+}
+.info-values{
+    text-align: left;
+    padding-left: 10px;
+
 }
 .graph-infos{
+    
     margin: 0px 0.2rem;
     display: flex;
     flex-wrap: wrap;
@@ -495,14 +504,13 @@ text-align: right;
     left: 30%;
 }
 .positon_Health button{
-    width: 48.5%;
+    width: 48%;
 }
 .tphAdd{
-    width: 48.5%;
+    width: 48%;
 }
 .tphDec{
-    width: 48.5%;
-
+    width: 48%;
 }
 .tpstatus{
     position: static;

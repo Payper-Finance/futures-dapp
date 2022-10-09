@@ -468,6 +468,7 @@ const tradeaction = async () => {
   let storage = await axios.get("https://api.ghostnet.tzkt.io/v1/contracts/KT1MivLp4FjSMSJtMuQP6VPmsTrR2UFSoCNw/storage/").then(result => {
     return result.data
   })
+  console.log(storage.current_mark_price)
   let marketpricedata = (storage.current_mark_price / PRECISION).toFixed(3)
 
   var previous_data = await TradeData.find().limit(1).sort({ $natural: -1 }).limit(1);
