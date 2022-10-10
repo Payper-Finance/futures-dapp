@@ -69,8 +69,8 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 			var seconds = Math.floor((date % (1000 * 60)) / 1000);
 			
 			if(seconds <0){
-				minutes ="00",
-				seconds ="00"
+				minutes ="00";
+				seconds ="00";
 			}
 			else{
 				if(minutes<10){

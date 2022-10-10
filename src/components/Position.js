@@ -329,7 +329,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                                     {
                                         type: "failed",
                                         message: "Transaction failed!",
-                                        transaction: res
+                                        // transaction: res
                                     }
                                 )
                                 setSnackbarshow(true)
@@ -470,14 +470,14 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                                                 }
                                             }).catch((err) => {
                                                 console.log(err)
-                                                SnackbarUtils.error("Error Please Try Again")
+                                                // SnackbarUtils.error("Error Please Try Again")
                                                 setIsTxn(false);
                                                 setClosePosition(false)
                                                 setType(
                                                     {
                                                         type: "success",
                                                         message: "Transaction Successful!,",
-                                                        transaction: res
+                                                        // transaction: res
                                                     }
                                                 )
                                                 setSnackbarshow(true)
