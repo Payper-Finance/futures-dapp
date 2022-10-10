@@ -11,11 +11,15 @@ const PositionHistory = require('./models/PositionHistory')
 const TokenIssue = require('./models/TokensAddress')
 const { validateAddress } = require("@taquito/utils")
 const signalR = require('@aspnet/signalr');
+const { TezosToolkit } = require("@taquito/taquito");
+const { InMemorySigner } = require("@taquito/signer");
 
 const PRECISION = 1000000000000000000;
 
 
 dotenv.config();
+
+const Tezos = new TezosToolkit("https://rpc.ghostnet.teztnets.xyz/");
 
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -523,11 +527,24 @@ app.post("/getToken", async (req, res) => {
   try {
     const address = req.body.address;
     const valid = validateAddress(address)
-
-
+    const result = await TokenIssue.findOne({ Address: address })
+    Tezos.setProvider({
+      signer: new InMemorySigner(process.env.PVT_KEY),
+      });
     if (valid == 3) {
-      console.log(valid)
-      res.send("Issued")
+      if (!result) {
+        await Tezos.contract
+		.at("KT1D5xQy9x7YSgrzTzLJx9tEQ6qK9pSW2vfz") 
+		.then(async(contract) => {
+			contract.methods.mint(address, 1000*PRECISION).send().then(async()=>{
+        await TokenIssue.create({Address: address, TokenIssue: 1000})
+      });
+		})
+        res.send("Issued")
+      } else {
+        res.send("Already Issued")
+      }
+      
     }
     else {
       res.send("false")

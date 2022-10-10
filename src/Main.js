@@ -34,16 +34,18 @@ const Main = () => {
 const getToken = async () => {
     var address = getAccount();
     var res = await getBalance();
-    if (res) {
-      await axios.post("http://localhost:8000/getToken/", qs.stringify({
-        address: address,
-      }),
-        {
-          header: {
-            "Content-Type": "text/plain"
-          }
-        }
-      ).then(res => {
+    console.log(account);
+    setType(
+      {
+        type: "info",
+        message: "Getting your tokens"
+      }
+    )
+    setshow(true)
+    await axios.post("http://localhost:8000/getToken/", {
+      address: account
+    }).then((res)=>{
+      if (res.data == "Issued") {
         setType(
           {
             type: "success",
@@ -51,28 +53,26 @@ const getToken = async () => {
           }
         )
         setshow(true)
-      }).catch(err => {
+        
+      } else if (res.data == "Already Issued") {
         setType(
           {
-            type: "ERR",
-            message: "Transaction ERROR!"
+            type: "error",
+            message: "You already issued the tokens"
           }
         )
         setshow(true)
-      })
-
-  }
-    else {
+      } else {
         setType(
           {
-            type: "err",
-            message: "You can only get the token once"
+            type: "error",
+            message: "An Error Occured. Please try again!"
           }
-          )
-          setshow(true)
-
+        )
+        setshow(true)
+      }
+    })
   }
-}
 
 const onConnectWallet = async () => {
   await connectWallet();

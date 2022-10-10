@@ -4,7 +4,6 @@ import { wallet, getAccount } from "./wallet";
 import { RPC } from './config'
 import SnackbarUtils from './SnackbarUtils';
 import axios from 'axios';
-import qs from 'qs'
 export const tezos = new TezosToolkit(RPC);
 
 

@@ -213,7 +213,6 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 	return (
 		<div>
 			<Snackbar show={snackbarshow} setshow={setSnackbarshow} type={type} />
-
 			<link rel="stylesheet" href="/styles/trade.css" />
 			<div className="coin-name d-flex m-3">
 				<div className="icon fs-2"><img style={{ width: "35px", height: "35px" }} src={`img/${coinSelect === 'tezos' ? 'tz' : coinSelect === 'btc' ? 'btc' : 'eth'}.svg`} alt="" /></div>
@@ -227,11 +226,11 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 				<div className="graph-infos d-flex text-start">
 					<div className="graph-info">
 						<div className="info-title">Market Price</div>
-						<div className="info-values " style={{ color: "#1ECC89" }}>{graphValues.marketprice} vUSD</div>
+						<div className="info-values " style={{ color: "#1ECC89" }}>{graphValues.marketprice} kUSD</div>
 					</div>
 					<div className="graph-info">
 						<div className="info-title">Index Price</div>
-						<div className="info-values">{graphValues.indexprice} vUSD</div>
+						<div className="info-values">{graphValues.indexprice} kUSD</div>
 					</div>
 
 					<div className="graph-info">
