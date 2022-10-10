@@ -96,7 +96,7 @@ return (
         <div className={`${tradeOrStake === 'trade' ? 'tabs-sel' : ''} tabs`} onClick={() => { setTradeOrStake('trade') }}>Trade</div>
         <div className={`${tradeOrStake === 'stake' ? 'tabs-sel' : ''} tabs`} /*onClick={() => { setTradeOrStake('stake') }}*/>Stake <span className="comingsoon">coming soon</span></div>
         <div className={`${tradeOrStake === 'leaderboard' ? 'tabs-sel' : ''} tabs`} onClick={() => { setTradeOrStake('leaderboard') }}>Leaderboard</div>
-        <div className={`tabs`} ><img style={{ width: "25px", height: "25px" }} src="img/discordnav.png" /> </div>
+        <div className={`tabs`} ><a href='https://discord.gg/dgBRfYunrw'  target="_blank" rel="noopener noreferrer"><img style={{ width: "25px", height: "25px" }} src="img/discordnav.png" /> </a></div>
         <div className='btncustmdiv'>
         <button style={{right:""}} className=" custom_btn" onClick={getToken} >{!account ? <span>Get Token</span> : "Get Token"}</button>
         <button className=" custom_btn" onClick={!account ? onConnectWallet : onDisconnectWallet} >{!account ? <span>Connect Wallet</span> : "Disconnect"}</button>

@@ -13,6 +13,8 @@ const { validateAddress } = require("@taquito/utils")
 const signalR = require('@aspnet/signalr');
 
 const PRECISION = 1000000000000000000;
+
+
 dotenv.config();
 
 
@@ -143,16 +145,11 @@ const positionAction = async (opHash) => {
       if (action == "closePosition") {
         let totalrealize;
         let setcloseposition = await PositionHistory.findOne({ Address: address })
-        console.log(storage[1])
+        let transferDetails = storage[1].parameter.value.value
 
         let positionsdetails = setcloseposition.LivePosition
-        let transferDetails = storage[1].parameter.value.value
-        console.log(transferDetails)
 
-        let calculatelivepnl = ((parseFloat(transferDetails / PRECISION) + parseFloat(positionsdetails.position_amount)) + parseFloat(positionsdetails.funding_amount)).toFixed(3)
-
-        console.log(calculatelivepnl)
-
+        let calculatelivepnl = ((parseFloat(transferDetails / PRECISION) - parseFloat(positionsdetails.position_amount)) + parseFloat(positionsdetails.funding_amount/PRECISION)).toFixed(3)
 
 
         var date = Date(transaction.timestamp);
@@ -294,129 +291,6 @@ const positionAction = async (opHash) => {
 
 
 
-// app.post("/positionaction", async (req, res) => {
-//   let action = req.body.action
-//   let address = req.body.address
-//   let TransactionId = req.body.batchOp
-
-//     try{
-//       let storage = await axios.get(`https://api.ghostnet.tzkt.io/v1/operations/transactions/${TransactionId}`).then(result => {
-//         return result.data
-//       })
-//       if (storage == []) {
-//         res.send("empty")
-//       }
-
-//       if (storage[0].sender.address == address) {
-//       const result = await PositionHistory.findOne({ Address: address })
-//       if (result) {
-//         let totalrealize;
-//         if (action == "close") {
-//           let setcloseposition = await PositionHistory.findOne({ Address: address })
-
-//           let positionsdetails = setcloseposition.LivePosition
-//           var date = Date(storage.timestamp);
-//           let calculatelivepnl = (((storage[0].storage.current_mark_price / 1000000) - (positionsdetails.entry_price)) * (positionsdetails.vUSD_amount)).toFixed(2) + positionsdetails.funding_amount
-//           let lastData = {
-//             time: date.toLocaleString(),
-//             position: positionsdetails.position,
-//             entry_price: positionsdetails.entry_price,
-//             vUSD_amount: positionsdetails.vUSD_amount,
-//             position_value: positionsdetails.position_value,
-//             collateral_amount: positionsdetails.collateral_amount,
-//             realizedpnl: calculatelivepnl
-//           }
-//           if (result.Totalpnl == undefined) {
-//             totalrealize = calculatelivepnl
-//           }
-//           else {
-//             totalrealize = parseFloat(result.Totalpnl) + parseFloat(calculatelivepnl)
-//           }
-//           console.log(totalrealize)
-//           await PositionHistory.findOneAndUpdate({ Address: address }, {
-//             $push: {
-//               CompletedPosition: lastData
-//             }
-//           })
-//           await PositionHistory.findOneAndUpdate({ Address: address }, {
-//             $set: {
-//               Totalpnl: totalrealize
-//             }
-//           })
-//           let data = {
-//             $set: {
-//               LivePosition: {}
-//             }
-//           }
-
-//           PositionHistory.findOneAndUpdate({ Address: address }, data, function (err, res) {
-//             if (err) throw err;
-//             console.log("position closed");
-//           })
-//           res.send("position closed")
-//         }
-//         else {
-//           let positionsdetails;
-//           if (action == "reduce") {
-//             positionsdetails = storage[0].storage.positions[address]
-
-//           }
-//           else {
-//             positionsdetails = storage[1].storage.positions[address]
-//           }
-//           var date = Date(storage.timestamp);
-//           let data = {
-//             time: date.toLocaleString(),
-//             position: positionsdetails.position,
-//             entry_price: (positionsdetails.entry_price / 1000000).toFixed(2),
-//             funding_amount: positionsdetails.funding_amount,
-//             vUSD_amount: (positionsdetails.vUSD_amount / 1000000).toFixed(2),
-//             position_value: (positionsdetails.position_value / 1000000).toFixed(2),
-//             collateral_amount: (positionsdetails.collateral_amount / 1000000).toFixed(2)
-//           }
-
-//           await PositionHistory.findOneAndUpdate({ Address: address }, {
-//             $set: {
-//               LivePosition: data
-//             }
-//           })
-//           res.send("position updated")
-
-//         }
-//       }
-//       else {
-//         let positionsdetails = storage[1].storage.positions[address]
-//         var date = Date(storage.timestamp);
-//         let data = {
-//           Address: address,
-//           CompletedPosition: [],
-//           LivePosition: {
-//             time: date.toLocaleString(),
-//             position: positionsdetails.position,
-//             entry_price: (positionsdetails.entry_price / 1000000).toFixed(2),
-//             funding_amount: positionsdetails.funding_amount,
-//             vUSD_amount: (positionsdetails.vUSD_amount / 1000000).toFixed(2),
-//             position_value: (positionsdetails.position_value / 1000000).toFixed(2),
-//             collateral_amount: (positionsdetails.collateral_amount / 1000000).toFixed(2)
-//           }
-//         }
-//         PositionHistory.create(data)
-//         res.send("created ")
-//       }
-
-//     }
-//     else {
-//       res.send("False Address or Unmatched Transaction")
-//     }
-
-//     }catch(err){
-//       console.log(err)
-//     }
-
-// })
-
-
-
 
 // LEADERBOARD DATA -------------------------------------------------------------------------------------------------------------------
 
@@ -518,58 +392,6 @@ const tradeaction = async () => {
 
 
 
-
-
-
-// app.post("/post", async (req, res) => {
-//   let storage = await axios.get("https://api.ghostnet.tzkt.io/v1/contracts/KT1WbA2H87o2RT9sTT4UaEgUAUgq6ZQhynbP/storage/").then(result => {
-//     return result.data
-//   })
-//   let marketpricedata = (storage.current_mark_price / 1000000).toFixed(3)
-
-//   var previous_data = await TradeData.find().limit(1).sort({ $natural: -1 }).limit(1);
-//   var newdate = new Date().getMinutes();
-//   console.log(previous_data)
-
-//   if (previous_data[0].Date.getMinutes() - newdate >= 5) {
-//     let data = {
-//       Date: new Date(),
-//       Open: marketpricedata,
-//       Close: marketpricedata,
-//       High: marketpricedata,
-//       Low: marketpricedata
-//     }
-//     TradeData.create(data)
-
-//   }
-//   else {
-//     if (marketpricedata > previous_data[0].High) {
-//       var newvalues = { $set: { time: new Date(), Open: previous_data[0].Open, Close: marketpricedata, High: marketpricedata, Low: previous_data[0].Low } };
-
-//       TradeData.findByIdAndUpdate({ _id: previous_data[0]._id }, newvalues, function (err, res) {
-//         if (err) throw err;
-//         console.log("1 document upDated");
-//       })
-//     }
-//     else if (marketpricedata < previous_data[0].Low) {
-
-//       var newvalues = { $set: { time: new Date(), Open: previous_data[0].Open, Close: marketpricedata, High: previous_data[0].High, Low: marketpricedata } };
-//       TradeData.findByIdAndUpdate({ _id: previous_data[0]._id }, newvalues, function (err, res) {
-//         if (err) throw err;
-//         console.log("1 document upDated");
-//       })
-//     }
-//     else {
-
-//       var newvalues = { $set: { time: new Date(), Open: previous_data[0].Open, Close: marketpricedata, High: previous_data[0].High, Low: previous_data[0].Low } };
-//       TradeData.findByIdAndUpdate({ _id: previous_data[0]._id }, newvalues, function (err, res) {
-//         if (err) throw err;
-//         console.log("1 document upDated");
-//       })
-//     }
-//   }
-//   res.send("done")
-// })
 
 const getData = async () => {
   const result = TradeData.find({}).then(function (data) {

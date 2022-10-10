@@ -15,8 +15,9 @@ import Position from './Position';
 import PositionTable from './PositionTable';
 import Snackbar from './Snackbar'
 import UserContext from "../ContextProvider.js";
+import { PRECISION } from '../utils/config';
 
-const PRECISION = 1000000000000000000;
+
 const style = {
 	position: 'absolute',
 	background: " #141724",
@@ -69,8 +70,8 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 			var seconds = Math.floor((date % (1000 * 60)) / 1000);
 			
 			if(seconds <0){
-				minutes ="00",
-				seconds ="00"
+				minutes ="00";
+				seconds ="00";
 			}
 			else{
 				if(minutes<10){
@@ -93,12 +94,12 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 			setVmm(Vmmdata)
 
 			setGraphValues({
-				marketprice: (parseFloat(history.data.current_mark_price) / PRECISION).toFixed(2),
-				indexprice: (parseFloat(history.data.current_index_price) / PRECISION).toFixed(2),
+				marketprice: (parseFloat(history.data.current_mark_price) / PRECISION).toFixed(4),
+				indexprice: (parseFloat(history.data.current_index_price) / PRECISION).toFixed(4),
 				fundingTime: `${minutes}:${seconds}`,
 				rate: 0,
-				longfundingrate: (history.data.long_funding_rate/PRECISION).toFixed(2),
-				shortfundingrate: (history.data.short_funding_rate/PRECISION).toFixed(2)
+				longfundingrate: (history.data.long_funding_rate/PRECISION).toFixed(4),
+				shortfundingrate: (history.data.short_funding_rate/PRECISION).toFixed(4)
 			})
 			var positions = history.data.positions;
 
@@ -415,7 +416,7 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 
 							<tr style={{ width: "100%" }}>
 								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Positon size</td>
-								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseXrange == 0 ? ((baseValue == null) ? 0 : (baseValue / graphValues.marketprice).toFixed(2)) : ((baseXrange / graphValues.marketprice).toFixed(4))} BTC <img src="img/btc.svg" /></td>
+								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseXrange == 0 ? ((baseValue == null) ? 0 : (baseValue / graphValues.marketprice).toFixed(2)) : ((baseXrange / graphValues.marketprice).toFixed(4))} XTZ <img src="img/tz.svg" /></td>
 							</tr>
 							<tr style={{ width: "100%" }}>
 								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Entry price</td>
@@ -430,12 +431,12 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 					<table className='tradebox_table1' style={{ width: "100%" }}>
 						<tr style={{ width: "100%", }}>
 							<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Amount</td>
-							<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseValue} vUSD</td>
+							<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseValue} kUSD</td>
 						</tr>
 						<tr style={{ width: "100%" }}>
-							<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Commission</td>
-							<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>2 vUSD</td>
-						</tr>
+								<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Trading fee</td>
+								<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{(baseValue/100)*2} kUSD</td>
+							</tr>
 						<tr style={{ width: "100%" }}>
 							<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Price impact</td>
 							<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{ priceImpact.toFixed(2)}%</td>

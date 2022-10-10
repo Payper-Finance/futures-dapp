@@ -6,9 +6,10 @@ import '../style/tradeModel.css'
 import { Slider } from '@mui/material';
 import UserContext from "../ContextProvider.js";
 import { ScaleLoader } from 'react-spinners'
+import { PRECISION } from '../utils/config';
+
 import { addMargin, closePosition, decreasePosition, openPosition, removeMargin } from '../utils/tezos';
 
-const PRECISION = 1000000000000000000;
 
 export default function Position({ positiondetail, graph, gethistory, Vmm }) {
 
@@ -216,7 +217,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                             {/* <p>Liquidation Price</p> */}
                         </div>
                         <div className='tpValues'>
-                            <p>{(positiondetail.collateral_amount / PRECISION).toFixed(2)} kUSD</p>
+                            <p>{(positiondetail.collateral_amount / PRECISION).toFixed(4)} kUSD</p>
                             <p>{marginRatio}</p>
                             {/* <p>{((positiondetail.collateral_amount/1000000).toFixed(2)/100)*8.5} kUSD</p> */}
                         </div>
@@ -228,8 +229,8 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                     <h3>Position Status</h3>
                     <div>
                         <div className='tpstatus'>
-                            <p style={{ fontSize: "11px" }}>{positiondetail.position == 1 ? "Long position" : "Short Position"}  </p>
-                            <p>{(positiondetail.position_value / PRECISION).toFixed(2)} XTZ</p>
+                            <p >{positiondetail.position == 1 ? "Long position" : "Short Position"}  </p>
+                            <p>{(positiondetail.position_value / PRECISION).toFixed(4)} XTZ</p>
                             <p style={{ fontWeight: "bold" }}>Unrealized PNL</p>
                             <p>
                                 {(calculatedX - positiondetail.vUSD_amount / PRECISION) < 0 ? (
@@ -250,11 +251,11 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                                     <p>Net Funding</p>
                                 </div>
                                 <div className='tpsValues'>
-                                    <p>{(parseFloat(positiondetail.entry_price) / PRECISION).toFixed(3)} XTZ</p>
+                                    <p>{(parseFloat(positiondetail.entry_price) / PRECISION).toFixed(4)} XTZ</p>
                                     <p>{graph.marketprice} XTZ</p>
-                                    <p>{expectedClose.toFixed(2)}  XTZ</p>
+                                    <p>{expectedClose.toFixed(4)}  XTZ</p>
                                     {
-                                        positiondetail.funding < 0 ? (
+                                        positiondetail.funding_amount < 0 ? (
                                             <p style={{ color: "#E01B3C" }}>{(positiondetail.funding_amount / PRECISION).toFixed(4)}</p>
 
                                         ) : (
@@ -300,7 +301,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                     </div> */}
                     <div className='marginbodydiv' style={{ marginTop: "10px" }}>
                         <p>Position margin</p>
-                        <p>{(parseFloat((positiondetail.collateral_amount / PRECISION).toFixed(2)) + parseFloat(AddorRemove)).toFixed(3)} kUSD</p>
+                        <p>{(parseFloat((positiondetail.collateral_amount / PRECISION).toFixed(4)) + parseFloat(AddorRemove)).toFixed(3)} kUSD</p>
                     </div>
                 </Modal.Body>
                 <Modal.Footer style={{ border: "none" }} >
@@ -374,7 +375,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                     </div> */}
                     <div className='marginbodydiv' style={{ marginTop: "10px" }}>
                         <p>Position margin</p>
-                        <p>{(parseFloat((positiondetail.collateral_amount / PRECISION).toFixed(2)) - parseFloat(AddorRemove)).toFixed(3)} kUSD</p>
+                        <p>{(parseFloat((positiondetail.collateral_amount / PRECISION).toFixed(4)) - parseFloat(AddorRemove)).toFixed(4)} kUSD</p>
                     </div>
                 </Modal.Body>
                 <Modal.Footer style={{ border: "none" }} >
@@ -438,7 +439,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
 
                     <div className='marginbodydiv' style={{ borderBottom: "0.5px solid #30313d", fontWeight: "bold" }}>
                         <p style={{ flexBasis: "55%" }}>Expected CLose Price</p>
-                        <p>{expectedClose.toFixed(2)}</p>
+                        <p>{expectedClose.toFixed(4)}</p>
                     </div>
                     <div className='marginbodydiv' style={{ marginTop: "10px", fontWeight: "bold" }}>
                         <p>Your Profit</p>
@@ -558,7 +559,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                         <tbody>
                             <tr style={{ width: "100%" }}>
                                 <td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Positon size</td>
-                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseXrange == 0 ? ((baseValue == null) ? 0 : (baseValue / graph.marketprice).toFixed(2)) : ((baseXrange / graph.marketprice).toFixed(4))} XTZ <img src="img/tz.svg" /></td>
+                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseXrange == 0 ? ((baseValue == null) ? 0 : (baseValue / graph.marketprice).toFixed(4)) : ((baseXrange / graph.marketprice).toFixed(4))} XTZ <img src="img/tz.svg" /></td>
                             </tr>
                             <tr style={{ width: "100%" }}>
                                 <td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Entry price</td>
@@ -581,7 +582,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                             </tr>
                             <tr style={{ width: "100%" }}>
                                 <td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Price impact</td>
-                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseValue == 0 ? 0 : priceImpact.toFixed(2)}%</td>
+                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseValue == 0 ? 0 : priceImpact.toFixed(4)}%</td>
                             </tr>
                             <tr style={{ width: "100%" }}>
                                 <td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Slippage tolerance</td>
