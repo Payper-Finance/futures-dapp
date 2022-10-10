@@ -16,6 +16,7 @@ import PositionTable from './PositionTable';
 import Snackbar from './Snackbar'
 import UserContext from "../ContextProvider.js";
 
+const PRECISION = 1000000000000000000;
 const style = {
 	position: 'absolute',
 	background: " #141724",
@@ -62,7 +63,7 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 	const getHistory = async () => {
 		const address = await getAccount()
 		if (address) {
-			const history = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/KT1MivLp4FjSMSJtMuQP6VPmsTrR2UFSoCNw/storage`)
+			const history = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/KT1H84ek1UKTEz6ELSpQNS8s38b4kXrANHy3/storage`)
 			let date =  Date.parse(history.data.upcoming_funding_time)-Date.now()
 			var minutes = Math.floor((date % (1000 * 60 * 60)) / (1000 * 60));
 			var seconds = Math.floor((date % (1000 * 60)) / 1000);
@@ -85,22 +86,19 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 
 
 			let Vmmdata = {
-				// invariant : storage.args[5].int/1000000,
-				// vUSD_amount : storage.args[7].int/1000000,
-				// token_amount: storage.args[6].int/1000000
-				invariant : history.data.vmm.invariant/1000000,
-				vUSD_amount : history.data.vmm.vUSD_amount/1000000,
-				token_amount: history.data.vmm.token_amount/1000000
+				invariant : history.data.vmm.invariant/PRECISION,
+				vUSD_amount : history.data.vmm.vUSD_amount/PRECISION,
+				token_amount: history.data.vmm.token_amount/PRECISION
 			}
 			setVmm(Vmmdata)
 
 			setGraphValues({
-				marketprice: (parseFloat(history.data.current_mark_price) / 1000000).toFixed(2),
-				indexprice: (parseFloat(history.data.current_index_price) / 1000000).toFixed(2),
+				marketprice: (parseFloat(history.data.current_mark_price) / PRECISION).toFixed(2),
+				indexprice: (parseFloat(history.data.current_index_price) / PRECISION).toFixed(2),
 				fundingTime: `${minutes}:${seconds}`,
 				rate: 0,
-				longfundingrate: (history.data.long_funding_rate/1000000).toFixed(2),
-				shortfundingrate: (history.data.short_funding_rate/1000000).toFixed(2)
+				longfundingrate: (history.data.long_funding_rate/PRECISION).toFixed(2),
+				shortfundingrate: (history.data.short_funding_rate/PRECISION).toFixed(2)
 			})
 			var positions = history.data.positions;
 

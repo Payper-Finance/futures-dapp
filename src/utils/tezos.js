@@ -13,7 +13,7 @@ tezos.setWalletProvider(wallet);
 
 export const getBalance = async () => {
     const address = await getAccount();
-    const getbalacnce = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/KT19mcZ91i9Uq711ghZWgk2JAtrfm8s8vxU2/bigmaps/balances/keys/${address}`)
+    const getbalacnce = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/KT1D5xQy9x7YSgrzTzLJx9tEQ6qK9pSW2vfz/bigmaps/balances/keys/${address}`)
     if (getbalacnce.data == '') {
         return true
     }
@@ -24,9 +24,9 @@ export const getBalance = async () => {
 
 
 
-const multiple = 1000000
-export const CONTRACT_ADDRESS = 'KT1MivLp4FjSMSJtMuQP6VPmsTrR2UFSoCNw';
-export const vUSD_ADDRESS = 'KT19mcZ91i9Uq711ghZWgk2JAtrfm8s8vxU2';
+const multiple = 1000000000000000000
+export const CONTRACT_ADDRESS = 'KT1H84ek1UKTEz6ELSpQNS8s38b4kXrANHy3';
+export const vUSD_ADDRESS = 'KT1D5xQy9x7YSgrzTzLJx9tEQ6qK9pSW2vfz';
 
 
 export const openPosition = async (base_value, leverage_multiple, direction) => {
@@ -41,7 +41,7 @@ export const openPosition = async (base_value, leverage_multiple, direction) => 
         const vusd_contract = await tezos.wallet.at(vUSD_ADDRESS);
         SnackbarUtils.info("Transaction in Process");
 
-        const op1 = vusd_contract.methods.approve("KT1MivLp4FjSMSJtMuQP6VPmsTrR2UFSoCNw", value).toTransferParams();
+        const op1 = vusd_contract.methods.approve(CONTRACT_ADDRESS, value).toTransferParams();
         op1.kind = OpKind.TRANSACTION;
 
         const op2 = vmm_contract.methods.increasePosition(direction, leverage_multiple, value).toTransferParams();
@@ -51,22 +51,8 @@ export const openPosition = async (base_value, leverage_multiple, direction) => 
         const batchOp = await batch.send();
         SnackbarUtils.info("Waiting for confirmation")
         await batchOp.confirmation()
-        const address = await getAccount();
-        console.log(batchOp)
 
-        // await axios.post("http://localhost:8000/positionaction/", qs.stringify({
-        //     action: "open",
-        //     address: address,
-        //     batchOp: batchOp.opHash
-        // }),
-        //     {
-        //         header: {
-        //             "Content-Type": "application/json"
-        //         }
-        //     }
-        // ).then(res => console.log("post position"))
-        // await axios.post("http://localhost:8000/post/").then(res => console.log("post position")).catch(err => console.log(err))
-        return batchOp.opHash
+    return batchOp.opHash
     } catch (err) {
         console.log(err)
         SnackbarUtils.error("Error Please Try Again")
@@ -85,19 +71,7 @@ export const closePosition = async (state_name) => {
         SnackbarUtils.info("Waiting for confirmation")
         await batchOp.confirmation()
         console.log(batchOp)
-        // const address = await getAccount();
 
-        // await axios.post("http://localhost:8000/positionaction/", qs.stringify({
-        //     action: "close",
-        //     address: address,
-        //     batchOp: batchOp.opHash
-        // }),
-        //     {
-        //         header: {
-        //             "Content-Type": "text/plain"
-        //         }
-        //     }
-        // )
         return batchOp.opHash
     }
     catch (err) {
@@ -122,18 +96,7 @@ export const decreasePosition = async (leverage, amount) => {
         await batchOp.confirmation()
         SnackbarUtils.success("Txn Success")
         const address = await getAccount();
-        // console.log(batchOp.opHash)
-        // await axios.post("http://localhost:8000/positionaction/", qs.stringify({
-        //     action: "reduce",
-        //     address: address,
-        //     batchOp: batchOp.opHash
-        // }),
-        //     {
-        //         header: {
-        //             "Content-Type": "application/json"
-        //         }
-        //     }
-        // )
+
         return batchOp.opHash
     }
     catch (err) {
@@ -158,18 +121,7 @@ export const removeMargin = async (amount) => {
         SnackbarUtils.info("Waiting for confirmation")
         await batchOp.confirmation()
         SnackbarUtils.success("Txn Success")
-        // const address = await getAccount();
-        // await axios.post("http://localhost:8000/positionaction/", qs.stringify({
-        //     action: "reduce",
-        //     address: address,
-        //     batchOp: batchOp.opHash
-        // }),
-        //     {
-        //         header: {
-        //             "Content-Type": "text/plain"
-        //         }
-        //     }
-        // )
+
         return batchOp.opHash
 
     }
@@ -188,7 +140,7 @@ export const addMargin = async (value) => {
         const vusd_contract = await tezos.wallet.at(vUSD_ADDRESS);
         SnackbarUtils.info("Transaction in Process");
         const batch = await tezos.wallet.batch()
-            .withContractCall(vusd_contract.methods.approve("KT1MivLp4FjSMSJtMuQP6VPmsTrR2UFSoCNw", value * multiple))
+            .withContractCall(vusd_contract.methods.approve(CONTRACT_ADDRESS, value * multiple))
             .withContractCall(vmm_contract.methods.addMargin(value * multiple))
 
         SnackbarUtils.info('Sending Txn')
@@ -196,19 +148,7 @@ export const addMargin = async (value) => {
         SnackbarUtils.info("Waiting for confirmation")
         await batchOp.confirmation()
         SnackbarUtils.success("Txn Success")
-        // const address = await getAccount();
-        console.log(batchOp.opHash)
-        // await axios.post("http://localhost:8000/positionaction/", qs.stringify({
-        //     action: "addmargin",
-        //     address: address,
-        //     batchOp: batchOp.opHash
-        // }),
-        //     {
-        //         header: {
-        //             "Content-Type": "text/plain"
-        //         }
-        //     }
-        // )
+
         return batchOp.opHash
 
     }

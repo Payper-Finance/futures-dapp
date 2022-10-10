@@ -8,7 +8,7 @@ import UserContext from "../ContextProvider.js";
 import { ScaleLoader } from 'react-spinners'
 import { addMargin, closePosition, decreasePosition, openPosition, removeMargin } from '../utils/tezos';
 
-const PRECISION = 1000000;
+const PRECISION = 1000000000000000000;
 
 export default function Position({ positiondetail, graph, gethistory, Vmm }) {
 
