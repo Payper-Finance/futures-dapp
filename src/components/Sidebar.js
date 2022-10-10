@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import '../style/sidebar.css'
 import {DropdownButton,Dropdown} from 'react-bootstrap'
 import axios from 'axios'
+import { PRECISION } from '../utils/config';
 
 const Sidebar = (props) => {
     const {coinSelect, setCoinSelect,stake} = props
     const [markprice, setMarkPrice] = useState();
     useEffect(()=>{
-      axios.get("https://api.ghostnet.tzkt.io/v1/contracts/KT1D5xQy9x7YSgrzTzLJx9tEQ6qK9pSW2vfz/storage/"
+      axios.get("https://api.ghostnet.tzkt.io/v1/contracts/KT1H84ek1UKTEz6ELSpQNS8s38b4kXrANHy3/storage/"
       ).then(res =>{setMarkPrice(res.data.current_mark_price)})
     })
   return (
@@ -17,7 +18,7 @@ const Sidebar = (props) => {
         <div className={`${coinSelect === 'tezos'? 'sidebar-sel': '' } coin my-3 d-flex text-start`} onClick={()=>{setCoinSelect('tezos')}} >
             <div className='mx-2'><img src="/img/tz.svg" style={{width:'20px'}} alt="" /></div>
             <div>Tezos <br />XTZ</div>
-            <div className='me-2 ms-auto text-end'>{(markprice/1000000).toFixed(2)} vUSD</div>
+            <div className='me-2 ms-auto text-end'>{(markprice/PRECISION).toFixed(2)} vUSD</div>
         </div>
         <div disabled className={`${coinSelect === 'btc'? 'sidebar-sel': '' } coin my-3 d-flex text-start`} /*onClick={()=>{setCoinSelect('btc')}}*/ >
             <div className='mx-2'><img src="img/btc.svg" style={{width:'20px'}} alt="" /></div>
