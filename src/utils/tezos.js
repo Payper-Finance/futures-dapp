@@ -24,7 +24,7 @@ export const getBalance = async () => {
 
 
 const multiple = 1000000000000000000
-export const CONTRACT_ADDRESS = 'KT1H84ek1UKTEz6ELSpQNS8s38b4kXrANHy3';
+export const CONTRACT_ADDRESS = 'KT1KtEXykBu7qXDFeBjBsk5Vq4oy4sfRZNNx';
 export const vUSD_ADDRESS = 'KT1D5xQy9x7YSgrzTzLJx9tEQ6qK9pSW2vfz';
 
 

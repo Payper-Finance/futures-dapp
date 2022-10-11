@@ -95,7 +95,7 @@ async function init() {
   // open connection
   await connection.start();
   await connection.invoke("SubscribeToOperations", {
-    address: 'KT1H84ek1UKTEz6ELSpQNS8s38b4kXrANHy3',
+    address: 'KT1DtwFhSdc3vexnKgMGQajfJixt3aaMmXFU',
     types: 'transaction'
   });
 };
@@ -134,7 +134,7 @@ const positionAction = async (opHash) => {
     }
     let transaction;
     for (let i = 0; i < storage.length; i++) {
-      if (storage[i].target.address == "KT1H84ek1UKTEz6ELSpQNS8s38b4kXrANHy3") {
+      if (storage[i].target.address == "KT1DtwFhSdc3vexnKgMGQajfJixt3aaMmXFU") {
         transaction = storage[i]
         break
       }
@@ -343,7 +343,7 @@ app.post('/positionshistory', async (req, res) => {
 
 
 const tradeaction = async () => {
-  let storage = await axios.get("https://api.ghostnet.tzkt.io/v1/contracts/KT1H84ek1UKTEz6ELSpQNS8s38b4kXrANHy3/storage/").then(result => {
+  let storage = await axios.get("https://api.ghostnet.tzkt.io/v1/contracts/KT1DtwFhSdc3vexnKgMGQajfJixt3aaMmXFU/storage/").then(result => {
     return result.data
   })
   console.log(storage.current_mark_price)
@@ -569,7 +569,7 @@ app.post("/getToken", async (req, res) => {
 var nextTick = function () {
   return 300000 - (new Date().getTime() % 300000);
 }, timerFunction = async () => {
-  let storage = await axios.get("https://api.ghostnet.tzkt.io/v1/contracts/KT1H84ek1UKTEz6ELSpQNS8s38b4kXrANHy3/storage/").then(result => {
+  let storage = await axios.get("https://api.ghostnet.tzkt.io/v1/contracts/KT1DtwFhSdc3vexnKgMGQajfJixt3aaMmXFU/storage/").then(result => {
     return result.data
   })
   let marketpricedata = (storage.current_mark_price / PRECISION).toFixed(3)
