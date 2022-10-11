@@ -153,14 +153,18 @@ tr {
 }
 @media screen and (max-width:4000px) and (min-width:1920px){
   .trading_details td{
-    font-size: 1.2rem !important;
+    font-size: 1rem !important;
   }
   .trading_details tr button{
-    font-size: 1.2rem !important;
+    font-size: 1rem !important;
   }
   .trading_details th{
-    font-size: 1.3rem !important;
+    font-size: 1rem !important;
 
+  }
+  .tradedetailsbtn{
+    
+    font-size: 22px;
   }
   
 }
