@@ -128,7 +128,8 @@ function TradeChart(props) {
     let valueLegend = mainPanel.plotContainer.children.push(
       am5stock.StockLegend.new(root, {
         stockChart: stockChart,
-        visible: true
+        visible: true,
+        width:"200px",
       })
     );
 
