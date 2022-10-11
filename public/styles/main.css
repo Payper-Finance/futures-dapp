@@ -85,6 +85,22 @@ body{
     font-weight: 600;
     
 }
+@media screen and (max-width:4000px) and (min-width:1920px){
+
+    .info-title{
+        text-align: center;
+        font-size: 1.2rem;
+        
+    }
+    .info-values {
+        text-align: center;
+    
+        font-size: 1.2rem;
+        font-weight: 600;
+        
+    }
+    
+}
 .graph-info{
     margin: 0px 0rem;
     width: 19.5%;
@@ -338,6 +354,7 @@ text-align: right;
        left: 450px ;
 
     }
+    
 }
 .custom_btn{
     color: antiquewhite;

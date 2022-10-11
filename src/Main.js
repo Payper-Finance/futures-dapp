@@ -8,6 +8,7 @@ import { getBalance } from './utils/tezos'
 import LeaderBoard from './components/LeaderBoard'
 import Snackbar1 from './components/Snackbar'
 import axios from 'axios'
+import { PRECISION } from './utils/config'
 import qs from 'qs'
 
 const Main = () => {
@@ -16,6 +17,7 @@ const Main = () => {
   const [account, setAccount] = useState(false);
   const [isOpen, setOpen] = useState(false)
   const [show, setshow] = useState(false);
+  const [tokenBalance,setTokenBalance] = useState("")
   const [type, setType] = useState(
     {
       type: "",
@@ -24,14 +26,58 @@ const Main = () => {
     }
   )
 
+  const gettokendata = async()=>{
+    const accounts = await getAccount();
+    if(!accounts){
+      setTokenBalance('')
+    }
+    else{
+      const getbalacnce = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/KT1D5xQy9x7YSgrzTzLJx9tEQ6qK9pSW2vfz/bigmaps/balances/keys/${accounts}`)
+      if (getbalacnce.data == '') {
+          return true
+      }
+      else {
+          setTokenBalance((getbalacnce.data.value.balance/PRECISION).toFixed(4))
+      }
+    }
+
+  }
+
+  const onConnectWallet = async () => {
+    await connectWallet();
+    const accounts = await getAccount();
+    setAccount(accounts);
+    gettokendata()
+  };
+  
+  const onDisconnectWallet = async () => {
+    await disconnectWallet();
+    setAccount(false);
+    gettokendata()
+
+  };
+
   useEffect(() => {
     (async () => {
       const accounts = await getAccount();
       setAccount(accounts);
+      await gettokendata();
     })();
   }, []);
 
 const getToken = async () => {
+  const accounts = await getAccount();
+  if(!accounts){
+    setType(
+      {
+        type: "error",
+        message: "Connect Your Wallet First"
+      }
+    )
+    setshow(true)
+    return
+  }
+
     await axios.post("https://backend-vmm-zenith.herokuapp.com/getToken/", {
       address: account
     }).then((res)=>{
@@ -42,6 +88,7 @@ const getToken = async () => {
             message: "Transaction Done!, Now you can trade"
           }
         )
+        gettokendata()
         setshow(true)
         
       } else if (res.data == "Already Issued") {
@@ -64,16 +111,7 @@ const getToken = async () => {
     })
   }
 
-const onConnectWallet = async () => {
-  await connectWallet();
-  const accounts = await getAccount();
-  setAccount(accounts);
-};
 
-const onDisconnectWallet = async () => {
-  await disconnectWallet();
-  setAccount(false);
-};
 
 return (
   <div className='mainbox d-flex' >
@@ -88,7 +126,7 @@ return (
         <div className={`${tradeOrStake === 'leaderboard' ? 'tabs-sel' : ''} tabs`} onClick={() => { setTradeOrStake('leaderboard') }}>Leaderboard</div>
         <div className={`tabs`} ><a href='https://discord.gg/dgBRfYunrw'  target="_blank" rel="noopener noreferrer"><img style={{ width: "25px", height: "25px" }} src="img/discordnav.png" /> </a></div>
         <div className='btncustmdiv'>
-        <button style={{right:""}} className=" custom_btn" onClick={getToken} >{!account ? <span>Get Token</span> : "Get Token"}</button>
+        <button style={{right:""}} className=" custom_btn" onClick={getToken} ><span>{tokenBalance==''?"Get Token":tokenBalance}</span></button>
         <button className=" custom_btn" onClick={!account ? onConnectWallet : onDisconnectWallet} >{!account ? <span>Connect Wallet</span> : "Disconnect"}</button>
         </div>
       </div>
