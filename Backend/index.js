@@ -347,7 +347,7 @@ const tradeaction = async () => {
     return result.data
   })
   console.log(storage.current_mark_price)
-  let marketpricedata = (storage.current_mark_price / PRECISION).toFixed(3)
+  let marketpricedata = (storage.current_mark_price / PRECISION).toFixed(4)
 
   var previous_data = await TradeData.find().limit(1).sort({ $natural: -1 }).limit(1);
   var newdate = new Date().getMinutes();

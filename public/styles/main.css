@@ -12,6 +12,9 @@ body{
     min-width: 1150px;
 
 }
+.mobileviewconnect{
+  display: none;
+}
 .nav-tab{
     background: #0e0f18 !important;
     width:100% !important;
@@ -89,13 +92,13 @@ body{
 
     .info-title{
         text-align: center;
-        font-size: 1.2rem;
+        font-size: 1rem;
         
     }
     .info-values {
         text-align: center;
     
-        font-size: 1.2rem;
+        font-size: 1rem;
         font-weight: 600;
         
     }
@@ -389,6 +392,26 @@ text-align: right;
         border-bottom: 1px solid #787878;
         font-family: 'Inter',sans-serif;
     }
+.mobileviewconnect{
+    display: block;
+    position:fixed;
+    width: auto;
+    z-index: 2;
+    left: 40%;
+    top: 12px;
+    color: antiquewhite;
+  border: 1px solid #59219d;
+  border-radius: 10px;
+  transition: 0.125s linear;
+  background: transparent;
+}
+.mobileviewconnect:hover{
+    color: white;
+    background-color: #59219d;
+    border-color: #59219d;
+    box-shadow: 0px 0px 24px -2px #59219d;
+  }
+  
     .Logo{
         flex-basis: 85%;
         height: 60px;
@@ -437,6 +460,7 @@ text-align: right;
     width: 98% !important;
     z-index: 2;
     height: 150px!important;
+
 }
 .long-short-btns .longbtn{
     background: #1ECC89 !important;

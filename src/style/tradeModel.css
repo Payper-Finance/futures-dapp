@@ -96,12 +96,22 @@ border-radius: 6px;
     .tradebox_main{
         min-width: 60vh;
         max-width: 60vh;
+
     }
 }
 @media screen and (max-width:540px)and (min-width:410px){
     .tradebox_main{
-        min-width: 50vh;
-        max-width: 50vh;
+        min-width: 80%;
+        max-width: 45vh;
+        min-height: 500px !important;
+        height: 550px;
+
+    }
+    .css-h206zr{
+        padding: 15px !important;
+        min-height: 500px !important;
+        height: 550px;
+
     }
     .modal-content{
         padding: 0 !important;
@@ -115,11 +125,14 @@ border-radius: 6px;
 }
 @media screen and (max-width:409px)and (min-width:240px){
     .tradebox_main{
-        min-width: 50vh;
-        max-width: 50vh;
+        min-width: 80%;
+        max-width: 45vh;
     }
     .css-h206zr{
         padding: 15px !important;
+        min-height: 500px !important;
+
+
     }
     .modal-title{
         font-size: 18px !important;

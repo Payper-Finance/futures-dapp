@@ -26,6 +26,8 @@ const Main = () => {
     }
   )
 
+
+  
   const gettokendata = async()=>{
     const accounts = await getAccount();
     if(!accounts){
@@ -132,6 +134,14 @@ return (
       </div>
       <Hamburger className="mobileviewcheck" size={20} toggled={isOpen} toggle={setOpen} />
     </div>
+    {
+      !account ?(
+        <button className="mobileviewconnect" onClick={onConnectWallet} >{!account ? <span>Connect Wallet</span> : "Disconnect"}</button>
+
+      ):(
+        <button  className=" mobileviewconnect" onClick={getToken} ><span>{tokenBalance==''?"Get Token":tokenBalance}</span></button>
+      )
+    }
 
     <div className={`${isOpen ? "menubar" : "unactivemenu"}`}>
       <div className={`mobilemenu`}>
@@ -145,7 +155,8 @@ return (
 
         <p>Show in explorer</p>
         <p>Copy address</p>
-        <p>Disconnect</p>
+        <p className=" mobile_tabs" onClick={!account ? onConnectWallet : onDisconnectWallet} >{!account ? <span>Connect Wallet</span> : "Disconnect"}</p>
+        
       </div>
     </div>
 

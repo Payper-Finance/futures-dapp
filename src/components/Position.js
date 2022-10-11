@@ -39,11 +39,21 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
     )
 
     useEffect(() => {
-
-
-        setmarginRatio(((parseFloat(positiondetail.collateral_amount) / PRECISION) / (parseFloat(positiondetail.vUSD_amount) / PRECISION)).toFixed(3))
-        setPhbar(marginRatio * 100)
         calculateExpectedPrice()
+
+        let marratio = 0;
+        if(positiondetail.position == 1){
+            marratio = (positiondetail.collateral_amount / PRECISION)+(calculatedX - positiondetail.vUSD_amount / PRECISION)+ positiondetail.funding_amount/PRECISION
+            
+        }
+        else{
+            marratio= (positiondetail.collateral_amount / PRECISION)+( positiondetail.vUSD_amount / PRECISION - calculatedX)+ positiondetail.funding_amount/PRECISION
+        }
+
+
+        setmarginRatio((parseFloat(marratio) / (parseFloat(positiondetail.vUSD_amount) / PRECISION)).toFixed(3))
+        setPhbar(marginRatio * 100)
+
     }, [phbar, marginRatio, positiondetail, graph])
 
 
@@ -107,7 +117,6 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
 
     const IncreaseOrDecreaseFunc = async (baseValue, rangeValue, direction) => {
 
-        if (direction == 1) {
             try {
                 setIsTxn(true)
                 await openPosition(baseValue, rangeValue, direction).then(res => {
@@ -150,52 +159,10 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                 setIsTxn(false)
 
             }
-        }
-        else {
-            try {
-                setIsTxn(true)
-                await decreasePosition(rangeValue, baseValue).then(res => {
-                    gethistory()
-                    setDecreaseshow(false)
-                    setIsTxn(false)
-                    if (res == undefined) {
-                        setType(
-                            {
-                                type: "Failed",
-                                message: "Transaction Aborted !",
-                            }
-                        )
-                        setSnackbarshow(true)
-                    } else {
-                        setType(
-                            {
-                                type: "success",
-                                message: "Transaction Successful!,",
-                                transaction: res
-                            }
-                        )
-                        setSnackbarshow(true)
-                    }
-                }).catch(err => {
-                    setIsTxn(false)
+        
+    
 
-                    setType(
-                        {
-                            type: "Failed",
-                            message: "Transaction Failed !",
-                        }
-                    )
-                    setSnackbarshow(true)
-                })
-
-            }
-            catch (err) {
-                console.log(err)
-                setIsTxn(false)
-
-            }
-
-        }
+        
 
 
     }
@@ -217,7 +184,13 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                             {/* <p>Liquidation Price</p> */}
                         </div>
                         <div className='tpValues'>
-                            <p>{(positiondetail.collateral_amount / PRECISION).toFixed(4)} kUSD</p>
+                            <p>
+                                {
+                                      positiondetail.position == 1?(((positiondetail.collateral_amount / PRECISION)+(calculatedX - positiondetail.vUSD_amount / PRECISION) + positiondetail.funding_amount/PRECISION).toFixed(4) ):(
+                                        ((positiondetail.collateral_amount / PRECISION)+( positiondetail.vUSD_amount / PRECISION - calculatedX) + positiondetail.funding_amount/PRECISION).toFixed(4) 
+                                      )
+                                }
+                                kUSD</p>
                             <p>{marginRatio}</p>
                             {/* <p>{((positiondetail.collateral_amount/1000000).toFixed(2)/100)*8.5} kUSD</p> */}
                         </div>
@@ -233,12 +206,26 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                             <p>{(positiondetail.position_value / PRECISION).toFixed(4)} XTZ</p>
                             <p style={{ fontWeight: "bold" }}>Unrealized PNL</p>
                             <p>
-                                {(calculatedX - positiondetail.vUSD_amount / PRECISION) < 0 ? (
-                                    <span style={{ color: "#E01B3C", fontWeight: "bold" }}>
-                                        {(calculatedX - positiondetail.vUSD_amount / PRECISION).toFixed(4)} kUSD </span>
-                                ) : (
-                                    <span style={{ color: "#1ECC89", fontWeight: "bold" }}> {(calculatedX - positiondetail.vUSD_amount / PRECISION).toFixed(4)} kUSD</span>
-                                )}
+                                {   
+                                
+                                    positiondetail.position == 1?(
+                                        (calculatedX - positiondetail.vUSD_amount / PRECISION) < 0 ? (
+                                            <span style={{ color: "#E01B3C", fontWeight: "bold" }}>
+                                                {(calculatedX - positiondetail.vUSD_amount / PRECISION).toFixed(4)} kUSD </span>
+                                        ) : (
+                                            <span style={{ color: "#1ECC89", fontWeight: "bold" }}> {(calculatedX - positiondetail.vUSD_amount / PRECISION).toFixed(4)} kUSD</span>
+                                        )
+                                    ):(
+                                        ( positiondetail.vUSD_amount / PRECISION-calculatedX) < 0 ? (
+                                            <span style={{ color: "#E01B3C", fontWeight: "bold" }}>
+                                                {( positiondetail.vUSD_amount / PRECISION - calculatedX ).toFixed(4)} kUSD </span>
+                                        ) : (
+                                            <span style={{ color: "#1ECC89", fontWeight: "bold" }}> {( positiondetail.vUSD_amount / PRECISION-calculatedX ).toFixed(4)} kUSD</span>
+                                        )
+                                    )
+                                }
+                            
+                                
                             </p>
                             <Button onClick={() => setClosePosition(true)}>Close Position</Button>
                         </div>
@@ -292,7 +279,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                     } src='/img/icons8-close-30.png' /></Button>
                 </Modal.Header>
                 <Modal.Body>
-                    <span style={{ position: "absolute", marginTop: "7px", marginLeft: "15px" }}><img style={{ height: "25px" }} src='/img/tz.svg' /></span>
+                    <span style={{ position: "absolute", marginTop: "7px", marginLeft: "15px" }}><img style={{ height: "25px" }} src='/img/kusd.png' /></span>
                     <input value={AddorRemove} onChange={(event) => MarginOnChange(event.target.value)} style={{ width: "100%", height: "40px", borderRadius: "5px", margin: "2px 0px", background: "#30313d", border: "none", textAlign: "right", padding: "0 10px" }} placeholder='Amount' />
 
                     {/* <div className='marginbodydiv' style={{ borderBottom: "0.5px solid #30313d", fontWeight: "bold" }}>
@@ -366,7 +353,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                 </Modal.Header>
                 <Modal.Body>
 
-                    <span style={{ position: "absolute", marginTop: "7px", marginLeft: "15px" }}><img style={{ height: "25px" }} src='/img/tz.svg' /></span>
+                    <span style={{ position: "absolute", marginTop: "7px", marginLeft: "15px" }}><img style={{ height: "25px" }} src='/img/kusd.png' /></span>
                     <input value={AddorRemove} type="number" min="0" max="100000000" onChange={(event) => MarginOnChange(event.target.value)} style={{ width: "100%", height: "40px", borderRadius: "5px", margin: "2px 0px", background: "#30313d", border: "none", textAlign: "right", padding: "0 10px" }} placeholder='Amount' />
 
                     {/* <div className='marginbodydiv' style={{ borderBottom: "0.5px solid #30313d", fontWeight: "bold" }}>
@@ -444,12 +431,24 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                     <div className='marginbodydiv' style={{ marginTop: "10px", fontWeight: "bold" }}>
                         <p>Your Profit</p>
                         <p>
-                            {(calculatedX - positiondetail.vUSD_amount / PRECISION) < 0 ? (
-                                <span style={{ color: "#E01B3C", fontWeight: "bold" }}>
-                                    {((calculatedX - positiondetail.vUSD_amount / PRECISION) + positiondetail.funding_amount / PRECISION).toFixed(4)} kUSD </span>
-                            ) : (
-                                <span style={{ color: "#1ECC89", fontWeight: "bold" }}> {((calculatedX - positiondetail.vUSD_amount / PRECISION) + positiondetail.funding_amount / PRECISION).toFixed(4)} kUSD</span>
-                            )}
+                        {   
+                                
+                                positiondetail.position == 1?(
+                                    ((calculatedX - positiondetail.vUSD_amount / PRECISION)+positiondetail.funding_amount/PRECISION) < 0 ? (
+                                        <span style={{ color: "#E01B3C", fontWeight: "bold" }}>
+                                            {((calculatedX - positiondetail.vUSD_amount / PRECISION)+positiondetail.funding_amount/PRECISION).toFixed(4)} kUSD </span>
+                                    ) : (
+                                        <span style={{ color: "#1ECC89", fontWeight: "bold" }}> {(calculatedX - positiondetail.vUSD_amount / PRECISION).toFixed(4)} kUSD</span>
+                                    )
+                                ):(
+                                    ((positiondetail.vUSD_amount / PRECISION-calculatedX)+positiondetail.funding_amount/PRECISION) < 0 ? (
+                                        <span style={{ color: "#E01B3C", fontWeight: "bold" }}>
+                                            {( (positiondetail.vUSD_amount / PRECISION - calculatedX) +positiondetail.funding_amount/PRECISION ).toFixed(4)} kUSD </span>
+                                    ) : (
+                                        <span style={{ color: "#1ECC89", fontWeight: "bold" }}> {( (positiondetail.vUSD_amount / PRECISION-calculatedX )+positiondetail.funding_amount/PRECISION  ).toFixed(4)} kUSD</span>
+                                    )
+                                )
+                            }
                         </p>
                     </div>
                 </Modal.Body>
@@ -536,7 +535,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                 <Modal.Body style={{ position: "relative", left: "10px" }}>
                     <div className='tradebox_amount'>
                         <span className='tradebox_inputicon'><img style={{ padding: "0 6px", marginTop: "-4px", height: "32px" }} src="img/kusd.png" alt="" />kUSD</span>
-                        <input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" focused onChange={(event) => setBaseValue(event.target.value, setOpenlongpriceImpact())} />
+                        <input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined"  onChange={(event) => setBaseValue(event.target.value, setOpenlongpriceImpact())} />
                     </div>
                     <div className='tradebox_leverage'>
                         <h6>Leverage</h6>
@@ -595,7 +594,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                     {isTxn ? (<span style={{ width: "100% !important", position: "relative", left: "-35%" }}><ScaleLoader color='#1ECC89' width={7} margin={6} /> </span>) : (
                         <Button variant="secondary"
                             style={{ minWidth: "98%", background: "#1ECC89", fontWeight: "bold" }}
-                            onClick={() => IncreaseOrDecreaseFunc(baseValue, rangeValue, 1)}
+                            onClick={() => IncreaseOrDecreaseFunc(baseValue, rangeValue, positiondetail.position)}
 
                         >
                             INCREASE
@@ -622,7 +621,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                 open={true}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
-            >
+            >``
                 <Modal.Header style={{ border: "none", position: "relative", left: "10px" }} closeButton>
                     <Modal.Title style={{ fontWeight: "bold" }} >Decrease Position</Modal.Title>
                     <Button style={{ background: "none", border: "none" }}><img style={{ height: "25px" }} onClick={() => {
@@ -634,7 +633,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                 <Modal.Body style={{ position: "relative", left: "10px" }}>
                     <div className='tradebox_amount'>
                         <span className='tradebox_inputicon'><img style={{ padding: "0 6px", marginTop: "-4px", height: "32px" }} src="img/kusd.png" alt="" />kUSD</span>
-                        <input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" focused onChange={(event) => setBaseValue(event.target.value, setOpenlongpriceImpact())} />
+                        <input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined"  onChange={(event) => setBaseValue(event.target.value, setOpenlongpriceImpact())} />
                     </div>
                     <div className='tradebox_leverage'>
                         <h6>Leverage</h6>
@@ -694,7 +693,53 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                     {isTxn ? (<span style={{ width: "100% !important", position: "relative", left: "-35%" }}><ScaleLoader color='#E01B3C' width={7} margin={6} /> </span>) : (
                         <Button variant="secondary"
                             style={{ minWidth: "98%", background: "#e01b3c", fontWeight: "bold" }}
-                            onClick={() => IncreaseOrDecreaseFunc(baseValue, rangeValue, 2)}
+                            onClick={async() => {
+                                
+                                
+            try {
+                setIsTxn(true)
+                await decreasePosition(rangeValue, baseValue).then(res => {
+                    gethistory()
+                    setDecreaseshow(false)
+                    setIsTxn(false)
+                    if (res == undefined) {
+                        setType(
+                            {
+                                type: "Failed",
+                                message: "Transaction Aborted !",
+                            }
+                        )
+                        setSnackbarshow(true)
+                    } else {
+                        setType(
+                            {
+                                type: "success",
+                                message: "Transaction Successful!,",
+                                transaction: res
+                            }
+                        )
+                        setSnackbarshow(true)
+                    }
+                }).catch(err => {
+                    setIsTxn(false)
+
+                    setType(
+                        {
+                            type: "Failed",
+                            message: "Transaction Failed !",
+                        }
+                    )
+                    setSnackbarshow(true)
+                })
+
+            }
+            catch (err) {
+                console.log(err)
+                setIsTxn(false)
+
+            }
+                            }
+                        }
                         >
                             DECREASE
                         </Button>

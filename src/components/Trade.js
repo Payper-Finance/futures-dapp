@@ -36,7 +36,7 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 	const { coinSelect, setCoinSelect } = props
 	const [rangeValue, setRangeValue] = useState(1)
 	const [isPosition, setIsPosition] = useState("")
-	const [baseValue, setBaseValue] = useState(0);
+	const [baseValue, setBaseValue] = useState();
 	const [baseXrange, setbaseXrange] = useState(0);
 	const [liveposition, setliveposition] = useState({});
 	const [isTxn, setIsTxn] = useState(false);
@@ -142,6 +142,15 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 
 
 	const funOpenPosition = async (baseValue, rangeValue, direction) => {
+		if(baseValue==0){
+			setType(
+				{
+				  type: "failed",
+				  message: "Amount should be greater than 0!",
+				}
+			  )
+			  setSnackbarshow(true)
+		}
 
 		try {
 			setIsTxn(true)

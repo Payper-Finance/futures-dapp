@@ -24,12 +24,12 @@ function TradeChart(props) {
 
     let root = am5.Root.new("chartdiv");
     const myTheme = am5.Theme.new(root);
-
+    
     myTheme.rule("Candlestick").states.create("riseFromOpen", {
       fill: am5.color(0xECC89),
       stroke: am5.color(0xECC89)
     });
-
+    
     myTheme.rule("Candlestick").states.create("dropFromOpen", {
       fill: am5.color(0xE01B3C),
       stroke: am5.color(0xE01B3C)
@@ -40,13 +40,13 @@ function TradeChart(props) {
       am5themes_Responsive.new(root),
       myTheme
     ]);
+    
 
     let stockChart = root.container.children.push(
       am5stock.StockChart.new(root, {})
     );
 
-    root.numberFormatter.set("numberFormat", "#,###.00");
-
+    root.numberFormatter.set("numberFormat", "#,###.000");
 
     let mainPanel = stockChart.panels.push(
       am5stock.StockPanel.new(root, {
@@ -61,10 +61,10 @@ function TradeChart(props) {
         renderer: am5xy.AxisRendererY.new(root, {
           pan: "zoom"
         }),
-        extraMin: 0.1,
+        maxPrecision: 3,
         tooltip: am5.Tooltip.new(root, {}),
-        numberFormat: "#,###.00",
-        extraTooltipPrecision: 2
+        numberFormat: "#,###.000",
+        extraTooltipPrecision: 3
       })
     );
 
@@ -162,6 +162,7 @@ function TradeChart(props) {
           timeUnit: timeunit,
           count: 1
         },
+        
         renderer: am5xy.AxisRendererX.new(root, {
         })
       })
@@ -191,19 +192,24 @@ function TradeChart(props) {
     function loadData() {
 
       let data1 = qs.stringify({ "granularity": activecandle })
+
       axios.post('https://backend-vmm-zenith.herokuapp.com/granularity', data1, {
         headers: {
           'Content-Type': "application/x-www-form-urlencoded"
         }
       }).then(res => {
         let data = res.data
+       
+        
         let processor = am5.DataProcessor.new(root, {
+          
           dateFields: ["Date"],
-          dateFormat: "yyyy-MM-dd HH:mm:ss",
+          dateFormat: "yyyy.MM.dd G 'at' HH:mm:ss zzz",
           numericFields: ["Open", "High", "Low", "Close"]
         });
-        processor.processMany(data);
 
+        processor.processMany(data)
+        
         valueSeries.data.setAll(data);
         sbSeries.data.setAll(data);
       }).catch(err => console.log(err))
