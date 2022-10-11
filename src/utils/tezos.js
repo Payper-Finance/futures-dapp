@@ -1,9 +1,10 @@
-// TODO 1 - Setup Tezos toolkit
 import { OpKind, TezosToolkit } from "@taquito/taquito";
 import { wallet, getAccount } from "./wallet";
 import { RPC } from './config'
 import SnackbarUtils from './SnackbarUtils';
 import axios from 'axios';
+import { CONTRACT_ADDRESS,vUSD_ADDRESS } from "./config";
+
 export const tezos = new TezosToolkit(RPC);
 
 
@@ -12,7 +13,7 @@ tezos.setWalletProvider(wallet);
 
 export const getBalance = async () => {
     const address = await getAccount();
-    const getbalacnce = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/KT1D5xQy9x7YSgrzTzLJx9tEQ6qK9pSW2vfz/bigmaps/balances/keys/${address}`)
+    const getbalacnce = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${vUSD_ADDRESS}/bigmaps/balances/keys/${address}`)
     if (getbalacnce.data == '') {
         return true
     }
@@ -24,8 +25,6 @@ export const getBalance = async () => {
 
 
 const multiple = 1000000000000000000
-export const CONTRACT_ADDRESS = 'KT1Enz6Bv613eLZeykK92cXJ3iyZUWYxEap7';
-export const vUSD_ADDRESS = 'KT1D5xQy9x7YSgrzTzLJx9tEQ6qK9pSW2vfz';
 
 
 export const openPosition = async (base_value, leverage_multiple, direction) => {

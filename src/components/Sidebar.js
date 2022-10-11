@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import '../style/sidebar.css'
 import {DropdownButton,Dropdown} from 'react-bootstrap'
 import axios from 'axios'
-import { PRECISION } from '../utils/config';
+import { PRECISION,CONTRACT_ADDRESS} from '../utils/config';
 
 const Sidebar = (props) => {
     const {coinSelect, setCoinSelect,stake} = props
     const [markprice, setMarkPrice] = useState();
     useEffect(()=>{
-      axios.get("https://api.ghostnet.tzkt.io/v1/contracts/KT1Enz6Bv613eLZeykK92cXJ3iyZUWYxEap7/storage/"
+      axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${CONTRACT_ADDRESS}/storage/`
       ).then(res =>{setMarkPrice(res.data.current_mark_price)})
     })
   return (
