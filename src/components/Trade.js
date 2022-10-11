@@ -64,7 +64,7 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 	const getHistory = async () => {
 		const address = await getAccount()
 		
-			const history = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/KT1KtEXykBu7qXDFeBjBsk5Vq4oy4sfRZNNx/storage`)
+			const history = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/KT1Enz6Bv613eLZeykK92cXJ3iyZUWYxEap7/storage`)
 			let date =  Date.parse(history.data.upcoming_funding_time)-Date.now()
 			var minutes = Math.floor((date % (1000 * 60 * 60)) / (1000 * 60));
 			var seconds = Math.floor((date % (1000 * 60)) / 1000);

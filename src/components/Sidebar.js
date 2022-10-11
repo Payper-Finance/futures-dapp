@@ -8,7 +8,7 @@ const Sidebar = (props) => {
     const {coinSelect, setCoinSelect,stake} = props
     const [markprice, setMarkPrice] = useState();
     useEffect(()=>{
-      axios.get("https://api.ghostnet.tzkt.io/v1/contracts/KT1KtEXykBu7qXDFeBjBsk5Vq4oy4sfRZNNx/storage/"
+      axios.get("https://api.ghostnet.tzkt.io/v1/contracts/KT1Enz6Bv613eLZeykK92cXJ3iyZUWYxEap7/storage/"
       ).then(res =>{setMarkPrice(res.data.current_mark_price)})
     })
   return (

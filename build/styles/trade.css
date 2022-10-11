@@ -151,6 +151,19 @@ tr {
     display: table;
     table-layout: fixed;
 }
+@media screen and (max-width:4000px) and (min-width:1920px){
+  .trading_details td{
+    font-size: 1.2rem !important;
+  }
+  .trading_details tr button{
+    font-size: 1.2rem !important;
+  }
+  .trading_details th{
+    font-size: 1.3rem !important;
+
+  }
+  
+}
 
 @media screen and (max-width:766px) and (min-width:270px) {
 
