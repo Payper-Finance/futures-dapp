@@ -8,10 +8,11 @@ import { getBalance } from './utils/tezos'
 import LeaderBoard from './components/LeaderBoard'
 import Snackbar1 from './components/Snackbar'
 import axios from 'axios'
-import { PRECISION } from './utils/config'
+import { PRECISION,vUSD_ADDRESS } from './utils/config'
 import qs from 'qs'
 
 const Main = () => {
+  const [address,setAddress] = useState("")
   const [tradeOrStake, setTradeOrStake] = useState('trade')
   const [coinSelect, setCoinSelect] = useState('tezos');
   const [account, setAccount] = useState(false);
@@ -34,7 +35,7 @@ const Main = () => {
       setTokenBalance('')
     }
     else{
-      const getbalacnce = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/KT1D5xQy9x7YSgrzTzLJx9tEQ6qK9pSW2vfz/bigmaps/balances/keys/${accounts}`)
+      const getbalacnce = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${vUSD_ADDRESS}/bigmaps/balances/keys/${accounts}`)
       if (getbalacnce.data == '') {
           return true
       }
@@ -63,6 +64,7 @@ const Main = () => {
     (async () => {
       const accounts = await getAccount();
       setAccount(accounts);
+      setAddress(accounts)
       await gettokendata();
     })();
   }, []);
@@ -129,7 +131,7 @@ return (
         <div className={`tabs`} ><a href='https://discord.gg/dgBRfYunrw'  target="_blank" rel="noopener noreferrer"><img style={{ width: "25px", height: "25px" }} src="img/discordnav.png" /> </a></div>
         <div className='btncustmdiv'>
         <button style={{right:""}} className=" custom_btn" onClick={getToken} ><span>{tokenBalance==''?"Get Token":tokenBalance}</span></button>
-        <button className=" custom_btn" onClick={!account ? onConnectWallet : onDisconnectWallet} >{!account ? <span>Connect Wallet</span> : "Disconnect"}</button>
+        <button className=" custom_btn" onClick={!account ? onConnectWallet : onDisconnectWallet} >{!account ? <span>Connect Wallet</span> : `${address.substring(0, 12)}..`}</button>
         </div>
       </div>
       <Hamburger className="mobileviewcheck" size={20} toggled={isOpen} toggle={setOpen} />
