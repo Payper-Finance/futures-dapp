@@ -10,7 +10,7 @@ import qs from 'qs'
 import axios from 'axios';
 
 
-const socket = iO('http://localhost:8000');
+const socket = iO('https://backend-vmm-zenith.herokuapp.com/');
 
 
 
@@ -190,7 +190,7 @@ function TradeChart(props) {
     function loadData() {
 
       let data1 = qs.stringify({ "granularity": activecandle })
-      axios.post('http://localhost:8000/granularity', data1, {
+      axios.post('https://backend-vmm-zenith.herokuapp.com/granularity', data1, {
         headers: {
           'Content-Type': "application/x-www-form-urlencoded"
         }

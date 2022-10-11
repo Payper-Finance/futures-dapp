@@ -1,12 +1,13 @@
 {
-    "name": "Virtual AMM",
+    "name": "Zenith XTZ AMM",
     "author": "@zenith",
     "source": {
     "tools": [
     "smartpy",
     "taquito",
     "reactjs",
-    "temple wallet"
+    "temple wallet",
+    "tzkt"
     ]
     },
     "license": {
@@ -18,6 +19,6 @@
     "TZIP-012",
     "TZIP-016"
     ],
-    "description": "virtual AMM",
+    "description": "Virtual AMM by zenith for XTZ Perpetual Futures",
     "tokenCategory": "defi"
 }

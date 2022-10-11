@@ -22,7 +22,7 @@ export default function LeaderBoard() {
 
   const getdata =async()=>{
     console.log("array")
-    await axios.get("http://localhost:8000/leaderboard/").then(result=>{
+    await axios.get("https://backend-vmm-zenith.herokuapp.com/leaderboard/").then(result=>{
      setArray(result.data.reverse())
    })
    setSize(Math.trunc(array.length/ 10)+ 1);
@@ -40,7 +40,7 @@ export default function LeaderBoard() {
     console.log(newvalue)
     if(e==""){
 
-      axios.get("http://localhost:8000/leaderboard/").then(result=>{
+      axios.get("https://backend-vmm-zenith.herokuapp.com/leaderboard/").then(result=>{
         setArray(result.data.reverse())
       })
     }

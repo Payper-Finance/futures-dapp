@@ -32,17 +32,7 @@ const Main = () => {
   }, []);
 
 const getToken = async () => {
-    var address = getAccount();
-    var res = await getBalance();
-    console.log(account);
-    setType(
-      {
-        type: "info",
-        message: "Getting your tokens"
-      }
-    )
-    setshow(true)
-    await axios.post("http://localhost:8000/getToken/", {
+    await axios.post("https://backend-vmm-zenith.herokuapp.com/getToken/", {
       address: account
     }).then((res)=>{
       if (res.data == "Issued") {
@@ -107,7 +97,7 @@ return (
 
     <div className={`${isOpen ? "menubar" : "unactivemenu"}`}>
       <div className={`mobilemenu`}>
-        <h3><img src='img/walletimg.png' />3Mw1vp.....G6ikCDH4</h3>
+        <h3><img src='img/walletimg.png' />Wallet</h3>
         <div className="mobile_tabs" onClick={() => { setTradeOrStake('trade') }}>Trade</div>
         <hr />
         <div className="mobile_tabs" /*onClick={() => { setTradeOrStake('stake') }}*/ >Stake</div>

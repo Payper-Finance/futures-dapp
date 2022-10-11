@@ -1,47 +1,118 @@
 .heading-banner{
-    background: #384BD9;
+    margin-top: 60px !important;
     width: 80%;
-    border-radius: 15px;
+    background: rgba(172, 105, 255, 0.16);
+border-radius: 18px;
 }
 
 .heading-info{
-    margin: 1rem;
+    margin: 1rem 2rem;
 }
-
+.heading-name{
+    margin-left: 2rem;
+}
 .heading-info-value{
     font-weight: bold;
+    margin-top: 20px;
 }
-
+.heading-info-title{
+    
+color:rgba(166, 174, 238, 1)
+}
 .staking{
     width: 40%;
+}
+.stake-main{
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
 }
 
 .stake-main{
     width: 80%;
 }
-
-.staking{
-    width: 45%;
+.text-start{
+    margin-top: 5px;
+    font-size: 12px;
 }
+.staking{
+    flex-basis: 48% !important;
+}
+.Balance{
+    flex-basis: 48% !important;
+    margin: 3rem 0px;
+    background: #141724;
+    border-radius: 15px;
+    padding: 1.5rem;
+    min-height: 300px;
+    width: auto !important;
+}
+.Balance h4{
+    margin: 1rem 0 ;
+    font-size: 17px;
+}
+.Balance input{
+    width: 100%;
+    height: 40px;
+    margin: 5px 0;
+    background: #30313D;
+    border: none;
+    color: whitesmoke;
+}
+.availabel_stake_balance{
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.Balance button{
+    background: #AC69FF;
+border-radius: 17px;
+width: 100%;
+height: 35px;
+margin-top: 1.8rem;
+}
+.Balance button:hover{
+    background: #AC69FF;
+}
+.availabel_stake_balance :first-child{
+    flex-basis: 50%;
+    width: 30%;
+    text-align: left !important;
+}
+.availabel_stake_balance :last-child{
+    flex-basis: 50%;
+    width: 30%;
+    text-align: right !important;
+}
+
 
 .benefits{
-    width: 40%;
+    flex-basis: 100% !important;
 
 }
 
-.staking, .benefits{
+.staking{
     margin: 3rem 0px;
     /* margin-right:; */
     background: #141724;
     border-radius: 15px;
+    width: auto !important;
 }
-
+.benefits  {
+    background: #141724;
+    border-radius: 15px;
+}
 .staking-tab{
     cursor: pointer;
 }
+.staking-tab {
+    margin-right: 2rem;
+}
 
 .staking-tabs-sel{
-    border-bottom: 3px solid white;
+    border-bottom: 3px solid 
+    rgba(172, 105, 255, 1);
 }
 
 #staking-input, .staking-btn{
@@ -67,5 +138,57 @@
     background: #384BD9;
     color: white;
     border: 0px;
+    background: #AC69FF;
+border-radius: 17px;
     height: 35px;
+}
+.profits{
+    margin-top: 20px;
+}
+.profit{
+    font-size: 12px;
+    margin: 5px 0;
+}
+@media screen and (max-width:766px) and (min-width:270px){
+ 
+    .heading-banner{
+        margin-top: 7vh !important;
+        width: 100%;
+        padding: 20px !important;
+        
+    }
+    .stake {
+        padding: 20px !important;
+    }
+    .heading-name{
+        margin: 0 !important;
+        padding: 1rem 1rem !important;
+    }
+    .heading-name h5{
+        font-size: 13px;
+    }
+    .heading-infos{
+        flex-wrap: wrap;
+    }
+    .heading-info{
+        margin: 0.5rem 1rem !important;
+        flex-basis: 38%;
+    }
+    .heading-info-value{
+        margin-top: 5px;
+    }
+    .stake-main{
+        width: 100% !important;
+    }
+    .staking {
+        flex-basis: 100% !important;
+        margin: 1rem 0rem !important;
+
+    }
+    .Balance{
+        flex-basis: 100% !important;
+        margin: 0.5rem 0rem !important;
+
+    }
+   
 }
