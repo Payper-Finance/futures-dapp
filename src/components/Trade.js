@@ -59,8 +59,6 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 		  transaction:""
 		}
 	  )
-	
-
 	const getHistory = async () => {
 		const address = await getAccount()
 		
@@ -98,8 +96,8 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 				indexprice: (parseFloat(history.data.current_index_price) / PRECISION).toFixed(4),
 				fundingTime: `${minutes}:${seconds}`,
 				rate: 0,
-				longfundingrate: (history.data.long_funding_rate/PRECISION).toFixed(4),
-				shortfundingrate: (history.data.short_funding_rate/PRECISION).toFixed(4)
+				longfundingrate: (history.data.long_funding_rate.value/PRECISION).toFixed(4),
+				shortfundingrate: (history.data.short_funding_rate.value/PRECISION).toFixed(4)
 			})
 			var positions = history.data.positions;
 
@@ -251,8 +249,7 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 						<div className="info-values " style={{ color: "#1ECC89" }}>{graphValues.longfundingrate}%</div>
 					</div>
 					<div className="graph-info">
-						<div className="info-title"> Short
-							funding rate</div>
+						<div className="info-title"> Short funding rate</div>
 						<div className="info-values" style={{ color: "#E01B3C" }}>{graphValues.shortfundingrate}%</div>
 					</div>
 					{/* <div className="graph-info">
