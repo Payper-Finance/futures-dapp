@@ -465,7 +465,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                     <p style={{ fontSize: "14px", color: "#96979c" }}>Are you sure you want to close the position?</p>
 
                     <div className='marginbodydiv' style={{ borderBottom: "0.5px solid #30313d", fontWeight: "bold" }}>
-                        <p style={{ flexBasis: "55%" }}>Expected CLose Price</p>
+                        <p style={{ flexBasis: "55%" }}>Expected Close Price</p>
                         <p>{expectedClose.toFixed(4)}</p>
                     </div>
                     <div className='marginbodydiv' style={{ marginTop: "10px", fontWeight: "bold" }}>
@@ -590,7 +590,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                             step={1}
                             marks
                             min={1}
-                            max={5}
+                            max={3}
                             style={{ width: '90%' }} /> <span style={{ position: "absolute", bottom: "6px", fontSize: "14px", right: "25px", fontWeight: "bold" }}>{rangeValue}x</span> <br />
                     </div>
                     <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", fontWeight: "600", marginTop: "20px", marginLeft: "-8px" }}>You are buying in the long</p>
@@ -688,7 +688,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                             step={1}
                             marks
                             min={1}
-                            max={5}
+                            max={3}
                             style={{ width: '90%' }} /> <span style={{ position: "absolute", bottom: "6px", fontSize: "14px", right: "25px", fontWeight: "bold" }}>{rangeValue}x</span> <br />
                     </div>
                     <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", fontWeight: "600", marginTop: "20px", marginLeft: "-8px" }}>You are buying in the long</p>

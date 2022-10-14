@@ -711,7 +711,7 @@ const LiquidationFunction = async () => {
   let positions = storage.positions
 
 Object.keys(positions).forEach(async (key, index) => {
-await Tezos.contract.at("KT1Enz6Bv613eLZeykK92cXJ3iyZUWYxEap7").then((contract)=>{
+await Tezos.contract.at(process.env.VMMCONTRACT).then((contract)=>{
     contract.methods.liquidate(key).send().then(async()=>{
       const result = await PositionHistory.findOne({ Address: key })
       if (result.LiquidationCount == undefined) {
