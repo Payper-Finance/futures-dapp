@@ -59,10 +59,13 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 		  transaction:""
 		}
 	  )
+	
+
 	const getHistory = async () => {
 		const address = await getAccount()
 		
 			const history = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${CONTRACT_ADDRESS}/storage`)
+			console.log(history.data)
 			let date =  Date.parse(history.data.upcoming_funding_time)-Date.now()
 			var minutes = Math.floor((date % (1000 * 60 * 60)) / (1000 * 60));
 			var seconds = Math.floor((date % (1000 * 60)) / 1000);
@@ -80,10 +83,6 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 				}
 			}
 				
-		
-			
-
-
 			let Vmmdata = {
 				invariant : history.data.vmm.invariant/PRECISION,
 				vUSD_amount : history.data.vmm.vUSD_amount/PRECISION,
@@ -96,16 +95,22 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 				indexprice: (parseFloat(history.data.current_index_price) / PRECISION).toFixed(4),
 				fundingTime: `${minutes}:${seconds}`,
 				rate: 0,
-				longfundingrate: (history.data.long_funding_rate.value/PRECISION).toFixed(4),
-				shortfundingrate: (history.data.short_funding_rate.value/PRECISION).toFixed(4)
+				longfundingrate: history.data.long_funding_rate,
+				shortfundingrate: history.data.short_funding_rate
 			})
 			var positions = history.data.positions;
 
 			if (address in positions) {
+				if(!CPosiitonUpdated){
+					setCPosiitonUpdated(true)
+				}
 				setCurrentPosition(true)
 				setliveposition(positions[address])
 			}
 			else {
+				if(CPosiitonUpdated){
+					setCPosiitonUpdated(false)
+				}
 				setCurrentPosition(false)
 				setliveposition({})
 			}
@@ -172,6 +177,7 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
                         }
                       )
                       setSnackbarshow(true)
+					  setCPosiitonUpdated(true)
                 }
 			})
 
@@ -246,11 +252,11 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 					</div>
 					<div className="graph-info">
 						<div className="info-title"> Long funding rate</div>
-						<div className="info-values " style={{ color: "#1ECC89" }}>{graphValues.longfundingrate}%</div>
+						<div className="info-values " style={{ color:  `${graphValues.longfundingrate.direction =="POSITIVE" && graphValues.longfundingrate.value !=0?"#1ECC89":(graphValues.longfundingrate.direction =="NEGATIVE" && graphValues.longfundingrate.value !=0)?"#E01B3C":"white"}` }}>{graphValues.longfundingrate.value}%</div>
 					</div>
 					<div className="graph-info">
 						<div className="info-title"> Short funding rate</div>
-						<div className="info-values" style={{ color: "#E01B3C" }}>{graphValues.shortfundingrate}%</div>
+						<div className="info-values" style={{ color: `${graphValues.shortfundingrate.direction =="POSITIVE" ?"#1ECC89":(graphValues.shortfundingrate.direction =="NEGATIVE") && graphValues.longfundingrate.value !=0?"#E01B3C":"white"}` }}>{graphValues.shortfundingrate.value}%</div>
 					</div>
 					{/* <div className="graph-info">
 						<div className="info-title"> Expected long/short rate</div>
