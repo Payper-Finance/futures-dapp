@@ -251,10 +251,12 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 					</div>
 					<div className="graph-info">
 						<div className="info-title"> Long funding rate</div>
+						
 						<div className="info-values " style={{ color:  `${graphValues.longfundingrate.direction =="POSITIVE" && graphValues.longfundingrate.value/PRECISION !=0?"#1ECC89":(graphValues.longfundingrate.direction =="NEGATIVE" && graphValues.longfundingrate.value/PRECISION !=0)?"#E01B3C":"white"}` }}>{graphValues.longfundingrate.value/PRECISION}%</div>
 					</div>
 					<div className="graph-info">
 						<div className="info-title"> Short funding rate</div>
+
 						<div className="info-values" style={{ color: `${graphValues.shortfundingrate.direction =="POSITIVE" ?"#1ECC89":(graphValues.shortfundingrate.direction =="NEGATIVE") && graphValues.longfundingrate.value/PRECISION !=0?"#E01B3C":"white"}` }}>{graphValues.shortfundingrate.value/PRECISION}%</div>
 					</div>
 					{/* <div className="graph-info">
