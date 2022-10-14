@@ -106,8 +106,8 @@ connection.onclose(init);
 connection.on("operations", (msg) => {
 
 
+  console.log(msg)
   if (msg.type == 1) {
-
     let data = msg.data;
     for (let i = 0; i < data.length; i++) {
       if (!!data[i].initiator && !!data[i].parameter.entrypoint) {
@@ -375,6 +375,7 @@ const tradeaction = async () => {
   var previous_data_Minute = await TradeDataMinute.find().limit(1).sort({ $natural: -1 }).limit(1);
   var previous_data_Hour = await TradeDataHour.find().limit(1).sort({ $natural: -1 }).limit(1);
   var previous_data_Day = await TradeDataDay.find().limit(1).sort({ $natural: -1 }).limit(1);
+
   if (previous_data_Minute.length == 0) {
     let data = {
       Date: new Date(),
@@ -392,9 +393,7 @@ const tradeaction = async () => {
   var newdate_Minute = new Date().getMinutes();
   var newdate_Hour = new Date().getHours();
   var newdate_Day = new Date().getDate();
-  console.log(newdate_Hour)
 
-  console.log(newdate_Day)
 
   if (previous_data_Minute[0].Date.getMinutes() - newdate_Minute >= 5) {
     let data = {
@@ -421,7 +420,6 @@ const tradeaction = async () => {
     console.log("1 document upDated");
     return
   }
-  console.log(previous_data_Day[0])
   if (previous_data_Day[0].Date.getDate() - newdate_Day >= 1) {
     let data = {
       Date: new Date(),
@@ -435,7 +433,6 @@ const tradeaction = async () => {
     return
   }
   else {
-
 
 
     if (marketpricedata > previous_data_Minute[0].High) {
@@ -469,25 +466,25 @@ const tradeaction = async () => {
     if (marketpricedata > previous_data_Hour[0].High) {
       var newvalues = { $set: { time: new Date(), Open: previous_data_Hour[0].Open, Close: marketpricedata, High: marketpricedata, Low: previous_data_Hour[0].Low } };
 
-      TradeDataMinute.findByIdAndUpdate({ _id: previous_data_Hour[0]._id }, newvalues, function (err, res) {
+      TradeDataHour.findByIdAndUpdate({ _id: previous_data_Hour[0]._id }, newvalues, function (err, res) {
         if (err) throw err;
-        console.log("1 document upDated");
+        console.log(" hour 1 document upDated");
       })
     }
     else if (marketpricedata < previous_data_Hour[0].Low) {
 
       var newvalues = { $set: { time: new Date(), Open: previous_data_Hour[0].Open, Close: marketpricedata, High: previous_data_Hour[0].High, Low: marketpricedata } };
-      TradeDataMinute.findByIdAndUpdate({ _id: previous_data_Hour[0]._id }, newvalues, function (err, res) {
+      TradeDataHour.findByIdAndUpdate({ _id: previous_data_Hour[0]._id }, newvalues, function (err, res) {
         if (err) throw err;
-        console.log("1 document upDated");
+        console.log(" hour 1 document upDated");
       })
     }
     else {
 
       var newvalues = { $set: { time: new Date(), Open: previous_data_Hour[0].Open, Close: marketpricedata, High: previous_data_Hour[0].High, Low: previous_data_Hour[0].Low } };
-      TradeDataMinute.findByIdAndUpdate({ _id: previous_data_Hour[0]._id }, newvalues, function (err, res) {
+      TradeDataHour.findByIdAndUpdate({ _id: previous_data_Hour[0]._id }, newvalues, function (err, res) {
         if (err) throw err;
-        console.log("1 document upDated");
+        console.log(" hour 1 document upDated");
       })
     }
 
@@ -499,25 +496,25 @@ const tradeaction = async () => {
     if (marketpricedata > previous_data_Day[0].High) {
       var newvalues = { $set: { time: new Date(), Open: previous_data_Day[0].Open, Close: marketpricedata, High: marketpricedata, Low: previous_data_Day[0].Low } };
 
-      TradeDataMinute.findByIdAndUpdate({ _id: previous_data_Day[0]._id }, newvalues, function (err, res) {
+      TradeDataDay.findByIdAndUpdate({ _id: previous_data_Day[0]._id }, newvalues, function (err, res) {
         if (err) throw err;
-        console.log("1 document upDated");
+        console.log(" day 1 document upDated");
       })
     }
     else if (marketpricedata < previous_data_Day[0].Low) {
 
       var newvalues = { $set: { time: new Date(), Open: previous_data_Day[0].Open, Close: marketpricedata, High: previous_data_Day[0].High, Low: marketpricedata } };
-      TradeDataMinute.findByIdAndUpdate({ _id: previous_data_Day[0]._id }, newvalues, function (err, res) {
+      TradeDataDay.findByIdAndUpdate({ _id: previous_data_Day[0]._id }, newvalues, function (err, res) {
         if (err) throw err;
-        console.log("1 document upDated");
+        console.log(" day 1 document upDated");
       })
     }
     else {
 
       var newvalues = { $set: { time: new Date(), Open: previous_data_Day[0].Open, Close: marketpricedata, High: previous_data_Day[0].High, Low: previous_data_Day[0].Low } };
-      TradeDataMinute.findByIdAndUpdate({ _id: previous_data_Day[0]._id }, newvalues, function (err, res) {
+      TradeDataDay.findByIdAndUpdate({ _id: previous_data_Day[0]._id }, newvalues, function (err, res) {
         if (err) throw err;
-        console.log("1 document upDated");
+        console.log(" day 1 document upDated");
       })
     }
 
@@ -543,7 +540,7 @@ const tradeaction = async () => {
 // SEND CANDLE DATA -------------------------------------------------------------------------------------------------------------------
 const getData = async () => {
   
-  const result = TradeDataMinute.find({}).projection({}).sort({_id:-1}).limit(600).then(function (data) {
+  const result = TradeDataMinute.find({}).limit(100 ,function (data) {
     return data
   }).catch(err => console.log(err))
   return result
@@ -711,7 +708,7 @@ const LiquidationFunction = async () => {
   let positions = storage.positions
 
 Object.keys(positions).forEach(async (key, index) => {
-await Tezos.contract.at("KT1Enz6Bv613eLZeykK92cXJ3iyZUWYxEap7").then((contract)=>{
+await Tezos.contract.at(process.env.VmmContract).then((contract)=>{
     contract.methods.liquidate(key).send().then(async()=>{
       const result = await PositionHistory.findOne({ Address: key })
       if (result.LiquidationCount == undefined) {
@@ -784,9 +781,11 @@ var nextTickforfunding = function () {
   var nextTick = function () {
     return 300000 - (new Date().getTime() % 300000);
   }, timerFunction = async () => {
+
     let storage = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${process.env.VmmContract}/storage/`).then(result => {
       return result.data
     })
+
     let marketpricedata = (storage.current_mark_price / PRECISION).toFixed(3)
     var newdate_Minute = new Date().getMinutes();
     var newdate_Hour = new Date().getHours();
@@ -803,7 +802,6 @@ var nextTickforfunding = function () {
       TradeDataMinute.create(data)
       TradeDataHour.create(data)
       TradeDataDay.create(data)
-
     }
     else {
       var newvalues = { Date: new Date(), Open: marketpricedata, Close: marketpricedata, High: marketpricedata, Low: marketpricedata };

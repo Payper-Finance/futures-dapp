@@ -29,7 +29,7 @@ const style = {
 };
 
 const Trade = (props) => {
-const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
+const { setCPosiitonUpdated,CPosiitonUpdated,setMarketPrice } = useContext(UserContext)
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -88,7 +88,7 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 				token_amount: history.data.vmm.token_amount/PRECISION
 			}
 			setVmm(Vmmdata)
-
+			setMarketPrice((parseFloat(history.data.current_mark_price) / PRECISION).toFixed(4))
 			setGraphValues({
 				marketprice: (parseFloat(history.data.current_mark_price) / PRECISION).toFixed(4),
 				indexprice: (parseFloat(history.data.current_index_price) / PRECISION).toFixed(4),
@@ -251,11 +251,11 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 					</div>
 					<div className="graph-info">
 						<div className="info-title"> Long funding rate</div>
-						<div className="info-values " style={{ color:  `${graphValues.longfundingrate.direction =="POSITIVE" && graphValues.longfundingrate.value !=0?"#1ECC89":(graphValues.longfundingrate.direction =="NEGATIVE" && graphValues.longfundingrate.value !=0)?"#E01B3C":"white"}` }}>{graphValues.longfundingrate.value}%</div>
+						<div className="info-values " style={{ color:  `${graphValues.longfundingrate.direction =="POSITIVE" && graphValues.longfundingrate.value !=0?"#1ECC89":(graphValues.longfundingrate.direction =="NEGATIVE" && graphValues.longfundingrate.value !=0)?"#E01B3C":"white"}` }}>{(graphValues.longfundingrate.value/PRECISION).toFixed(3)}%</div>
 					</div>
 					<div className="graph-info">
 						<div className="info-title"> Short funding rate</div>
-						<div className="info-values" style={{ color: `${graphValues.shortfundingrate.direction =="POSITIVE" ?"#1ECC89":(graphValues.shortfundingrate.direction =="NEGATIVE") && graphValues.longfundingrate.value !=0?"#E01B3C":"white"}` }}>{graphValues.shortfundingrate.value}%</div>
+						<div className="info-values" style={{ color: `${graphValues.shortfundingrate.direction =="POSITIVE" ?"#1ECC89":(graphValues.shortfundingrate.direction =="NEGATIVE") && graphValues.longfundingrate.value !=0?"#E01B3C":"white"}` }}>{(graphValues.shortfundingrate.value/PRECISION).toFixed(3)}%</div>
 					</div>
 					{/* <div className="graph-info">
 						<div className="info-title"> Expected long/short rate</div>
