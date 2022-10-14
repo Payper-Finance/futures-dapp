@@ -346,7 +346,7 @@ const { setCPosiitonUpdated,CPosiitonUpdated,setMarketPrice } = useContext(UserC
 							step={1}
 							marks
 							min={1}
-							max={5}
+							max={3}
 							style={{ width: '90%' }} /> <span style={{ position: "absolute", bottom: "6px", fontSize: "14px", right: "25px", fontWeight: "bold" }}>{rangeValue}x</span> <br />
 					</div>
 					<p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", fontWeight: "600",paddingTop: "20px",marginLeft:"-0px" }}>You are buying in the long</p>
@@ -417,7 +417,7 @@ const { setCPosiitonUpdated,CPosiitonUpdated,setMarketPrice } = useContext(UserC
 							step={1}
 							marks
 							min={1}
-							max={5}
+							max={3}
 							style={{ width: '90%' }} /> <span style={{ position: "absolute", bottom: "6px", fontSize: "14px", right: "25px", fontWeight: "bold" }}>{rangeValue}x</span> <br />
 					</div>
 					<p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", fontWeight: "600",paddingTop: "20px",marginLeft:"-0px" }}>You are buying in the long</p>
