@@ -784,6 +784,10 @@ var nextTickforfunding = function () {
   var nextTick = function () {
     return 300000 - (new Date().getTime() % 300000);
   }, timerFunction = async () => {
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     let storage = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${process.env.VMMCONTRACT}/storage/`).then(result => {
       return result.data
     })
