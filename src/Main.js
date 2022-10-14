@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect,useContext } from 'react'
 import Sidebar from './components/Sidebar'
 import Stake from './components/Stake'
 import Trade from './components/Trade'
@@ -9,9 +9,12 @@ import LeaderBoard from './components/LeaderBoard'
 import Snackbar1 from './components/Snackbar'
 import axios from 'axios'
 import { PRECISION,vUSD_ADDRESS } from './utils/config'
-import qs from 'qs'
+import UserContext from './ContextProvider'
+
 
 const Main = () => {
+const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
+
   const [address,setAddress] = useState("")
   const [tradeOrStake, setTradeOrStake] = useState('trade')
   const [coinSelect, setCoinSelect] = useState('tezos');
@@ -67,7 +70,7 @@ const Main = () => {
       setAddress(accounts)
       await gettokendata();
     })();
-  }, []);
+  }, [CPosiitonUpdated,address,account]);
 
 const getToken = async () => {
   const accounts = await getAccount();
