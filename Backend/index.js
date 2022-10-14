@@ -22,7 +22,7 @@ dotenv.config();
 const Tezos = new TezosToolkit("https://rpc.ghostnet.teztnets.xyz/");
 
 Tezos.setProvider({
-  signer:new InMemorySigner(process.env.VmmPrivateKey)
+  signer:new InMemorySigner(process.env.PVT_KEY)
 })
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((result) => { console.log("connected to db") }).catch((err) => { console.log(err) });
@@ -96,7 +96,7 @@ const connection = new signalR.HubConnectionBuilder()
 async function init() {
   await connection.start();
   await connection.invoke("SubscribeToOperations", {
-    address: process.env.VmmContract,
+    address: process.env.VMMCONTRACT,
     types: 'transaction'
   });
 };
@@ -142,7 +142,7 @@ const positionAction = async (opHash) => {
 
     let transaction;
     for (let i = 0; i < storage.length; i++) {
-      if (storage[i].target.address == process.env.VmmContract) {
+      if (storage[i].target.address == process.env.VMMCONTRACT) {
         transaction = storage[i]
         break
       }
@@ -367,7 +367,7 @@ app.post('/positionshistory', async (req, res) => {
 
 
 const tradeaction = async () => {
-  let storage = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${process.env.VmmContract}/storage/`).then(result => {
+  let storage = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${process.env.VMMCONTRACT}/storage/`).then(result => {
     return result.data
   })
   let marketpricedata = (storage.current_mark_price / PRECISION).toFixed(4)
@@ -702,13 +702,17 @@ app.post('/granularity', async (req, res) => {
 
 
 const LiquidationFunction = async () => {
-  let storage = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${process.env.VmmContract}/storage/`).then(result => {
+  let storage = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${process.env.VMMCONTRACT}/storage/`).then(result => {
     return result.data
   })
   let positions = storage.positions
 
 Object.keys(positions).forEach(async (key, index) => {
+<<<<<<< HEAD
 await Tezos.contract.at(process.env.VmmContract).then((contract)=>{
+=======
+await Tezos.contract.at(process.env.VMMCONTRACT).then((contract)=>{
+>>>>>>> 63a8c9a88d8193e2786e401ea6672ed80460dfb4
     contract.methods.liquidate(key).send().then(async()=>{
       const result = await PositionHistory.findOne({ Address: key })
       if (result.LiquidationCount == undefined) {
@@ -754,7 +758,7 @@ await Tezos.contract.at(process.env.VmmContract).then((contract)=>{
 
 
 let FundingTime = GetFundingTime = async()=>{
-  var data = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${process.env.VmmContract}/storage/`).then(result => {
+  var data = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${process.env.VMMCONTRACT}/storage/`).then(result => {
       return result.data.upcoming_funding_time
     })
     return data
@@ -781,8 +785,12 @@ var nextTickforfunding = function () {
   var nextTick = function () {
     return 300000 - (new Date().getTime() % 300000);
   }, timerFunction = async () => {
+<<<<<<< HEAD
 
     let storage = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${process.env.VmmContract}/storage/`).then(result => {
+=======
+    let storage = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${process.env.VMMCONTRACT}/storage/`).then(result => {
+>>>>>>> 63a8c9a88d8193e2786e401ea6672ed80460dfb4
       return result.data
     })
 
