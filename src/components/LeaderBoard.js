@@ -21,7 +21,6 @@ export default function LeaderBoard() {
   const [range, setRange] = useState()
 
   const getdata =async()=>{
-    console.log("array")
     await axios.get("https://backend-vmm-zenith.herokuapp.com/leaderboard/").then(result=>{
      setArray(result.data.reverse())
    })
@@ -37,7 +36,6 @@ export default function LeaderBoard() {
 
   const onchange=(e)=>{
     var newvalue =searchaddress.concat(e)
-    console.log(newvalue)
     if(e==""){
 
       axios.get("https://backend-vmm-zenith.herokuapp.com/leaderboard/").then(result=>{
@@ -126,7 +124,7 @@ export default function LeaderBoard() {
                       <tr key={index}>
                         <td className='leaderboard_td' >{index+1}</td>
                         <td className='leaderboard_td'>{item.Address}</td>
-                        <td className='leaderboard_td'>N/A</td>
+                        <td className='leaderboard_td'>{item.LiquidationCount}</td>
                         <td className='leaderboard_td'>{item.CompletedPosition.length}</td>
                         <td className='leaderboard_td' style={{color:`${item.Totalpnl<0?"#e01b3c":"#198754"}`,fontWeight:"bold"}}>${parseFloat(item.Totalpnl).toFixed(2)}</td>
                       </tr>

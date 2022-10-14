@@ -141,6 +141,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                             }
                         )
                         setSnackbarshow(true)
+                        setCPosiitonUpdated(true)
                     }
 
                 }).catch(err => {
@@ -299,11 +300,30 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                                 await addMargin(AddorRemove).then(res => {
                                     gethistory()
                                     setIsTxn(false)
+                                    if (res == undefined) {
+                                        setType(
+                                            {
+                                                type: "Failed",
+                                                message: "Transaction Aborted !",
+                                            }
+                                        )
+                                        setSnackbarshow(true)
+                                    } else {
+                                        setType(
+                                            {
+                                                type: "success",
+                                                message: "Transaction Successful!,",
+                                                transaction: res
+                                            }
+                                        )
+                                        setSnackbarshow(true)
+                                    }
+                                }).catch(res =>{
                                     setType(
                                         {
-                                            type: "success",
-                                            message: "Transaction Successful!",
-                                            transaction: res
+                                            type: "failed",
+                                            message: "Transaction failed!",
+                                            // transaction: res
                                         }
                                     )
                                     setSnackbarshow(true)
@@ -373,11 +393,31 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                                 await removeMargin(parseInt(AddorRemove)).then(res => {
                                     gethistory()
                                     setIsTxn(false)
+
+                                    if (res == undefined) {
+                                        setType(
+                                            {
+                                                type: "Failed",
+                                                message: "Transaction Aborted !",
+                                            }
+                                        )
+                                        setSnackbarshow(true)
+                                    } else {
+                                        setType(
+                                            {
+                                                type: "success",
+                                                message: "Transaction Successful!,",
+                                                transaction: res
+                                            }
+                                        )
+                                        setSnackbarshow(true)
+                                    }
+                                }).catch(err =>{
                                     setType(
                                         {
-                                            type: "success",
-                                            message: "Transaction Successful!",
-                                            transaction: res
+                                            type: "failed",
+                                            message: "Transaction failed!",
+                                            // transaction: res
                                         }
                                     )
                                     setSnackbarshow(true)

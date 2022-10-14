@@ -65,7 +65,6 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 		const address = await getAccount()
 		
 			const history = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${CONTRACT_ADDRESS}/storage`)
-			console.log(history.data)
 			let date =  Date.parse(history.data.upcoming_funding_time)-Date.now()
 			var minutes = Math.floor((date % (1000 * 60 * 60)) / (1000 * 60));
 			var seconds = Math.floor((date % (1000 * 60)) / 1000);
