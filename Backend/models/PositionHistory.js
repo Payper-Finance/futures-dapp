@@ -22,5 +22,4 @@ const PositionHistory =new mongoose.Schema(
     }
 )
 
-module.exports
-=mongoose.model("positionHistory", PositionHistory);
+module.exports=mongoose.model("positionHistory", PositionHistory);
