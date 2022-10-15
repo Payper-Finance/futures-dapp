@@ -18,7 +18,7 @@ const Sidebar = (props) => {
         <div className={`${coinSelect === 'tezos'? 'sidebar-sel': '' } coin my-3 d-flex text-start`} onClick={()=>{setCoinSelect('tezos')}} >
             <div className='mx-2'><img src="/img/tz.svg" style={{width:'20px'}} alt="" /></div>
             <div>Tezos <br />XTZ</div>
-            <div className='me-2 ms-auto text-end'>{(markprice/PRECISION).toFixed(2)} vUSD</div>
+            <div className='me-2 ms-auto text-end'>{(markprice/PRECISION).toFixed(2)} kUSD</div>
         </div>
         <div disabled className={`${coinSelect === 'btc'? 'sidebar-sel': '' } coin my-3 d-flex text-start`} /*onClick={()=>{setCoinSelect('btc')}}*/ >
             <div className='mx-2'><img src="img/btc.svg" style={{width:'20px'}} alt="" /></div>
