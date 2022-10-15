@@ -148,20 +148,29 @@ const positionAction = async (opHash) => {
       }
     }
 
-    let address = transaction.sender.address
     let action = transaction.parameter.entrypoint
+    let address;
+    if(action=="liquidate"){
+      address = transaction.parameter.value
+    }
+    else{
+      address = transaction.sender.address
+
+    }
     const result = await PositionHistory.findOne({ Address: address })
+
     if (result) {
 
 
 
 
-      if (action == "closePosition") {
+      if (action == "closePosition" || action == "liquidate" ) {
         let totalrealize;
         let setcloseposition;
+        let isliquidate = false
         if (action == "liquidate") {
           setcloseposition = await PositionHistory.findOne({ Address: transaction.parameter.value })
-
+          isliquidate =true
         }
         else {
 
@@ -178,6 +187,7 @@ const positionAction = async (opHash) => {
 
         console.log("transferdetails - " + transferDetails / PRECISION)
         console.log("postiiondetails - " + positionsdetails.position_amount)
+
         let calculatelivepnl = ((parseFloat(transferDetails / PRECISION) - parseFloat(positionsdetails.position_amount))).toFixed(3)
 
 
@@ -189,7 +199,8 @@ const positionAction = async (opHash) => {
           vUSD_amount: positionsdetails.vUSD_amount,
           position_value: positionsdetails.position_value,
           collateral_amount: positionsdetails.collateral_amount,
-          realizedpnl: calculatelivepnl
+          realizedpnl: calculatelivepnl,
+          liquidate:isliquidate
         }
         if (result.Totalpnl == undefined) {
           totalrealize = calculatelivepnl
@@ -721,16 +732,10 @@ const LiquidationFunction = async () => {
   Object.keys(positions).forEach(async (key, index) => {
     await Tezos.contract.at(process.env.VMMCONTRACT).then((contract) => {
       contract.methods.liquidate(key).send().then(async () => {
-        const result = await PositionHistory.findOne({ Address: key })
-        if (result.LiquidationCount == undefined) {
-          liquidationcount = 1;
-        }
-        else {
+        const result = await PositionHistory.findOne({ Address: key })    
           liquidationcount = parseInt(result.LiquidationCount) + 1;
-        }
-
         await PositionHistory.findOneAndUpdate({ Address: key }, {
-          $push: {
+          $set: {
             LiquidationCount: liquidationcount
           }
         })

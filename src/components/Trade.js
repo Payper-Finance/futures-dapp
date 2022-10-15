@@ -29,7 +29,7 @@ const style = {
 };
 
 const Trade = (props) => {
-const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
+const { setCPosiitonUpdated,CPosiitonUpdated,setMarketPrice } = useContext(UserContext)
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -88,7 +88,7 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 				token_amount: history.data.vmm.token_amount/PRECISION
 			}
 			setVmm(Vmmdata)
-
+			setMarketPrice((parseFloat(history.data.current_mark_price) / PRECISION).toFixed(4))
 			setGraphValues({
 				marketprice: (parseFloat(history.data.current_mark_price) / PRECISION).toFixed(4),
 				indexprice: (parseFloat(history.data.current_index_price) / PRECISION).toFixed(4),
@@ -100,16 +100,14 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
 			var positions = history.data.positions;
 
 			if (address in positions) {
-				if(!CPosiitonUpdated){
+				
 					setCPosiitonUpdated(true)
-				}
+				
 				setCurrentPosition(true)
 				setliveposition(positions[address])
 			}
 			else {
-				if(CPosiitonUpdated){
 					setCPosiitonUpdated(false)
-				}
 				setCurrentPosition(false)
 				setliveposition({})
 			}

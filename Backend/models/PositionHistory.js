@@ -13,10 +13,12 @@ const PositionHistory =new mongoose.Schema(
             type:Object
         },
         Totalpnl:{
-            type:Number
+            type:Number,
+            default:0
         },
         LiquidationCount:{
-            type:Number
+            type:Number,
+            default:0
         }
 
     }
