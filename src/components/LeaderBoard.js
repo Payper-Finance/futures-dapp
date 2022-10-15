@@ -21,9 +21,7 @@ export default function LeaderBoard() {
   const [range, setRange] = useState()
 
   const getdata =async()=>{
-    await axios.get("http://localhost:8000/leaderboard/").then(result=>{
-      console.log(result.data)
-
+    await axios.get("https://zenith-api-l8hhy.ondigitalocean.app/leaderboard/").then(result=>{
      setArray(result.data.reverse())
    })
    setSize(Math.trunc(array.length/ 10)+ 1);
@@ -41,7 +39,7 @@ export default function LeaderBoard() {
     var newvalue =searchaddress.concat(e)
     if(e==""){
 
-      axios.get("http://localhost:8000/leaderboard/").then(result=>{
+      axios.get("https://zenith-api-l8hhy.ondigitalocean.app/leaderboard/").then(result=>{
         setArray(result.data.reverse())
       })
     }
