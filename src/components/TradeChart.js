@@ -10,7 +10,7 @@ import qs from 'qs'
 import axios from 'axios';
 
 
-const socket = iO('https://zenith-api-l8hhy.ondigitalocean.app/');
+const socket = iO('http://localhost:8000/');
 
 
 
@@ -193,13 +193,13 @@ function TradeChart(props) {
 
       let data1 = qs.stringify({ "granularity": activecandle })
 
-      axios.post('https://zenith-api-l8hhy.ondigitalocean.app/granularity', data1, {
+      axios.post('http://localhost:8000/granularity', data1, {
         headers: {
           'Content-Type': "application/x-www-form-urlencoded"
         }
       }).then(res => {
         let data = res.data
-       
+       console.log(data)
         
         let processor = am5.DataProcessor.new(root, {
           

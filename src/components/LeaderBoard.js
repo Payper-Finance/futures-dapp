@@ -31,6 +31,7 @@ export default function LeaderBoard() {
 
   useLayoutEffect(()=>{
     getdata()
+
   },[isEmpty])
 
 
@@ -124,7 +125,7 @@ export default function LeaderBoard() {
                       <tr key={index}>
                         <td className='leaderboard_td' >{index+1}</td>
                         <td className='leaderboard_td'>{item.Address}</td>
-                        <td className='leaderboard_td'>{item.LiquidationCount}</td>
+                        <td className='leaderboard_td'>{item.LiquidationCount== undefined?0:item.LiquidationCount}</td>
                         <td className='leaderboard_td'>{item.CompletedPosition.length}</td>
                         <td className='leaderboard_td' style={{color:`${item.Totalpnl<0?"#e01b3c":"#198754"}`,fontWeight:"bold"}}>${parseFloat(item.Totalpnl).toFixed(2)}</td>
                       </tr>
