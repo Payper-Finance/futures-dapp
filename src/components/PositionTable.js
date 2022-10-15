@@ -10,7 +10,7 @@ const { CPosiitonUpdated } = useContext(UserContext)
     const [getData,setGetData] = useState([])
     const fetchdata =async()=>{
         const address = await getAccount()
-        const positionhistory = await axios.post("https://backend-vmm-zenith.herokuapp.com/positionshistory/", qs.stringify({
+        const positionhistory = await axios.post("https://zenith-api-l8hhy.ondigitalocean.app/positionshistory/", qs.stringify({
 			address: address
 		}),
 			{
