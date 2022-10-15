@@ -55,8 +55,8 @@ const { CPosiitonUpdated } = useContext(UserContext)
                     return(
                         <tr key={index}>
                         <td>{date.toLocaleString() } </td>
-                        {item.position ==1?(<td style={{color:"#1ecc89"}}>Long</td>):(
-                            <td style={{color:"#e01b3c"}}>Short</td>
+                        {item.position ==1?(<td style={{color:"#1ecc89"}}>Long {item.liquidate == undefined ||!item.liquidate?"": <span style={{fontSize:"0.6rem" , color:"white",background:"#59219d",padding:"3px",borderRadius:"5px"}}>liquidated</span>}</td>):(
+                            <td style={{color:"#e01b3c"}}>Short {item.liquidate == undefined ||!item.liquidate?"": <span style={{fontSize:"0.6rem" , color:"white",background:"#59219d",padding:"3px",borderRadius:"5px"}}>liquidated</span>}</td>
                         )}
                         <td> {item.collateral_amount}</td>
                         <td>{item.vUSD_amount} </td>

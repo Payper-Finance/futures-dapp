@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import '../style/sidebar.css'
 import {DropdownButton,Dropdown} from 'react-bootstrap'
 import axios from 'axios'
 import { PRECISION,CONTRACT_ADDRESS} from '../utils/config';
+import UserContext from "../ContextProvider.js";
 
 const Sidebar = (props) => {
     const {coinSelect, setCoinSelect,stake} = props
-    const [markprice, setMarkPrice] = useState();
+    const {maketPrice } = useContext(UserContext)
+
     useEffect(()=>{
-      axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${CONTRACT_ADDRESS}/storage/`
-      ).then(res =>{setMarkPrice(res.data.current_mark_price)})
-    })
+
+    },[maketPrice])
   return (
     <>
     <div style={{height:`${stake=='stake'?'100%':""}`}} className='sidebar '>
@@ -18,7 +19,7 @@ const Sidebar = (props) => {
         <div className={`${coinSelect === 'tezos'? 'sidebar-sel': '' } coin my-3 d-flex text-start`} onClick={()=>{setCoinSelect('tezos')}} >
             <div className='mx-2'><img src="/img/tz.svg" style={{width:'20px'}} alt="" /></div>
             <div>Tezos <br />XTZ</div>
-            <div className='me-2 ms-auto text-end'>{(markprice/PRECISION).toFixed(2)} kUSD</div>
+            <div className='me-2 ms-auto text-end'>{maketPrice} kUSD</div>
         </div>
         <div disabled className={`${coinSelect === 'btc'? 'sidebar-sel': '' } coin my-3 d-flex text-start`} /*onClick={()=>{setCoinSelect('btc')}}*/ >
             <div className='mx-2'><img src="img/btc.svg" style={{width:'20px'}} alt="" /></div>
