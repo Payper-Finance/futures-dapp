@@ -10,7 +10,7 @@ import Snackbar1 from './components/Snackbar'
 import axios from 'axios'
 import { PRECISION,vUSD_ADDRESS } from './utils/config'
 import UserContext from './ContextProvider'
-
+import {CONTRACT_ADDRESS} from "./utils/config"
 
 const Main = () => {
 const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
@@ -43,7 +43,7 @@ const { setCPosiitonUpdated,CPosiitonUpdated } = useContext(UserContext)
           return true
       }
       else {
-          setTokenBalance((getbalacnce.data.value.balance/PRECISION).toFixed(4))
+          setTokenBalance((getbalacnce.data.value.balance/PRECISION).toFixed(2))
       }
     }
 
@@ -118,6 +118,10 @@ const getToken = async () => {
     })
   }
 
+  const sidebarmenu =(event)=>{
+    setTradeOrStake(event)
+    setOpen(false)
+  }
 
 
 return (
@@ -133,7 +137,7 @@ return (
         <div className={`${tradeOrStake === 'leaderboard' ? 'tabs-sel' : ''} tabs`} onClick={() => { setTradeOrStake('leaderboard') }}>Leaderboard</div>
         <div className={`tabs`} ><a href='https://discord.gg/dgBRfYunrw'  target="_blank" rel="noopener noreferrer"><img style={{ width: "25px", height: "25px" }} src="img/discordnav.png" /> </a></div>
         <div className='btncustmdiv'>
-        <button style={{right:""}} className=" custom_btn" onClick={getToken} ><span>{tokenBalance==''?"Get Token":tokenBalance}</span></button>
+        <button style={{right:""}} className=" custom_btn" onClick={getToken} ><span>{tokenBalance==''?"Get Token":`${tokenBalance} kUSD`}</span></button>
         <button className=" custom_btn" onClick={!account ? onConnectWallet : onDisconnectWallet} >{!account ? <span>Connect Wallet</span> : `${address.substring(0, 12)}..`}</button>
         </div>
       </div>
@@ -144,22 +148,25 @@ return (
         <button className="mobileviewconnect" onClick={onConnectWallet} >{!account ? <span>Connect Wallet</span> : "Disconnect"}</button>
 
       ):(
-        <button  className=" mobileviewconnect" onClick={getToken} ><span>{tokenBalance==''?"Get Token":tokenBalance}</span></button>
+        <button  className=" mobileviewconnect" onClick={getToken} ><span>{tokenBalance==''?"Get Token":`${tokenBalance} kUSD`}</span></button>
       )
     }
 
     <div className={`${isOpen ? "menubar" : "unactivemenu"}`}>
       <div className={`mobilemenu`}>
         <h3><img src='img/walletimg.png' />Wallet</h3>
-        <div className="mobile_tabs" onClick={() => { setTradeOrStake('trade') }}>Trade</div>
-        <hr />
+        <div className="mobile_tabs" onClick={() => { sidebarmenu('trade') }}>Trade</div>
+        <hr  />
         <div className="mobile_tabs" /*onClick={() => { setTradeOrStake('stake') }}*/ >Stake</div>
         <hr />
 
-        <div className="mobile_tabs" onClick={() => { setTradeOrStake('leaderboard') }}>LeaderBoard</div>
+        <div className="mobile_tabs" onClick={() => { sidebarmenu('leaderboard') }}>Leaderboard</div>
+        <hr />
 
-        <p>Show in explorer</p>
-        <p>Copy address</p>
+        <p><a style={{textDecoration:"none",color:"white"}} href={`https://ghostnet.tzkt.io/${CONTRACT_ADDRESS}/operations/`} target="_blank" rel="noopener noreferrer">Show in explorer</a></p>
+        <p onClick={()=>navigator.clipboard
+                      .writeText(address)
+                      .then((res) => alert("Address Copied"))}>Copy address</p>
         <p className=" mobile_tabs" onClick={!account ? onConnectWallet : onDisconnectWallet} >{!account ? <span>Connect Wallet</span> : "Disconnect"}</p>
         
       </div>

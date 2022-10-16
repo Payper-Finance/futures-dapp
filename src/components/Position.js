@@ -205,8 +205,8 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                         <div className='tpstatus'>
                             <p >{positiondetail.position == 1 ? "Long position" : "Short Position"}  </p>
                             <p>{(positiondetail.position_value / PRECISION).toFixed(4)} XTZ</p>
-                            <p style={{ fontWeight: "bold" }}>Unrealized PNL</p>
-                            <p>
+                            <p style={{ fontWeight: "bold" }}  className="tpstatus_mobileview">Unrealized PNL</p>
+                            <p className="tpstatus_mobileview_item">
                                 {   
                                 
                                     positiondetail.position == 1?(
