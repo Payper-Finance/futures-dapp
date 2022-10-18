@@ -102,6 +102,7 @@ const Main = () => {
         gettokendata()
         setshow(true)
         setLoading(false)
+        gettokendata()
 
       } else if (res.data == "Already Issued") {
         setType(

@@ -52,6 +52,8 @@ function TradeChart(props) {
       am5stock.StockPanel.new(root, {
         wheelY: "zoomX",
         panX: true,
+        panY: true,
+        
       })
     );
 
