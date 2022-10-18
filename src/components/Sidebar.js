@@ -42,9 +42,9 @@ const Sidebar = (props) => {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">Tezos</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Bitcoin</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Ethereum</Dropdown.Item>
+        <Dropdown.Item >Tezos</Dropdown.Item>
+        <Dropdown.Item >Bitcoin <span className='comingsoondropdown'>coming soon </span> </Dropdown.Item>
+        <Dropdown.Item >Ethereum <span className='comingsoondropdown'>coming soon </span></Dropdown.Item>
       </Dropdown.Menu>
       </Dropdown>
     </div>

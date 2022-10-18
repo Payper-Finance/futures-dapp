@@ -22,7 +22,11 @@ export default function LeaderBoard() {
 
   const getdata =async()=>{
     await axios.get("https://zenith-api-l8hhy.ondigitalocean.app/leaderboard/").then(result=>{
-     setArray(result.data.reverse())
+    let data = result.data.reverse();
+    for(let i =0;i<data.length;i++){
+      data[i].rank =i;
+    }
+     setArray(data)
    })
    setSize(Math.trunc(array.length/ 10)+ 1);
    setRange(array.length>10?10:array.length)
@@ -40,7 +44,11 @@ export default function LeaderBoard() {
     if(e==""){
 
       axios.get("https://zenith-api-l8hhy.ondigitalocean.app/leaderboard/").then(result=>{
-        setArray(result.data.reverse())
+        let data = result.data.reverse();
+    for(let i =0;i<data.length;i++){
+      data[i].rank =i;
+    }
+     setArray(data)
       })
     }
     else{
@@ -98,6 +106,8 @@ export default function LeaderBoard() {
     setRange(array.length)
     
   }
+
+
   return (
     <div className='LeaderboardMain'>
       <div className='Leaderboardcontainer'>
@@ -123,7 +133,7 @@ export default function LeaderBoard() {
                   array.slice(startrange, range).map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td className='leaderboard_td' >{index+1}</td>
+                        <td className='leaderboard_td' >{item.rank+1}</td>
                         <td className='leaderboard_td'>{item.Address}</td>
                         <td className='leaderboard_td'>{item.LiquidationCount== undefined?0:item.LiquidationCount}</td>
                         <td className='leaderboard_td'>{item.CompletedPosition.length}</td>

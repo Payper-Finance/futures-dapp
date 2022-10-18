@@ -16,6 +16,7 @@
     width: 70%;
     margin: 10px auto;
 }
+
 .Leaderboardcontainer input{
   padding-left: 40px;
     width: 100%;
@@ -55,7 +56,7 @@ input, select, textarea{
     background: #281e3d !important;
 } 
 .Leaderboardcontainer th{
-      height: 40px;
+      height: 60px;
       text-align: center;
     font-size: 14px;
     font-weight: bold;
@@ -63,7 +64,7 @@ input, select, textarea{
 
 }
 .Leaderboardcontainer td{
-  height: 35px;
+  height: 45px;
   text-align: center;
     font-size: 13px;
     font-weight: 500;
@@ -80,7 +81,7 @@ tbody, td, tfoot, th, thead, tr {
     border-width: 0;
 }
 .Leaderboardcontainer .table_div{
-  min-height: 390px !important;
+  min-height: 510px !important;
   border: 0.5px solid #59219d;
   margin-bottom: 0;
   background: #281e3d !important;

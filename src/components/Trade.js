@@ -376,7 +376,7 @@ const { setCPosiitonUpdated,CPosiitonUpdated,setMarketPrice } = useContext(UserC
 							</tr>
 							<tr style={{ width: "100%" }}>
 								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Price impact</td>
-								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{priceImpact.toFixed(2)}%</td>
+								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseValue ==0?0:priceImpact.toFixed(2)}%</td>
 							</tr>
 							<tr style={{ width: "100%" }}>
 								<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Slippage tolerance</td>
@@ -448,7 +448,7 @@ const { setCPosiitonUpdated,CPosiitonUpdated,setMarketPrice } = useContext(UserC
 							</tr>
 						<tr style={{ width: "100%" }}>
 							<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Price impact</td>
-							<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{ priceImpact.toFixed(2)}%</td>
+							<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseValue ==0?0:priceImpact.toFixed(2)}%</td>
 						</tr>
 						<tr style={{ width: "100%" }}>
 							<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Slippage tolerance</td>

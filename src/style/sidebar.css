@@ -56,6 +56,17 @@
     .dropdown-item{
         color: white;
     }
+    .comingsoondropdown{
+        position: absolute;
+        font-size: 12px;
+        right: 10px;
+        background-color: #4d1f84;
+        font-weight: bold;
+        text-align: center;
+        color: whitesmoke;
+        border-radius:6px;
+        padding: 2px 8px;
+    }
     .btn:active, .btn:focus, .btn:hover,.btn,.btn-primary {
         background-color: #59219D !important;
         border-color: #59219D !important;
