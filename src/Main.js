@@ -85,7 +85,7 @@ const getToken = async () => {
     return
   }
 
-    await axios.post("https://backend-vmm-zenith.herokuapp.com/getToken/", {
+    await axios.post("https://zenith-api-l8hhy.ondigitalocean.app/getToken/", {
       address: account
     }).then((res)=>{
       if (res.data == "Issued") {
