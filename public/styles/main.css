@@ -399,9 +399,11 @@ text-align: right;
     z-index: 2;
     left: 40%;
     top: 12px;
+    font-size: 13px;
+    padding: 2px 8px;
     color: antiquewhite;
   border: 1px solid #59219d;
-  border-radius: 10px;
+  border-radius: 8px;
   transition: 0.125s linear;
   background: transparent;
 }
@@ -548,6 +550,17 @@ text-align: right;
     bottom: 10px;
     left: 30%;
 }
+.tpstatus_mobileview{
+    position: absolute;
+    right: 10px;
+    top: 65px;
+}
+.tpstatus_mobileview_item{
+    position: absolute;
+    right: 10px;
+    top: 95px;
+
+}
 .positon_Health button{
     width: 48%;
 }
@@ -584,8 +597,8 @@ text-align: right;
 }
 .mobilemenu hr{
     margin: 0;
-    background: #737373;
-    border: 0.5px solid #737373;
+    background: white;
+    border: 0.5px solid white;
 }
 .mobile_tabs{
     margin: 10px 0;
