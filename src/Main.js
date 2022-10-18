@@ -194,7 +194,7 @@ const Main = () => {
 
         </div>
       </div>
-
+        
       <Sidebar coinSelect={coinSelect} stake={tradeOrStake} setCoinSelect={setCoinSelect} />
       <div className="main-section">
 

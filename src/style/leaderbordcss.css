@@ -56,7 +56,7 @@ input, select, textarea{
     background: #281e3d !important;
 } 
 .Leaderboardcontainer th{
-      height: 60px;
+      height: 45px;
       text-align: center;
     font-size: 14px;
     font-weight: bold;
@@ -64,7 +64,7 @@ input, select, textarea{
 
 }
 .Leaderboardcontainer td{
-  height: 45px;
+  height: 35px;
   text-align: center;
     font-size: 13px;
     font-weight: 500;
@@ -81,7 +81,7 @@ tbody, td, tfoot, th, thead, tr {
     border-width: 0;
 }
 .Leaderboardcontainer .table_div{
-  min-height: 510px !important;
+  min-height: 310px !important;
   border: 0.5px solid #59219d;
   margin-bottom: 0;
   background: #281e3d !important;
@@ -124,6 +124,30 @@ tbody, td, tfoot, th, thead, tr {
   .react-bootstrap-table-pagination-list{
     width: 100%;
   }
+  @media screen and (min-width:1800px) and (max-width:4000px){
+    .Leaderboardcontainer td{
+      height: 50px;
+      text-align: center;
+        font-size: 13px;
+        font-weight: 500;
+        color: rgb(232, 204, 204) ;
+    }
+    .Leaderboardcontainer th{
+      height: 60px;
+      text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: whitesmoke;
+
+}
+.Leaderboardcontainer .table_div{
+  min-height: 510px !important;
+  border: 0.5px solid #59219d;
+  margin-bottom: 0;
+  background: #281e3d !important;
+}
+  }
+
   @media screen and (min-width:270px) and (max-width:796px){
     .Leaderboardcontainer{
       box-sizing: border-box;
