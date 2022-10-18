@@ -145,7 +145,7 @@ const Main = () => {
           <div className={`${tradeOrStake === 'trade' ? 'tabs-sel' : ''} tabs`} onClick={() => { setTradeOrStake('trade') }}>Trade</div>
           <div className={`${tradeOrStake === 'stake' ? 'tabs-sel' : ''} tabs`} /*onClick={() => { setTradeOrStake('stake') }}*/>Stake <span className="comingsoon">coming soon</span></div>
           <div className={`${tradeOrStake === 'leaderboard' ? 'tabs-sel' : ''} tabs`} onClick={() => { setTradeOrStake('leaderboard') }}>Leaderboard</div>
-          <div className={`tabs`} ><a href='https://payper-finance.gitbook.io/zenith-1/' style={{ color: "white", textDecoration: "none" }} target="_blank" rel="noopener noreferrer"> Docs </a></div>
+          <div className={`tabs`} ><a href='https://docs.payperfi.com/' style={{ color: "white", textDecoration: "none" }} target="_blank" rel="noopener noreferrer"> Docs </a></div>
           
           <div className={`tabs`} ><a href='https://discord.gg/dgBRfYunrw' target="_blank" rel="noopener noreferrer"><img style={{ width: "25px", height: "25px" }} src="img/discordnav.png" /> </a></div>
           <div className='btncustmdiv'>
