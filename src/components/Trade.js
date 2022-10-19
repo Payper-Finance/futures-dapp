@@ -230,7 +230,7 @@ const Trade = (props) => {
 			<div className="coin-name d-flex m-3">
 				<div className="icon fs-2"><img style={{ width: "35px", height: "35px" }} src={`img/${coinSelect === 'tezos' ? 'tz' : coinSelect === 'btc' ? 'btc' : 'eth'}.svg`} alt="" /></div>
 				<div className="coin-name d-flex flex-column ms-2">
-					<h4 className='mb-0 text-start'>{coinSelect === 'tezos' ? 'XTZ-PREP' : coinSelect === 'btc' ? 'BTC-PREP' : 'ETH-PREP'}</h4>
+					<h4 className='mb-0 text-start'>{coinSelect === 'tezos' ? 'XTZ-PERP' : coinSelect === 'btc' ? 'BTC-PERP' : 'ETH-PERP'}</h4>
 					<h6 className='text-start'>{coinSelect === 'tezos' ? 'Tezos' : coinSelect === 'btc' ? 'Bitcoin' : 'Ethereum'}</h6>
 				</div>
 
