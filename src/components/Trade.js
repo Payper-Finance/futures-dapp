@@ -307,7 +307,7 @@ const { setCPosiitonUpdated,CPosiitonUpdated,setMarketPrice } = useContext(UserC
 
 
 				<div style={{ display: "flex" }}>
-					<h5 className={`tradedetailsbtn text-start`} style={{ color: "whitesmoke" }}>Position</h5>
+					<h5 className={`tradedetailsbtn text-start`} style={{ color: "whitesmoke" }}>Position History</h5>
 				</div>
 
 

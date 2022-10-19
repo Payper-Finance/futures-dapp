@@ -43,11 +43,11 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
 
         let marratio = 0;
         if(positiondetail.position == 1){
-            marratio = (positiondetail.collateral_amount / PRECISION)+(calculatedX - positiondetail.vUSD_amount / PRECISION)+ positiondetail.funding_amount/PRECISION
+            marratio = (positiondetail.collateral_amount / PRECISION)+(calculatedX - positiondetail.vUSD_amount / PRECISION)
             
         }
         else{
-            marratio= (positiondetail.collateral_amount / PRECISION)+( positiondetail.vUSD_amount / PRECISION - calculatedX)+ positiondetail.funding_amount/PRECISION
+            marratio= (positiondetail.collateral_amount / PRECISION)+( positiondetail.vUSD_amount / PRECISION - calculatedX)
         }
 
 
@@ -187,8 +187,8 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                         <div className='tpValues'>
                             <p>
                                 {
-                                      positiondetail.position == 1?(((positiondetail.collateral_amount / PRECISION)+(calculatedX - positiondetail.vUSD_amount / PRECISION) + positiondetail.funding_amount/PRECISION).toFixed(4) ):(
-                                        ((positiondetail.collateral_amount / PRECISION)+( positiondetail.vUSD_amount / PRECISION - calculatedX) + positiondetail.funding_amount/PRECISION).toFixed(4) 
+                                      positiondetail.position == 1?(((positiondetail.collateral_amount / PRECISION)+(calculatedX - positiondetail.vUSD_amount / PRECISION) ).toFixed(4) ):(
+                                        ((positiondetail.collateral_amount / PRECISION)+( positiondetail.vUSD_amount / PRECISION - calculatedX)).toFixed(4) 
                                       )
                                 }
                                 kUSD</p>
