@@ -478,7 +478,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                                         <span style={{ color: "#E01B3C", fontWeight: "bold" }}>
                                             {((calculatedX - (positiondetail.vUSD_amount / PRECISION))+positiondetail.funding_amount/PRECISION).toFixed(4)} kUSD </span>
                                     ) : (
-                                        <span style={{ color: "#1ECC89", fontWeight: "bold" }}> {(calculatedX - positiondetail.vUSD_amount / PRECISION).toFixed(4)} kUSD</span>
+                                        <span style={{ color: "#1ECC89", fontWeight: "bold" }}> {((calculatedX - positiondetail.vUSD_amount / PRECISION) +positiondetail.funding_amount/PRECISION).toFixed(4)} kUSD</span>
                                     )
                                 ):(
                                     (((positiondetail.vUSD_amount / PRECISION)-calculatedX)+positiondetail.funding_amount/PRECISION) < 0 ? (

@@ -15,7 +15,7 @@ import { ClipLoader } from 'react-spinners'
 
 
 const Main = () => {
-  const { setCPosiitonUpdated, CPosiitonUpdated } = useContext(UserContext)
+  const { setCPosiitonUpdated, CPosiitonUpdated,setkusdTokenBalance} = useContext(UserContext)
   const [Loading, setLoading] = useState(false)
   const [address, setAddress] = useState("")
   const [tradeOrStake, setTradeOrStake] = useState('trade')
@@ -46,6 +46,7 @@ const Main = () => {
       }
       else {
         setTokenBalance((getbalacnce.data.value.balance / PRECISION).toFixed(2))
+        setkusdTokenBalance((getbalacnce.data.value.balance / PRECISION).toFixed(2))
       }
     }
 
@@ -181,7 +182,7 @@ const Main = () => {
             .then((res) => alert("Address Copied"))} ><img src='img/walletimg.png' />{address == "" ? "Wallet" : address}</h3>
           <div className="mobile_tabs" onClick={() => { sidebarmenu('trade') }}>Trade</div>
           <hr />
-          <div className="mobile_tabs" /*onClick={() => { setTradeOrStake('stake') }}*/ >Stake</div>
+          <div className="mobile_tabs" /*onClick={() => { setTradeOrStake('stake') }}*/ >Stake <span className='comingsoonmobileview'>coming soon </span></div>
           <hr />
           <div className="mobile_tabs" ><a href='https://payper-finance.gitbook.io/zenith-1/' style={{ color: "white", textDecoration: "none" }} target="_blank" rel="noopener noreferrer">Docs</a></div>
           <hr />
@@ -199,7 +200,7 @@ const Main = () => {
       <div className="main-section">
 
         {
-          tradeOrStake === 'trade' ? <Trade coinSelect={coinSelect} setCoinSelect={setCoinSelect} /> : tradeOrStake == "stake" ? <Stake /> : (
+          tradeOrStake === 'trade' ? <Trade coinSelect={coinSelect}  setCoinSelect={setCoinSelect} /> : tradeOrStake == "stake" ? <Stake /> : (
             <LeaderBoard />
           )
         }

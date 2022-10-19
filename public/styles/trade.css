@@ -110,7 +110,7 @@
   }
   .trading_details{
     overflow-y: scroll;
-    max-height: 150px !important;
+    max-height: 250px !important;
   }
   .trading_details thead{
     font-family: "Inter", sans-serif;
@@ -172,7 +172,7 @@ tr {
 @media screen and (max-width:766px) and (min-width:270px) {
 
   tbody {
-      height: 12vh;
+      min-height: 12vh;
       width: 100%;
       overflow-x: visible;
   }

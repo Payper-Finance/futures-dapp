@@ -1,13 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;800&display=swap');
 .sidebar{
     top: 60px;
-    width: 350px;
+    width: 20%;
     background: #000614;
     color: white;
     min-height: 66vh;
     border-radius: 0 0 10px 0;
     position:fixed;
-    
 }
 
 .Dropdown{
@@ -26,7 +25,7 @@
     margin: 1rem;
     font-size: 13px;
 }
-@media screen and (max-width:766px) and (min-width:270px) {
+@media screen and (max-width:1200px) and (min-width:270px) {
     .sidebar{
         display: none;
     }   

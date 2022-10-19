@@ -18,17 +18,17 @@ const Sidebar = (props) => {
       <div className="coins">
         <div className={`${coinSelect === 'tezos'? 'sidebar-sel': '' } coin my-3 d-flex text-start`} onClick={()=>{setCoinSelect('tezos')}} >
             <div className='mx-2'><img src="/img/tz.svg" style={{width:'20px'}} alt="" /></div>
-            <div>Tezos <br />XTZ</div>
-            <div className='me-2 ms-auto text-end'>{maketPrice} kUSD</div>
+            <div style={{minWidth:'80px'}}>Tezos <br />XTZ</div>
+            <div  className='me-2 ms-auto text-end'>{maketPrice} kUSD</div>
         </div>
         <div disabled className={`${coinSelect === 'btc'? 'sidebar-sel': '' } coin my-3 d-flex text-start`} /*onClick={()=>{setCoinSelect('btc')}}*/ >
             <div className='mx-2'><img src="img/btc.svg" style={{width:'20px'}} alt="" /></div>
-            <div>Bitcoin <br />BTC</div>
+            <div style={{minWidth:'80px'}}>Bitcoin <br />BTC</div>
             <div className='me-2 ms-auto text-end'>Coming soon</div>
         </div>
         <div disabled className={`${coinSelect === 'eth'? 'sidebar-sel': '' } coin my-3 d-flex text-start`} /* onClick={()=>{setCoinSelect('eth')}}*/ >
             <div className='mx-2'><img src="img/eth.svg" style={{width:'20px'}} alt="" /></div>
-            <div>Ethereum<br />ETH</div>
+            <div style={{minWidth:'80px'}}>Ethereum<br />ETH</div>
             <div className='me-2 ms-auto text-end'>Coming soon</div>
         </div>
       </div>

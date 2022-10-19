@@ -92,6 +92,20 @@ border-radius: 6px;
     left: -10px;
 
 }
+.amount_percent_btn{
+    margin:1px 3px;
+    padding:2px;
+    color:white;
+    background:none ;
+    border:0.5px solid #59219d;
+    border-radius:4px;
+    font-size: 10px;
+    width: 35px;
+}
+.amount_percent_btn:hover{
+    background:#59219d ;
+
+}
 @media screen and (max-width:768px)and (min-width:540px){
     .tradebox_main{
         min-width: 60vh;
