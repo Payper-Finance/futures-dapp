@@ -352,7 +352,7 @@ const { setCPosiitonUpdated,CPosiitonUpdated,setMarketPrice } = useContext(UserC
 					<table className='tradebox_table1' style={{ width: "100%" }}>
 						<tbody>
 							<tr style={{ width: "100%" }}>
-								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Positon size</td>
+								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Position size</td>
 								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseXrange == 0 ? ((baseValue == null) ? 0 : (baseValue / graphValues.marketprice).toFixed(2)) : ((baseXrange / graphValues.marketprice).toFixed(4))} XTZ <img src="img/tz.svg" /></td>
 							</tr>
 							<tr style={{ width: "100%" }}>
@@ -424,7 +424,7 @@ const { setCPosiitonUpdated,CPosiitonUpdated,setMarketPrice } = useContext(UserC
 						<tbody>
 
 							<tr style={{ width: "100%" }}>
-								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Positon size</td>
+								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Position size</td>
 								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseXrange == 0 ? ((baseValue == null) ? 0 : (baseValue / graphValues.marketprice).toFixed(2)) : ((baseXrange / graphValues.marketprice).toFixed(4))} XTZ <img src="img/tz.svg" /></td>
 							</tr>
 							<tr style={{ width: "100%" }}>

@@ -597,7 +597,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                     <table className='tradebox_table1' style={{ width: "100%" }}>
                         <tbody>
                             <tr style={{ width: "100%" }}>
-                                <td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Positon size</td>
+                                <td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Position size</td>
                                 <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseXrange == 0 ? ((baseValue == null) ? 0 : (baseValue / graph.marketprice).toFixed(4)) : ((baseXrange / graph.marketprice).toFixed(4))} XTZ <img src="img/tz.svg" /></td>
                             </tr>
                             <tr style={{ width: "100%" }}>
@@ -695,7 +695,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                     <table className='tradebox_table1' style={{ width: "100%" }}>
                         <tbody>
                             <tr style={{ width: "100%" }}>
-                                <td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Positon size</td>
+                                <td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Position size</td>
                                 <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseXrange == 0 ? ((baseValue == null) ? 0 : (baseValue / graph.marketprice).toFixed(2)) : ((baseXrange / graph.marketprice).toFixed(4))} XTZ <img src="img/tz.svg" /></td>
                             </tr>
                             <tr style={{ width: "100%" }}>
