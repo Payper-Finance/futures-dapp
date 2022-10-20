@@ -13,7 +13,7 @@ import { addMargin, closePosition, decreasePosition, openPosition, removeMargin 
 
 export default function Position({ positiondetail, graph, gethistory, Vmm }) {
 
-    const { setCPosiitonUpdated, CPosiitonUpdated } = useContext(UserContext)
+    const { setCPosiitonUpdated, CPosiitonUpdated,kusdTokenBalance } = useContext(UserContext)
     const [isTxn, setIsTxn] = useState(false);
     const [Addshow, setAddShow] = useState(false);
     const [Closeshow, setCloseShow] = useState(false);
@@ -163,9 +163,13 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
         
     
 
-        
+    
 
 
+    }
+    const addBaseValue = async (value) => {
+        var amount = (kusdTokenBalance / 100) * value
+        setBaseValue(amount)
     }
 
     return (
@@ -576,8 +580,16 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                     <div className='tradebox_amount'>
                         <span className='tradebox_inputicon'><img style={{ padding: "0 6px", marginTop: "-4px", height: "32px" }} src="img/kusd.png" alt="" />kUSD</span>
                         <input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined"  onChange={(event) => setBaseValue(event.target.value, setOpenlongpriceImpact())} />
+                        <div style={{ width: "100%",position:"relative", fontSize: "11px", height: "10px", fontWeight: "bold", margin: "2px 0", padding: "2px 0", color: "#a9a9a9" }}>
+							<div style={{ position: "absolute", right: "10px" }}>
+								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(25) }} >25%</button>
+								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(50) }} >50%</button>
+								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(75) }} >75%</button>
+								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(100) }} >100%</button>
+							</div>
+						</div>
                     </div>
-                    <div className='tradebox_leverage'>
+                    <div style={{marginTop: "10px"}} className='tradebox_leverage'>
                         <h6>Leverage</h6>
                         <Slider
                             aria-label="Temperature"
@@ -674,8 +686,16 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                     <div className='tradebox_amount'>
                         <span className='tradebox_inputicon'><img style={{ padding: "0 6px", marginTop: "-4px", height: "32px" }} src="img/kusd.png" alt="" />kUSD</span>
                         <input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined"  onChange={(event) => setBaseValue(event.target.value, setOpenlongpriceImpact())} />
+                        <div style={{ width: "100%",position:"relative", fontSize: "11px", height: "10px", fontWeight: "bold", margin: "2px 0", padding: "2px 0", color: "#a9a9a9" }}>
+							<div style={{ position: "absolute", right: "10px" }}>
+								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(25) }} >25%</button>
+								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(50) }} >50%</button>
+								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(75) }} >75%</button>
+								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(100) }} >100%</button>
+							</div>
+						</div>
                     </div>
-                    <div className='tradebox_leverage'>
+                    <div style={{marginTop: "10px"}} className='tradebox_leverage'>
                         <h6>Leverage</h6>
                         <Slider
                             aria-label="Temperature"

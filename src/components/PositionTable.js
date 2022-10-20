@@ -5,7 +5,7 @@ import axios from 'axios'
 import qs from "qs"
 import UserContext from '../ContextProvider.js';
 export default function PositionTable() {
-const { CPosiitonUpdated } = useContext(UserContext)
+const { CPosiitonUpdated ,kusdTokenBalance} = useContext(UserContext)
 
     const [getData,setGetData] = useState([])
     const fetchdata =async()=>{
@@ -29,8 +29,8 @@ const { CPosiitonUpdated } = useContext(UserContext)
         }
     }
     useEffect(()=>{
-       setInterval( fetchdata,8000)
-    },[CPosiitonUpdated])
+     fetchdata()
+    },[CPosiitonUpdated,kusdTokenBalance])
   return (
     
     <Table className='trading_details' borderless="false" responsive>
