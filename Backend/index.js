@@ -821,7 +821,7 @@ var nextTick = function () {
         var newvalues = { Date: new Date(), Open: marketpricedata, Close: marketpricedata, High: marketpricedata, Low: marketpricedata };
         await TradeDataMinute.create(newvalues);
         console.log("candle formed 3")
-      }
+      } 
       if (newdate_Minute == 0) {
         var newvalues = { Date: new Date(), Open: marketpricedata, Close: marketpricedata, High: marketpricedata, Low: marketpricedata };
         TradeDataHour.create(newvalues);
