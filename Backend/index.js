@@ -10,7 +10,7 @@ const { TradeDataHour, TradeDataDay, TradeDataMinute } = require("./models/Trade
 const PositionHistory = require('./models/PositionHistory')
 const TokenIssue = require('./models/TokensAddress')
 const { validateAddress } = require("@taquito/utils")
-const signalR = require('@aspnet/signalr');
+const signalR = require("@microsoft/signalr");
 const { TezosToolkit } = require("@taquito/taquito");
 const { InMemorySigner } = require("@taquito/signer");
 
@@ -89,9 +89,10 @@ console.log('A user connected');
 
 
 
-const connection = new signalR.HubConnectionBuilder()
-  .withUrl("https://api.ghostnet.tzkt.io/v1/events")
-  .build();
+let connection = new signalR.HubConnectionBuilder()
+.withUrl("https://api.ghostnet.tzkt.io/v1/events", { transport: signalR.HttpTransportType.WebSockets })
+.configureLogging(signalR.LogLevel.Debug)
+.build();
 
 async function init() {
   await connection.start();
@@ -104,22 +105,25 @@ connection.onclose(init);
 
 
 connection.on("operations", (msg) => {
+  try{
+    console.log(msg)
+    if (msg.type == 1) {
 
-
-  if (msg.type == 1) {
-
-    let data = msg.data;
-    for (let i = 0; i < data.length; i++) {
-      if (!!data[i].initiator && !!data[i].parameter.entrypoint) {
-        var OpHash = data[i].hash;
-        positionAction(OpHash);
-        LiquidationFunction()
+      let data = msg.data;
+      for (let i = 0; i < data.length; i++) {
+        if (!!data[i].initiator && !!data[i].parameter.entrypoint) {
+          var OpHash = data[i].hash;
+          positionAction(OpHash);
+          LiquidationFunction()
+        }
       }
+      tradeaction();
+  
     }
-    tradeaction();
-
   }
-
+  catch(err){
+    console.log(err)
+  }
 });
 
 init();
