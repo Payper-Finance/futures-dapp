@@ -10,6 +10,7 @@ const { TradeDataHour, TradeDataDay, TradeDataMinute } = require("./models/Trade
 const PositionHistory = require('./models/PositionHistory')
 const TokenIssue = require('./models/TokensAddress')
 const { validateAddress } = require("@taquito/utils")
+// const signalR = require('@aspnet/signalr');
 const signalR = require("@microsoft/signalr");
 const { TezosToolkit } = require("@taquito/taquito");
 const { InMemorySigner } = require("@taquito/signer");
@@ -89,11 +90,10 @@ console.log('A user connected');
 
 
 
-let connection = new signalR.HubConnectionBuilder()
-.withUrl("https://api.ghostnet.tzkt.io/v1/events", { transport: signalR.HttpTransportType.WebSockets })
-.configureLogging(signalR.LogLevel.Debug)
-.build();
 
+const connection = new signalR.HubConnectionBuilder()
+    .withUrl("https://api.ghostnet.tzkt.io/v1/ws")
+    .build();
 async function init() {
   await connection.start();
   await connection.invoke("SubscribeToOperations", {
@@ -124,6 +124,7 @@ connection.on("operations", (msg) => {
   catch(err){
     console.log(err)
   }
+
 });
 
 init();
@@ -156,6 +157,13 @@ const positionAction = async (opHash) => {
     let address;
     if(action=="liquidate"){
       address = transaction.parameter.value
+      const liquidationResult = await PositionHistory.findOne({ Address: address })    
+      let liquidationcount = parseInt(liquidationResult.LiquidationCount) + 1;
+    await PositionHistory.findOneAndUpdate({ Address: key }, {
+      $set: {
+        LiquidationCount: liquidationcount
+      }
+    })
     }
     else{
       address = transaction.sender.address
@@ -164,9 +172,6 @@ const positionAction = async (opHash) => {
     const result = await PositionHistory.findOne({ Address: address })
 
     if (result) {
-
-
-
 
       if (action == "closePosition" || action == "liquidate" ) {
         let totalrealize;
@@ -258,6 +263,7 @@ const positionAction = async (opHash) => {
             position_amount: positionsdetailsprev.position_amount
           }
         }
+
         else if (action == "increasePosition") {
           let position_amount
           if (Object.keys(positionsdetailsprev).length === 0) {
@@ -732,22 +738,17 @@ const LiquidationFunction = async () => {
     return result.data
   })
   let positions = storage.positions
-
-  Object.keys(positions).forEach(async (key, index) => {
-    await Tezos.contract.at(process.env.VMMCONTRACT).then((contract) => {
-      contract.methods.liquidate(key).send().then(async () => {
-        const result = await PositionHistory.findOne({ Address: key })    
-          liquidationcount = parseInt(result.LiquidationCount) + 1;
-        await PositionHistory.findOneAndUpdate({ Address: key }, {
-          $set: {
-            LiquidationCount: liquidationcount
-          }
-        })
-      }).catch((err) => {
-        console.log("liquidation error " + err)
-      });
-    })
-  })
+  try{
+    Object.keys(positions).forEach(async (key, index) => {
+      await Tezos.contract.at(process.env.VMMCONTRACT).catch((err) => {
+          console.log("liquidation error " + err)
+        });
+      })
+  }
+  catch(err){
+    console.log("No Liquidation")
+  }
+ 
 }
 
 
@@ -832,9 +833,9 @@ var nextTick = function () {
       }
     }
   }
-  if(Date.parse(storage.upcoming_funding_time)- 300000 <= Date.now()){
-     LiquidationFunction()
-  }
+  // if(Date.parse(storage.upcoming_funding_time)- 300000 <= Date.now()){
+  //    LiquidationFunction()
+  // }
 
   setTimeout(timerFunction, nextTick());
 };
