@@ -740,7 +740,15 @@ const LiquidationFunction = async () => {
   let positions = storage.positions
   try{
     Object.keys(positions).forEach(async (key, index) => {
-      await Tezos.contract.at(process.env.VMMCONTRACT).catch((err) => {
+      await Tezos.contract.at(process.env.VMMCONTRACT).then((contract)=>{
+        contract.methods.liquidate(key).send().catch((err)=>{
+          console.log("Zenith :-rocket, error");
+          console.log(err)
+        })
+        .then(()=>{
+          console.log("Position Liquidated")
+        })
+      }).catch((err) => {
           console.log("liquidation error " + err)
         });
       })
@@ -748,7 +756,6 @@ const LiquidationFunction = async () => {
   catch(err){
     console.log("No Liquidation")
   }
- 
 }
 
 
@@ -833,9 +840,9 @@ var nextTick = function () {
       }
     }
   }
-  // if(Date.parse(storage.upcoming_funding_time)- 300000 <= Date.now()){
-  //    LiquidationFunction()
-  // }
+  if(Date.parse(storage.upcoming_funding_time)- 300000 <= Date.now()){
+     LiquidationFunction()
+  }
 
   setTimeout(timerFunction, nextTick());
 };
