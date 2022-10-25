@@ -116,9 +116,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
         }
     }, [baseValue, rangeValue, baseXrange])
 
-    const MarginOnChange = (e) => {
-        setAddorRemove(e)
-    }
+
 
     const IncreaseOrDecreaseFunc = async (baseValue, rangeValue, direction) => {
 
