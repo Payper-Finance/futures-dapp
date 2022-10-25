@@ -136,9 +136,6 @@ const Trade = (props) => {
 			setliveposition({})
 		}
 
-
-
-
 	}
 
 	const addBaseValue = async (value) => {
@@ -257,7 +254,6 @@ const Trade = (props) => {
 					<h4 className='mb-0 text-start'>{coinSelect === 'tezos' ? 'XTZ-PERP' : coinSelect === 'btc' ? 'BTC-PERP' : 'ETH-PERP'}</h4>
 					<h6 className='text-start'>{coinSelect === 'tezos' ? 'Tezos' : coinSelect === 'btc' ? 'Bitcoin' : 'Ethereum'}</h6>
 				</div>
-
 			</div>
 			<div className="trade-graph-enclosure">
 				<div className="graph-infos d-flex text-start">
@@ -277,15 +273,15 @@ const Trade = (props) => {
 					<div className="graph-info">
 						<div className="info-title"> Long funding rate</div>
 
-						<div className="info-values " style={{ color: `${graphValues.longfundingrate.direction == "POSITIVE" && graphValues.longfundingrate.value / PRECISION != 0 ? "#1ECC89" : (graphValues.longfundingrate.direction == "NEGATIVE" && graphValues.longfundingrate.value / PRECISION != 0) ? "#E01B3C" : "white"}` }}> {(graphValues.longfundingrate.value / PRECISION).toFixed(3)}% </div>
+						<div className="info-values " style={{ color: `${graphValues.longfundingrate.direction == "POSITIVE" && graphValues.longfundingrate.value / PRECISION != 0 ? "#1ECC89" : (graphValues.longfundingrate.direction == "NEGATIVE" && graphValues.longfundingrate.value / PRECISION != 0) ? "#E01B3C" : "white"}` }}> {graphValues.longfundingrate.direction == "POSITIVE" ?(graphValues.longfundingrate.value / PRECISION).toFixed(3):(-graphValues.longfundingrate.value / PRECISION).toFixed(3)}% </div>
 					</div>
 					<div className="graph-info">
 						<div className="info-title"> Short funding rate</div>
-						<div className="info-values" style={{ color: `${graphValues.shortfundingrate.direction == "POSITIVE" ? "#1ECC89" : graphValues.shortfundingrate.direction == "NEGATIVE" && graphValues.longfundingrate.value / PRECISION != 0 ? "#E01B3C" : "white"}` }}>{(graphValues.shortfundingrate.value / PRECISION).toFixed(3)}%</div>
+						<div className="info-values" style={{ color: `${graphValues.shortfundingrate.direction == "POSITIVE" ? "#1ECC89" : graphValues.shortfundingrate.direction == "NEGATIVE" && graphValues.shortfundingrate.value / PRECISION != 0 ? "#E01B3C" : "white"}` }}>{graphValues.shortfundingrate.direction == "POSITIVE" ?(graphValues.shortfundingrate.value / PRECISION).toFixed(3):(-graphValues.shortfundingrate.value / PRECISION).toFixed(3)}%</div>
 					</div>
 					<div className="graph-info">
 						<div className="info-title"> Expected long/short rate</div>
-						<div className="info-values" ><span style={{ color: `${graphValues.expectedpay==1?"#E01B3C":"#1ECC89"}`}}>{(graphValues.Expectedlongfundingrate).toFixed(3)}%</span> / <span style={{ color: `${graphValues.expectedpay==1?"#1ECC89":"#E01B3C"}`}}>{(graphValues.Expectedshortfundingrate).toFixed(3)}%</span>
+						<div className="info-values" ><span style={{ color: `${graphValues.expectedpay==1?"#E01B3C":"#1ECC89"}`}}>{graphValues.Expectedlongfundingrate<0 && graphValues.expectedpay==2?(-graphValues.Expectedlongfundingrate).toFixed(3):(graphValues.Expectedlongfundingrate).toFixed(3)}%</span> / <span style={{ color: `${graphValues.expectedpay==1?"#1ECC89":"#E01B3C"}`}}>{graphValues.expectedpay==1 && graphValues.Expectedshortfundingrate<0?(-graphValues.Expectedshortfundingrate).toFixed(3):(graphValues.Expectedshortfundingrate).toFixed(3)}%</span>
 						</div>
 					</div>
 				</div>

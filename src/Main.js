@@ -170,7 +170,7 @@ const Main = () => {
           {!account ? <button className=" custom_btn" onClick={ onConnectWallet } >
               {!account ? <span>Connect Wallet</span> : `${address.substring(0, 12)}..`}
             </button> : <button className="custom_btn"  onClick={()=> {setpopoverOpen(true)
-           setAnchorEl(event.currentTarget) } }  >
+           setAnchorEl(undefined) } }  >
               {!account ? <span>Connect Wallet</span> : `${address.substring(0, 12)}..`}
             </button>}
           
