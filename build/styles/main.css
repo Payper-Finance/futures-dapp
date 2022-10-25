@@ -210,6 +210,9 @@ border-radius: 18px;
     line-height: 24px;
 
 }
+.css-187mznn-MuiSlider-root{
+    color: gray;
+}
 .figure_values{
     display: flex;
     margin: 20px 10px;
@@ -354,6 +357,19 @@ text-align: right;
 .btncustmdiv{
     position: absolute;
     right: 2rem;
+    display: flex;
+}
+.css-3bmhjh-MuiPaper-root-MuiPopover-paper{
+    background-color:#0E0F18 !important ;
+    margin-top: 43px;
+    right: 40px !important;
+    left: auto !important;
+}
+.css-17ffvgn-MuiTypography-root{
+    padding:0 5px;
+}
+.css-1e6y48t-MuiButtonBase-root-MuiButton-root{
+    color: white;
 }
 @media screen and (max-width:1350px) and (min-width:1200px){
     .longbtn{
@@ -558,6 +574,7 @@ text-align: right;
 .positon_Health{
     flex-basis: 100%;
     margin-bottom: 1rem;
+    margin-right:0  !important;
 }
 .positon_Health button{
     width: 150px;

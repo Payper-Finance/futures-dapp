@@ -54,7 +54,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
             marratio = (positiondetail.collateral_amount / PRECISION) + (positiondetail.vUSD_amount / PRECISION - calculatedX)
         }
         var max_reduce = (parseFloat(marratio) / (parseFloat(positiondetail.vUSD_amount) / PRECISION))-0.3
-        console.log(max_reduce*(parseFloat(positiondetail.vUSD_amount) / PRECISION))
+        // console.log(max_reduce*(parseFloat(positiondetail.vUSD_amount) / PRECISION))
         
         setmarginRatio(parseFloat(marratio) / (parseFloat(positiondetail.vUSD_amount) / PRECISION))
         setPhbar(marginRatio * 100)
