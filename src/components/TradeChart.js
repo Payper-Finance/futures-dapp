@@ -355,25 +355,25 @@ function TradeChart(props) {
     socket.on("data3", (data) => {
       insertvalue(data)
     })
-    let toolbar = am5stock.StockToolbar.new(root, {
-      container: document.getElementById("chartcontrols"),
-      stockChart: stockChart,
-      controls: [
-        am5stock.IndicatorControl.new(root, {
-          stockChart: stockChart,
-          legend: valueLegend
-        }),
-        am5stock.DrawingControl.new(root, {
-          stockChart: stockChart
-        }),
-        am5stock.ResetControl.new(root, {
-          stockChart: stockChart
-        }),
-        am5stock.SettingsControl.new(root, {
-          stockChart: stockChart
-        })
-      ]
-    })
+    // let toolbar = am5stock.StockToolbar.new(root, {
+    //   container: document.getElementById("chartcontrols"),
+    //   stockChart: stockChart,
+    //   controls: [
+    //     am5stock.IndicatorControl.new(root, {
+    //       stockChart: stockChart,
+    //       legend: valueLegend
+    //     }),
+    //     am5stock.DrawingControl.new(root, {
+    //       stockChart: stockChart
+    //     }),
+    //     am5stock.ResetControl.new(root, {
+    //       stockChart: stockChart
+    //     }),
+    //     am5stock.SettingsControl.new(root, {
+    //       stockChart: stockChart
+    //     })
+    //   ]
+    // })
 
     chartRef.current = stockChart;
     return () => {
@@ -479,7 +479,7 @@ function TradeChart(props) {
 }
 
       `}</style>
-      <div  id="chartcontrols"></div>
+      {/* <div  id="chartcontrols"></div> */}
       <ul className='candletimediv'>
         <button className={`${activecandle == '5minute' ? 'active' : ''} candletime`} onClick={() => setActivecandle("5minute")} >5min</button>
         <button className={`${activecandle == '15minute' ? 'active' : ''} candletime`} onClick={() => setActivecandle("15minute")} >15min</button>

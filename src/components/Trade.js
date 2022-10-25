@@ -16,6 +16,7 @@ import PositionTable from './PositionTable';
 import Snackbar from './Snackbar'
 import UserContext from "../ContextProvider.js";
 import { PRECISION, CONTRACT_ADDRESS } from '../utils/config';
+import { math } from '@amcharts/amcharts5';
 
 
 const style = {
@@ -110,6 +111,8 @@ const Trade = (props) => {
 			expectedlongrate = (history.data.total_short/history.data.total_long)*percentagevalue 
 		}
 
+		console.log(expectedlongrate)
+		console.log(expectedshortrate)
 		setGraphValues({
 			marketprice: (parseFloat(history.data.current_mark_price) / PRECISION).toFixed(4),
 			indexprice: (parseFloat(history.data.current_index_price) / PRECISION).toFixed(4),
@@ -117,8 +120,8 @@ const Trade = (props) => {
 			rate: 0,
 			longfundingrate: (history.data.long_funding_rate),
 			shortfundingrate: (history.data.short_funding_rate),
-			Expectedshortfundingrate:expectedshortrate,
-			Expectedlongfundingrate:expectedlongrate,
+			Expectedshortfundingrate:Math.abs(expectedshortrate),
+			Expectedlongfundingrate:Math.abs(expectedlongrate) ,
 			expectedpay:positiveorneagative
 		})
 		var positions = history.data.positions;
@@ -281,7 +284,7 @@ const Trade = (props) => {
 					</div>
 					<div className="graph-info">
 						<div className="info-title"> Expected long/short rate</div>
-						<div className="info-values" ><span style={{ color: `${graphValues.expectedpay==1?"#E01B3C":"#1ECC89"}`}}>{graphValues.Expectedlongfundingrate<0 && graphValues.expectedpay==2?(-graphValues.Expectedlongfundingrate).toFixed(3):(graphValues.Expectedlongfundingrate).toFixed(3)}%</span> / <span style={{ color: `${graphValues.expectedpay==1?"#1ECC89":"#E01B3C"}`}}>{graphValues.expectedpay==1 && graphValues.Expectedshortfundingrate<0?(-graphValues.Expectedshortfundingrate).toFixed(3):(graphValues.Expectedshortfundingrate).toFixed(3)}%</span>
+						<div className="info-values" ><span style={{ color: `${graphValues.expectedpay==1?"#E01B3C":"#1ECC89"}`}}>{graphValues.expectedpay==1?((-graphValues.Expectedlongfundingrate).toFixed(3)):(graphValues.Expectedlongfundingrate).toFixed(3)}%</span> / <span style={{ color: `${graphValues.expectedpay==1?"#1ECC89":"#E01B3C"}`}}>{graphValues.expectedpay==2?((-graphValues.Expectedshortfundingrate).toFixed(3)):(graphValues.Expectedshortfundingrate).toFixed(3)}%</span>
 						</div>
 					</div>
 				</div>
