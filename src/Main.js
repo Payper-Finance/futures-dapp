@@ -149,7 +149,7 @@ const Main = () => {
         <div className='Logo'><img style={{ width: "40px", height: "40px", marginRight: "10px" }} src="img/Logo.png" />Zenith</div>
 
         <div className='tradeNav d-flex '>
-        <div className={`tabs`} ><a href='https://discord.gg/dgBRfYunrw' target="_blank" rel="noopener noreferrer"><img style={{ width: "25px", height: "25px" }} src="img/home.png" /> </a></div>
+        <div className={`tabs`} ><a href='https://zenith.payperfi.com' target="_blank" rel="noopener noreferrer"><img style={{ width: "25px", height: "25px" }} src="img/home.png" /> </a></div>
           <div className={`${tradeOrStake === 'trade' ? 'tabs-sel' : ''} tabs`} onClick={() => { setTradeOrStake('trade') }}>Trade</div>
           <div className={`${tradeOrStake === 'stake' ? 'tabs-sel' : ''} tabs`} /*onClick={() => { setTradeOrStake('stake') }}*/>Stake <span className="comingsoon">coming soon</span></div>
           <div className={`${tradeOrStake === 'leaderboard' ? 'tabs-sel' : ''} tabs`} onClick={() => { setTradeOrStake('leaderboard') }}>Leaderboard</div>
@@ -170,7 +170,7 @@ const Main = () => {
           {!account ? <button className=" custom_btn" onClick={ onConnectWallet } >
               {!account ? <span>Connect Wallet</span> : `${address.substring(0, 12)}..`}
             </button> : <button className="custom_btn"  onClick={()=> {setpopoverOpen(true)
-           setAnchorEl(event.currentTarget) } }  >
+           setAnchorEl(undefined) } }  >
               {!account ? <span>Connect Wallet</span> : `${address.substring(0, 12)}..`}
             </button>}
           
