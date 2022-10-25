@@ -7,13 +7,14 @@ import { Slider } from '@mui/material';
 import UserContext from "../ContextProvider.js";
 import { ScaleLoader } from 'react-spinners'
 import { PRECISION } from '../utils/config';
-
+import Box from '@mui/material/Box';
 import { addMargin, closePosition, decreasePosition, openPosition, removeMargin } from '../utils/tezos';
+import { parse } from 'qs';
 
 
 export default function Position({ positiondetail, graph, gethistory, Vmm }) {
 
-    const { setCPosiitonUpdated, CPosiitonUpdated,kusdTokenBalance } = useContext(UserContext)
+    const { setCPosiitonUpdated, CPosiitonUpdated, kusdTokenBalance } = useContext(UserContext)
     const [isTxn, setIsTxn] = useState(false);
     const [Addshow, setAddShow] = useState(false);
     const [Closeshow, setCloseShow] = useState(false);
@@ -23,13 +24,16 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
     const [rangeValue, setRangeValue] = useState(1)
     const [baseXrange, setbaseXrange] = useState(0);
     const [baseValue, setBaseValue] = useState(0)
-    const [AddorRemove, setAddorRemove] = useState(0)
+    const [addmarginvalue, setaddmarginvalue] = useState(0)
+    const [removemarginvalue, setremovemarginvalue] = useState(0)
     const [marginRatio, setmarginRatio] = useState(0)
     const [phbar, setPhbar] = useState(0)
     const [priceImpact, setPriceImpact] = useState(0)
     const [expectedClose, setExpectedClose] = useState(0)
     const [snackbarshow, setSnackbarshow] = useState(false)
     const [calculatedX, setCalculatedX] = useState(0);
+    const [decreasePercentage, setdecreasePercentage] = useState(0);
+    
     const [type, setType] = useState(
         {
             type: "",
@@ -42,16 +46,17 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
         calculateExpectedPrice()
 
         let marratio = 0;
-        if(positiondetail.position == 1){
-            marratio = (positiondetail.collateral_amount / PRECISION)+(calculatedX - positiondetail.vUSD_amount / PRECISION)
-            
-        }
-        else{
-            marratio= (positiondetail.collateral_amount / PRECISION)+( positiondetail.vUSD_amount / PRECISION - calculatedX)
-        }
+        if (positiondetail.position == 1) {
+            marratio = (positiondetail.collateral_amount / PRECISION) + (calculatedX - positiondetail.vUSD_amount / PRECISION)
 
-
-        setmarginRatio((parseFloat(marratio) / (parseFloat(positiondetail.vUSD_amount) / PRECISION)).toFixed(3))
+        }
+        else {
+            marratio = (positiondetail.collateral_amount / PRECISION) + (positiondetail.vUSD_amount / PRECISION - calculatedX)
+        }
+        var max_reduce = (parseFloat(marratio) / (parseFloat(positiondetail.vUSD_amount) / PRECISION))-0.3
+        console.log(max_reduce*(parseFloat(positiondetail.vUSD_amount) / PRECISION))
+        
+        setmarginRatio(parseFloat(marratio) / (parseFloat(positiondetail.vUSD_amount) / PRECISION))
         setPhbar(marginRatio * 100)
 
     }, [phbar, marginRatio, positiondetail, graph])
@@ -117,53 +122,54 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
 
     const IncreaseOrDecreaseFunc = async (baseValue, rangeValue, direction) => {
 
-            try {
-                setIsTxn(true)
-                await openPosition(baseValue, rangeValue, direction).then(res => {
-                    console.log("response::: " + res)
-                    gethistory()
-                    setIncreaseshow(false)
-                    setIsTxn(false)
-                    if (res == undefined) {
-                        setType(
-                            {
-                                type: "Failed",
-                                message: "Transaction Aborted !",
-                            }
-                        )
-                        setSnackbarshow(true)
-                    } else {
-                        setType(
-                            {
-                                type: "success",
-                                message: "Transaction Successful!",
-                                transaction: res
-                            }
-                        )
-                        setSnackbarshow(true)
-                        setCPosiitonUpdated(true)
-                    }
-
-                }).catch(err => {
+        try {
+            setIsTxn(true)
+            await openPosition(baseValue, rangeValue, direction).then(res => {
+                console.log("response::: " + res)
+                gethistory()
+                setIncreaseshow(false)
+                setCPosiitonUpdated(true)
+                setIsTxn(false)
+                if (res == undefined) {
                     setType(
                         {
                             type: "Failed",
-                            message: "Transaction Failed !",
+                            message: "Transaction Aborted !",
                         }
                     )
                     setSnackbarshow(true)
-                })
+                } else {
+                    setType(
+                        {
+                            type: "success",
+                            message: "Transaction Successful!",
+                            transaction: res
+                        }
+                    )
+                    setSnackbarshow(true)
+                    setCPosiitonUpdated(true)
+                }
 
-            }
-            catch (err) {
-                console.log(err)
-                setIsTxn(false)
+            }).catch(err => {
+                setType(
+                    {
+                        type: "Failed",
+                        message: "Transaction Failed !",
+                    }
+                )
+                setSnackbarshow(true)
+            })
 
-            }
-        
-    
+        }
+        catch (err) {
+            console.log(err)
+            setIsTxn(false)
 
-    
+        }
+
+
+
+
 
 
     }
@@ -171,6 +177,13 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
         var amount = (kusdTokenBalance / 100) * value
         setBaseValue(amount)
     }
+    const decreasepositionvalue = async (value) => {
+       var max = (parseFloat(positiondetail.position_value)/PRECISION)*parseFloat(graph.marketprice) 
+       setBaseValue(Math.round(max*value/100))
+       setdecreasePercentage(value)
+
+    }
+    
 
     return (
         <>
@@ -191,9 +204,9 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                         <div className='tpValues'>
                             <p>
                                 {
-                                      positiondetail.position == 1?(((positiondetail.collateral_amount / PRECISION)+(calculatedX - positiondetail.vUSD_amount / PRECISION) ).toFixed(4) ):(
-                                        ((positiondetail.collateral_amount / PRECISION)+( positiondetail.vUSD_amount / PRECISION - calculatedX)).toFixed(4) 
-                                      )
+                                    positiondetail.position == 1 ? (((positiondetail.collateral_amount / PRECISION) + (calculatedX - positiondetail.vUSD_amount / PRECISION)).toFixed(4)) : (
+                                        ((positiondetail.collateral_amount / PRECISION) + (positiondetail.vUSD_amount / PRECISION - calculatedX)).toFixed(4)
+                                    )
                                 }
                                 kUSD</p>
                             <p>{marginRatio}</p>
@@ -209,28 +222,28 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                         <div className='tpstatus'>
                             <p >{positiondetail.position == 1 ? "Long position" : "Short Position"}  </p>
                             <p>{(positiondetail.position_value / PRECISION).toFixed(4)} XTZ</p>
-                            <p style={{ fontWeight: "bold" }}  className="tpstatus_mobileview">Unrealized PNL</p>
+                            <p style={{ fontWeight: "bold" }} className="tpstatus_mobileview">Unrealized PNL</p>
                             <p className="tpstatus_mobileview_item">
-                                {   
-                                
-                                    positiondetail.position == 1?(
+                                {
+
+                                    positiondetail.position == 1 ? (
                                         (calculatedX - positiondetail.vUSD_amount / PRECISION) < 0 ? (
                                             <span style={{ color: "#E01B3C", fontWeight: "bold" }}>
                                                 {(calculatedX - positiondetail.vUSD_amount / PRECISION).toFixed(4)} kUSD </span>
                                         ) : (
                                             <span style={{ color: "#1ECC89", fontWeight: "bold" }}> {(calculatedX - positiondetail.vUSD_amount / PRECISION).toFixed(4)} kUSD</span>
                                         )
-                                    ):(
-                                        ( positiondetail.vUSD_amount / PRECISION-calculatedX) < 0 ? (
+                                    ) : (
+                                        (positiondetail.vUSD_amount / PRECISION - calculatedX) < 0 ? (
                                             <span style={{ color: "#E01B3C", fontWeight: "bold" }}>
-                                                {( positiondetail.vUSD_amount / PRECISION - calculatedX ).toFixed(4)} kUSD </span>
+                                                {(positiondetail.vUSD_amount / PRECISION - calculatedX).toFixed(4)} kUSD </span>
                                         ) : (
-                                            <span style={{ color: "#1ECC89", fontWeight: "bold" }}> {( positiondetail.vUSD_amount / PRECISION-calculatedX ).toFixed(4)} kUSD</span>
+                                            <span style={{ color: "#1ECC89", fontWeight: "bold" }}> {(positiondetail.vUSD_amount / PRECISION - calculatedX).toFixed(4)} kUSD</span>
                                         )
                                     )
                                 }
-                            
-                                
+
+
                             </p>
                             <Button onClick={() => setClosePosition(true)}>Close Position</Button>
                         </div>
@@ -259,7 +272,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                                 </div>
                             </div>
                             <Button className='tphAdd' style={{ fontSize: "14px" }} onClick={() => setIncreaseshow(true)}>+ INCREASE</Button>
-                            <Button className='tphDec' style={{ fontSize: "14px" }} onClick={() => setDecreaseshow(true)}>-DECREASE</Button>
+                            <Button className='tphDec' style={{ fontSize: "14px" }} onClick={() => setDecreaseshow(true)}>- DECREASE</Button>
                         </div>
 
                     </div>
@@ -277,7 +290,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
             >
                 <Modal.Header style={{ border: "none" }} closeButton>
                     <Modal.Title style={{ fontWeight: "bold" }} >Add Margin</Modal.Title>
-                    <Button style={{ background: "none", border: "none" }}><img style={{ height: "25px" }} onClick={() => {
+                    <Button style={{ background: "none", border: "none", position: "relative", left: '20px' }}><img style={{ height: "25px" }} onClick={() => {
                         setAddShow(false)
                         setIsTxn(false)
                     }
@@ -285,15 +298,25 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                 </Modal.Header>
                 <Modal.Body>
                     <span style={{ position: "absolute", marginTop: "7px", marginLeft: "15px" }}><img style={{ height: "25px" }} src='/img/kusd.png' /></span>
-                    <input value={AddorRemove} onChange={(event) => MarginOnChange(event.target.value)} style={{ width: "100%", height: "40px", borderRadius: "5px", margin: "2px 0px", background: "#30313d", border: "none", textAlign: "right", padding: "0 10px" }} placeholder='Amount' />
-
+                    <input value={addmarginvalue} type="number" onChange={async(event) => setaddmarginvalue((parseFloat(event.target.value)<=kusdTokenBalance)?event.target.value:addmarginvalue)} style={{ width: "100%", height: "40px", borderRadius: "5px", margin: "2px 0px", background: "#30313d", border: "none", textAlign: "right", padding: "0 10px" }} placeholder='Amount' />
+                        <Box sx={{ width: 300 }} style={{marginLeft:"6px"}}>
+                            <Slider
+                                defaultValue={0}
+                                aria-label="Default"
+                                valueLabelDisplay="auto"
+                                value={addmarginvalue}
+                                min={0}
+                                max={kusdTokenBalance}
+                            onChange={(event) => setaddmarginvalue(event.target.value)}
+                            />
+                        </Box>
                     {/* <div className='marginbodydiv' style={{ borderBottom: "0.5px solid #30313d", fontWeight: "bold" }}>
                         <p>Liquidation price</p>
                         <p>{((positiondetail.collateral_amount/1000000).toFixed(2)/100)*8.5} kUSD</p>
                     </div> */}
                     <div className='marginbodydiv' style={{ marginTop: "10px" }}>
                         <p>Position margin</p>
-                        <p>{(parseFloat((positiondetail.collateral_amount / PRECISION).toFixed(4)) + parseFloat(AddorRemove)).toFixed(3)} kUSD</p>
+                        <p>{(parseFloat((positiondetail.collateral_amount / PRECISION).toFixed(4)) + parseFloat(addmarginvalue)).toFixed(3)} kUSD</p>
                     </div>
                 </Modal.Body>
                 <Modal.Footer style={{ border: "none" }} >
@@ -301,7 +324,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                         <Button variant="secondary" onClick={async () => {
                             try {
                                 setIsTxn(true)
-                                await addMargin(AddorRemove).then(res => {
+                                await addMargin(addmarginvalue).then(res => {
                                     gethistory()
                                     setIsTxn(false)
                                     if (res == undefined) {
@@ -313,6 +336,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                                         )
                                         setSnackbarshow(true)
                                     } else {
+                                        setCPosiitonUpdated(true)
                                         setType(
                                             {
                                                 type: "success",
@@ -322,7 +346,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                                         )
                                         setSnackbarshow(true)
                                     }
-                                }).catch(res =>{
+                                }).catch(res => {
                                     setType(
                                         {
                                             type: "failed",
@@ -368,7 +392,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
             >
                 <Modal.Header style={{ border: "none" }} closeButton>
                     <Modal.Title style={{ fontWeight: "bold" }} >Reduce Margin</Modal.Title>
-                    <Button style={{ background: "none", border: "none" }}><img style={{ height: "25px" }} onClick={() => {
+                    <Button style={{ background: "none", border: "none", position: "relative", left: '20px' }}><img style={{ height: "25px" }} onClick={() => {
                         setCloseShow(false)
 
                         setIsTxn(false)
@@ -378,15 +402,25 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                 <Modal.Body>
 
                     <span style={{ position: "absolute", marginTop: "7px", marginLeft: "15px" }}><img style={{ height: "25px" }} src='/img/kusd.png' /></span>
-                    <input value={AddorRemove} type="number" min="0" max="100000000" onChange={(event) => MarginOnChange(event.target.value)} style={{ width: "100%", height: "40px", borderRadius: "5px", margin: "2px 0px", background: "#30313d", border: "none", textAlign: "right", padding: "0 10px" }} placeholder='Amount' />
-
+                    <input value={removemarginvalue} type="number" min="0" max="100000000" onChange={(event) => setremovemarginvalue(event.target.value)} style={{ width: "100%", height: "40px", borderRadius: "5px", margin: "2px 0px", background: "#30313d", border: "none", textAlign: "right", padding: "0 10px" }} placeholder='Amount' />
+                    <Box sx={{ width: 300 }} style={{marginLeft:"6px"}}>
+                            <Slider
+                                defaultValue={0}
+                                aria-label="Default"
+                                valueLabelDisplay="auto"
+                                value={removemarginvalue}
+                                min ={0}
+                                max ={(marginRatio-0.3)*(parseFloat(positiondetail.vUSD_amount) / PRECISION)}
+                            onChange={(event) => setremovemarginvalue(event.target.value)}
+                            />
+                        </Box>
                     {/* <div className='marginbodydiv' style={{ borderBottom: "0.5px solid #30313d", fontWeight: "bold" }}>
                         <p>Liquidation price</p>
                         <p>{((positiondetail.collateral_amount/1000000).toFixed(2)/100)*8.5} kUSD</p>
                     </div> */}
                     <div className='marginbodydiv' style={{ marginTop: "10px" }}>
                         <p>Position margin</p>
-                        <p>{(parseFloat((positiondetail.collateral_amount / PRECISION).toFixed(4)) - parseFloat(AddorRemove)).toFixed(4)} kUSD</p>
+                        <p>{(parseFloat((positiondetail.collateral_amount / PRECISION).toFixed(4)) - parseFloat(removemarginvalue)).toFixed(4)} kUSD</p>
                     </div>
                 </Modal.Body>
                 <Modal.Footer style={{ border: "none" }} >
@@ -394,7 +428,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                         <Button variant="secondary" onClick={async () => {
                             try {
                                 setIsTxn(true)
-                                await removeMargin(parseInt(AddorRemove)).then(res => {
+                                await removeMargin(parseInt(removemarginvalue)).then(res => {
                                     gethistory()
                                     setIsTxn(false)
 
@@ -416,7 +450,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                                         )
                                         setSnackbarshow(true)
                                     }
-                                }).catch(err =>{
+                                }).catch(err => {
                                     setType(
                                         {
                                             type: "failed",
@@ -460,7 +494,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
             >
                 <Modal.Header style={{ border: "none" }} closeButton>
                     <Modal.Title style={{ fontWeight: "bold" }} >Close Position</Modal.Title>
-                    <Button style={{ background: "none", border: "none" }}><img style={{ height: "25px" }} onClick={() => {
+                    <Button style={{ background: "none", border: "none", position: "relative", left: '20px' }}><img style={{ height: "25px" }} onClick={() => {
                         setClosePosition(false)
                         setIsTxn(false)
                     }} src='/img/icons8-close-30.png' /></Button>
@@ -475,21 +509,21 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                     <div className='marginbodydiv' style={{ marginTop: "10px", fontWeight: "bold" }}>
                         <p>Your Profit</p>
                         <p>
-                        {   
-                                
-                                positiondetail.position == 1?(
-                                    ((calculatedX - (positiondetail.vUSD_amount / PRECISION))+(positiondetail.funding_amount/PRECISION)) < 0 ? (
+                            {
+
+                                positiondetail.position == 1 ? (
+                                    ((calculatedX - (positiondetail.vUSD_amount / PRECISION)) + (positiondetail.funding_amount / PRECISION)) < 0 ? (
                                         <span style={{ color: "#E01B3C", fontWeight: "bold" }}>
-                                            {((calculatedX - (positiondetail.vUSD_amount / PRECISION))+positiondetail.funding_amount/PRECISION).toFixed(4)} kUSD </span>
+                                            {((calculatedX - (positiondetail.vUSD_amount / PRECISION)) + positiondetail.funding_amount / PRECISION).toFixed(4)} kUSD </span>
                                     ) : (
-                                        <span style={{ color: "#1ECC89", fontWeight: "bold" }}> {((calculatedX - positiondetail.vUSD_amount / PRECISION) +positiondetail.funding_amount/PRECISION).toFixed(4)} kUSD</span>
+                                        <span style={{ color: "#1ECC89", fontWeight: "bold" }}> {((calculatedX - positiondetail.vUSD_amount / PRECISION) + positiondetail.funding_amount / PRECISION).toFixed(4)} kUSD</span>
                                     )
-                                ):(
-                                    (((positiondetail.vUSD_amount / PRECISION)-calculatedX)+positiondetail.funding_amount/PRECISION) < 0 ? (
+                                ) : (
+                                    (((positiondetail.vUSD_amount / PRECISION) - calculatedX) + positiondetail.funding_amount / PRECISION) < 0 ? (
                                         <span style={{ color: "#E01B3C", fontWeight: "bold" }}>
-                                            {( ((positiondetail.vUSD_amount / PRECISION)- calculatedX) +positiondetail.funding_amount/PRECISION ).toFixed(4)} kUSD </span>
+                                            {(((positiondetail.vUSD_amount / PRECISION) - calculatedX) + positiondetail.funding_amount / PRECISION).toFixed(4)} kUSD </span>
                                     ) : (
-                                        <span style={{ color: "#1ECC89", fontWeight: "bold" }}> {( (positiondetail.vUSD_amount / PRECISION-calculatedX )+positiondetail.funding_amount/PRECISION  ).toFixed(4)} kUSD</span>
+                                        <span style={{ color: "#1ECC89", fontWeight: "bold" }}> {((positiondetail.vUSD_amount / PRECISION - calculatedX) + positiondetail.funding_amount / PRECISION).toFixed(4)} kUSD</span>
                                     )
                                 )
                             }
@@ -570,7 +604,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
             >
                 <Modal.Header style={{ border: "none", position: "relative", left: "10px" }} closeButton>
                     <Modal.Title style={{ fontWeight: "bold" }} >Increase Position</Modal.Title>
-                    <Button style={{ background: "none", border: "none" }}><img style={{ height: "25px" }} onClick={() => {
+                    <Button style={{ background: "none", border: "none", position: "relative", left: '10px' }}><img style={{ height: "25px" }} onClick={() => {
                         setIncreaseshow(false)
                         setIsTxn(false)
                     }} src='/img/icons8-close-30.png' /></Button>
@@ -579,17 +613,17 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                 <Modal.Body style={{ position: "relative", left: "10px" }}>
                     <div className='tradebox_amount'>
                         <span className='tradebox_inputicon'><img style={{ padding: "0 6px", marginTop: "-4px", height: "32px" }} src="img/kusd.png" alt="" />kUSD</span>
-                        <input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined"  onChange={(event) => setBaseValue(event.target.value, setOpenlongpriceImpact())} />
-                        <div style={{ width: "100%",position:"relative", fontSize: "11px", height: "10px", fontWeight: "bold", margin: "2px 0", padding: "2px 0", color: "#a9a9a9" }}>
-							<div style={{ position: "absolute", right: "10px" }}>
-								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(25) }} >25%</button>
-								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(50) }} >50%</button>
-								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(75) }} >75%</button>
-								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(100) }} >100%</button>
-							</div>
-						</div>
+                        <input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" onChange={(event) => setBaseValue(event.target.value, setOpenlongpriceImpact())} />
+                        <div style={{ width: "100%", position: "relative", fontSize: "11px", height: "10px", fontWeight: "bold", margin: "2px 0", padding: "2px 0", color: "#a9a9a9" }}>
+                            <div style={{ position: "absolute", right: "10px" }}>
+                                <button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(25) }} >25%</button>
+                                <button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(50) }} >50%</button>
+                                <button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(75) }} >75%</button>
+                                <button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(100) }} >100%</button>
+                            </div>
+                        </div>
                     </div>
-                    <div style={{marginTop: "10px"}} className='tradebox_leverage'>
+                    <div style={{ marginTop: "10px" }} className='tradebox_leverage'>
                         <h6>Leverage</h6>
                         <Slider
                             aria-label="Temperature"
@@ -676,7 +710,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
             >
                 <Modal.Header style={{ border: "none", position: "relative", left: "10px" }} closeButton>
                     <Modal.Title style={{ fontWeight: "bold" }} >Decrease Position</Modal.Title>
-                    <Button style={{ background: "none", border: "none" }}><img style={{ height: "25px" }} onClick={() => {
+                    <Button style={{ background: "none", border: "none", position: "relative", left: '10px' }}><img style={{ height: "25px" }} onClick={() => {
                         setDecreaseshow(false)
                         setIsTxn(false)
                     }} src='/img/icons8-close-30.png' /></Button>
@@ -685,24 +719,24 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                 <Modal.Body style={{ position: "relative", left: "10px" }}>
                     <div className='tradebox_amount'>
                         <span className='tradebox_inputicon'><img style={{ padding: "0 6px", marginTop: "-4px", height: "32px" }} src="img/kusd.png" alt="" />kUSD</span>
-                        <input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined"  onChange={(event) => setBaseValue(event.target.value, setOpenlongpriceImpact())} />
-                        <div style={{ width: "100%",position:"relative", fontSize: "11px", height: "10px", fontWeight: "bold", margin: "2px 0", padding: "2px 0", color: "#a9a9a9" }}>
-							<div style={{ position: "absolute", right: "10px" }}>
-								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(25) }} >25%</button>
-								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(50) }} >50%</button>
-								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(75) }} >75%</button>
-								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(100) }} >100%</button>
-							</div>
-						</div>
+                        <input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" onChange={(event) => setBaseValue(event.target.value )}/>
+                        <div style={{ width: "100%", position: "relative", fontSize: "11px", height: "10px", fontWeight: "bold", margin: "2px 0", padding: "2px 0", color: "#a9a9a9" }}>
+                            <div style={{ position: "absolute", right: "10px" }}>
+                                <button type='button' className='amount_percent_btn' onClick={() => { decreasepositionvalue(25) }} >25%</button>
+                                <button type='button' className='amount_percent_btn' onClick={() => { decreasepositionvalue(50) }} >50%</button>
+                                <button type='button' className='amount_percent_btn' onClick={() => { decreasepositionvalue(75) }} >75%</button>
+                                <button type='button' className='amount_percent_btn' onClick={() => { decreasepositionvalue(100) }} >100%</button>
+                            </div>
+                        </div>
                     </div>
-                    <div style={{marginTop: "10px"}} className='tradebox_leverage'>
+                    <div style={{ marginTop: "10px" }} className='tradebox_leverage'>
                         <h6>Leverage</h6>
                         <Slider
                             aria-label="Temperature"
                             defaultValue={1}
                             className="tradebox_levslider"
                             value={rangeValue}
-                            onChange={(event) => setRangeValue(event.target.value)}
+                            onChange={(event) => setRangeValue(decreasePercentage>74?1:decreasePercentage==50? (event.target.value==3?2:event.target.value):event.target.value)}
                             color={'primary'}
                             sx={{ color: `grey` }}
                             step={1}
@@ -753,53 +787,54 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                     {isTxn ? (<span style={{ width: "100% !important", position: "relative", left: "-35%" }}><ScaleLoader color='#E01B3C' width={7} margin={6} /> </span>) : (
                         <Button variant="secondary"
                             style={{ minWidth: "98%", background: "#e01b3c", fontWeight: "bold" }}
-                            onClick={async() => {
-                                
-                                
-            try {
-                setIsTxn(true)
-                await decreasePosition(rangeValue, baseValue).then(res => {
-                    gethistory()
-                    setDecreaseshow(false)
-                    setIsTxn(false)
-                    if (res == undefined) {
-                        setType(
-                            {
-                                type: "Failed",
-                                message: "Transaction Aborted !",
-                            }
-                        )
-                        setSnackbarshow(true)
-                    } else {
-                        setType(
-                            {
-                                type: "success",
-                                message: "Transaction Successful!,",
-                                transaction: res
-                            }
-                        )
-                        setSnackbarshow(true)
-                    }
-                }).catch(err => {
-                    setIsTxn(false)
+                            onClick={async () => {
 
-                    setType(
-                        {
-                            type: "Failed",
-                            message: "Transaction Failed !",
-                        }
-                    )
-                    setSnackbarshow(true)
-                })
 
-            }
-            catch (err) {
-                console.log(err)
-                setIsTxn(false)
+                                try {
+                                    setIsTxn(true)
+                                    await decreasePosition(rangeValue, baseValue).then(res => {
+                                        gethistory()
+                                        setDecreaseshow(false)
+                                        setCPosiitonUpdated(true)
+                                        setIsTxn(false)
+                                        if (res == undefined) {
+                                            setType(
+                                                {
+                                                    type: "Failed",
+                                                    message: "Transaction Aborted !",
+                                                }
+                                            )
+                                            setSnackbarshow(true)
+                                        } else {
+                                            setType(
+                                                {
+                                                    type: "success",
+                                                    message: "Transaction Successful!,",
+                                                    transaction: res
+                                                }
+                                            )
+                                            setSnackbarshow(true)
+                                        }
+                                    }).catch(err => {
+                                        setIsTxn(false)
 
-            }
+                                        setType(
+                                            {
+                                                type: "Failed",
+                                                message: "Transaction Failed !",
+                                            }
+                                        )
+                                        setSnackbarshow(true)
+                                    })
+
+                                }
+                                catch (err) {
+                                    console.log(err)
+                                    setIsTxn(false)
+
+                                }
                             }
-                        }
+                            }
                         >
                             DECREASE
                         </Button>

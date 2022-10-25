@@ -46,7 +46,10 @@ const Trade = (props) => {
 		indexprice: 0,
 		rate: 0,
 		longfundingrate: 0,
-		shortfundingrate: 0
+		shortfundingrate: 0,
+		Expectedshortfundingrate: 0,
+		Expectedlongfundingrate: 0,
+		expectedpay:1
 	})
 	const [show, setShow] = useState(false)
 	const [Vmm, setVmm] = useState(0)
@@ -89,13 +92,34 @@ const Trade = (props) => {
 		}
 		setVmm(Vmmdata)
 		setMarketPrice((parseFloat(history.data.current_mark_price) / PRECISION).toFixed(4))
+
+		var fundingRate = ((parseFloat(history.data.current_mark_price) / PRECISION)-(parseFloat(history.data.current_index_price) / PRECISION))/24
+		var avrageValue = ((parseFloat(history.data.current_mark_price) / PRECISION)+(parseFloat(history.data.current_index_price) / PRECISION))/2
+		var percentagevalue = (fundingRate/avrageValue)*100
+		var expectedlongrate =0
+		var expectedshortrate=0
+		var positiveorneagative
+		if(fundingRate<0){
+			positiveorneagative =2
+			expectedlongrate = percentagevalue
+			expectedshortrate = (history.data.total_long/history.data.total_short)*percentagevalue
+		}
+		else{
+			positiveorneagative =1
+			expectedshortrate = percentagevalue
+			expectedlongrate = (history.data.total_short/history.data.total_long)*percentagevalue 
+		}
+
 		setGraphValues({
 			marketprice: (parseFloat(history.data.current_mark_price) / PRECISION).toFixed(4),
 			indexprice: (parseFloat(history.data.current_index_price) / PRECISION).toFixed(4),
 			fundingTime: `${minutes}:${seconds}`,
 			rate: 0,
 			longfundingrate: (history.data.long_funding_rate),
-			shortfundingrate: (history.data.short_funding_rate)
+			shortfundingrate: (history.data.short_funding_rate),
+			Expectedshortfundingrate:expectedshortrate,
+			Expectedlongfundingrate:expectedlongrate,
+			expectedpay:positiveorneagative
 		})
 		var positions = history.data.positions;
 
@@ -259,10 +283,11 @@ const Trade = (props) => {
 						<div className="info-title"> Short funding rate</div>
 						<div className="info-values" style={{ color: `${graphValues.shortfundingrate.direction == "POSITIVE" ? "#1ECC89" : graphValues.shortfundingrate.direction == "NEGATIVE" && graphValues.longfundingrate.value / PRECISION != 0 ? "#E01B3C" : "white"}` }}>{(graphValues.shortfundingrate.value / PRECISION).toFixed(3)}%</div>
 					</div>
-					{/* <div className="graph-info">
+					<div className="graph-info">
 						<div className="info-title"> Expected long/short rate</div>
-						<div className="info-values" style={{ color: "#E01B3C" }}>{graphValues.shortfundingrate}%</div>
-					</div> */}
+						<div className="info-values" ><span style={{ color: `${graphValues.expectedpay==1?"#E01B3C":"#1ECC89"}`}}>{(graphValues.Expectedlongfundingrate).toFixed(3)}%</span> / <span style={{ color: `${graphValues.expectedpay==1?"#1ECC89":"#E01B3C"}`}}>{(graphValues.Expectedshortfundingrate).toFixed(3)}%</span>
+						</div>
+					</div>
 				</div>
 			</div>
 

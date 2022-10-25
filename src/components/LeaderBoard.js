@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import axios from 'axios'
-
+import { ClipLoader } from 'react-spinners'
 
 
 
@@ -116,7 +116,9 @@ export default function LeaderBoard() {
           All Traders
         </h2>
         <div className='table_div'>
-        <table>
+          {
+            isEmpty?(
+<table>
           <thead>
           <tr>
             <th className='leaderboard_head'>Rank</th>
@@ -127,6 +129,8 @@ export default function LeaderBoard() {
           </tr>
           </thead>
           <tbody>
+            
+          
             {
               isEmpty?(
                 
@@ -142,11 +146,19 @@ export default function LeaderBoard() {
                     )
                   })
                 
-              ):(<tr></tr>)
+              ):(<tr><td style={{margin:"auto",display:"flex",justifyContent:"center",alignItem:"center",width:'100%'}}></td></tr>)
             }
           
           </tbody>
         </table>
+            ):(
+              <div style={{width:"100%",height:"250px",marginTop:'100px',display:"flex",justifyContent:"center",alignItem:"center"}}>
+<ClipLoader color='#ffff' width={20} margin={0} />
+
+                </div>
+            )
+          }
+        
 
         </div>
         <Pagination>

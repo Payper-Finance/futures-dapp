@@ -8,6 +8,7 @@ import $ from 'jquery'
 import iO from 'socket.io-client'
 import qs from 'qs'
 import axios from 'axios';
+import Position from './Position';
 
 
 const socket = iO('https://zenith-api-l8hhy.ondigitalocean.app/');
@@ -354,6 +355,25 @@ function TradeChart(props) {
     socket.on("data3", (data) => {
       insertvalue(data)
     })
+    let toolbar = am5stock.StockToolbar.new(root, {
+      container: document.getElementById("chartcontrols"),
+      stockChart: stockChart,
+      controls: [
+        am5stock.IndicatorControl.new(root, {
+          stockChart: stockChart,
+          legend: valueLegend
+        }),
+        am5stock.DrawingControl.new(root, {
+          stockChart: stockChart
+        }),
+        am5stock.ResetControl.new(root, {
+          stockChart: stockChart
+        }),
+        am5stock.SettingsControl.new(root, {
+          stockChart: stockChart
+        })
+      ]
+    })
 
     chartRef.current = stockChart;
     return () => {
@@ -368,11 +388,11 @@ function TradeChart(props) {
       <style>{`
 
 #chartcontrols {
-    height: auto;
-    padding: 5px 5px 0 16px;
-    position: relative;
+  left: 450px;
+  position: absolute;
+  margin-top: -5px;
   }
-  
+
 
   #chartdiv {
     width: 100%;
@@ -381,41 +401,44 @@ function TradeChart(props) {
     position: relative;
   }
 
-  .am5stock-control-button {
-    box-sizing: border-box;
-    max-height: 200px;
-    font-size:12px;
-    opacity:1;
-  }
-  .am5stock-control-button{
-    box-sizing: border-box;
-    max-height: 200px;
-  }
-  .am5stock .am5stock-control-list-container{
-    position:absolute;
-    top:-11px;
-    left:-2px;
-    z-index:1;
-    min-height:100%;
-    box-sizing:border-box;
-    display:flex !important;
-  }
+  // .am5stock-control-button {
+  //   box-sizing: border-box;
+  //   max-height: 200px;
+  //   font-size:12px;
+  //   opacity:1;
+  // }
+  // .am5stock-control-button{
+  //   box-sizing: border-box;
+  //   max-height: 200px;
+  // }
+  // .am5stock .am5stock-control-list-container{
+  //   position:absolute;
+  //   top:-11px;
+  //   left:-2px;
+  //   z-index:1;
+  //   min-height:100%;
+  //   box-sizing:border-box;
+  //   display:flex !important;
+  // }
 
-  .am5stock-control-list{
-    display:flex !important;
+  // .am5stock-control-list{
+  //   display:flex !important;
+  // }
+  // .am5stock-control-list-arrow{
+  //   display:none;
+  // }
+  .am5stock-control-list-container{
+    max-height: 350px;
+    overflow-y: scroll;
   }
-  .am5stock-control-list-arrow{
-    display:none;
-  }
-
-  .am5stock-control-drawing-tools{
-    display: block;
-  position: absolute;
-    display:none
-  }
-  .am5stock-control-dropdown{
-    font-size:12px;
-  }
+  // .am5stock-control-drawing-tools{
+  //   display: block;
+  // position: absolute;
+  //   display:none
+  // }
+  // .am5stock-control-dropdown{
+  //   font-size:12px;
+  // }
   .am5stock-link {
     color:white;
     text-decoration:none;
@@ -450,9 +473,13 @@ function TradeChart(props) {
     max-width: 100%;
     position: relative;
   }
+  #chartcontrols {
+   display:none
+    }
 }
 
       `}</style>
+      <div  id="chartcontrols"></div>
       <ul className='candletimediv'>
         <button className={`${activecandle == '5minute' ? 'active' : ''} candletime`} onClick={() => setActivecandle("5minute")} >5min</button>
         <button className={`${activecandle == '15minute' ? 'active' : ''} candletime`} onClick={() => setActivecandle("15minute")} >15min</button>
@@ -460,7 +487,6 @@ function TradeChart(props) {
         <button className={`${activecandle == 'day' ? 'active' : ''} candletime`} onClick={() => setActivecandle("day")}>Day</button>
       </ul>
 
-      <div id="chartcontrols1"></div>
       <div id="chartdiv"></div>
       <span className='logohide'></span>
 

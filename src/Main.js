@@ -12,10 +12,15 @@ import { PRECISION, vUSD_ADDRESS } from './utils/config'
 import UserContext from './ContextProvider'
 import { CONTRACT_ADDRESS } from "./utils/config"
 import { ClipLoader } from 'react-spinners'
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Popover from '@mui/material/Popover';
+
 
 
 const Main = () => {
   const { setCPosiitonUpdated, CPosiitonUpdated,setkusdTokenBalance} = useContext(UserContext)
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const [Loading, setLoading] = useState(false)
   const [address, setAddress] = useState("")
   const [tradeOrStake, setTradeOrStake] = useState('trade')
@@ -24,6 +29,7 @@ const Main = () => {
   const [isOpen, setOpen] = useState(false)
   const [show, setshow] = useState(false);
   const [tokenBalance, setTokenBalance] = useState("")
+  const [popoverOpen, setpopoverOpen] = useState(false)
   const [type, setType] = useState(
     {
       type: "",
@@ -143,6 +149,7 @@ const Main = () => {
         <div className='Logo'><img style={{ width: "40px", height: "40px", marginRight: "10px" }} src="img/Logo.png" />Zenith</div>
 
         <div className='tradeNav d-flex '>
+        <div className={`tabs`} ><a href='https://discord.gg/dgBRfYunrw' target="_blank" rel="noopener noreferrer"><img style={{ width: "25px", height: "25px" }} src="img/home.png" /> </a></div>
           <div className={`${tradeOrStake === 'trade' ? 'tabs-sel' : ''} tabs`} onClick={() => { setTradeOrStake('trade') }}>Trade</div>
           <div className={`${tradeOrStake === 'stake' ? 'tabs-sel' : ''} tabs`} /*onClick={() => { setTradeOrStake('stake') }}*/>Stake <span className="comingsoon">coming soon</span></div>
           <div className={`${tradeOrStake === 'leaderboard' ? 'tabs-sel' : ''} tabs`} onClick={() => { setTradeOrStake('leaderboard') }}>Leaderboard</div>
@@ -157,7 +164,46 @@ const Main = () => {
             /> }
               
             </button>
-            <button className=" custom_btn" onClick={!account ? onConnectWallet : onDisconnectWallet} >{!account ? <span>Connect Wallet</span> : `${address.substring(0, 12)}..`}</button>
+
+
+        <div>
+          {!account ? <button className=" custom_btn" onClick={ onConnectWallet } >
+              {!account ? <span>Connect Wallet</span> : `${address.substring(0, 12)}..`}
+            </button> : <button className="custom_btn"  onClick={()=> {setpopoverOpen(true)
+           setAnchorEl(event.currentTarget) } }  >
+              {!account ? <span>Connect Wallet</span> : `${address.substring(0, 12)}..`}
+            </button>}
+          
+        
+          
+ <Popover
+ open={popoverOpen}
+ anchorEl={anchorEl}
+ anchorOrigin={{
+  vertical: 'top',
+  horizontal: 'right',
+}}
+transformOrigin={{
+  vertical: 'top',
+  horizontal: 'left',
+}}
+onClose={()=>setpopoverOpen(false)}
+onRequestClose={()=>setpopoverOpen(false)}
+>
+ <Typography sx={{ p: 0 }}><button className=" custom_btn" style={{border:"none",marginRight:"0"}} onClick={()=>{ onDisconnectWallet()
+ setpopoverOpen(false)
+}}
+ >Disconnect</button></Typography>
+ <Typography sx={{ p: 0 }}><button className=" custom_btn" style={{border:"none",marginRight:"0"}} onClick={() => navigator.clipboard
+ .writeText(address)
+ .then((res) => alert("Address Copied"))}>Copy Address</button></Typography>
+</Popover>
+
+        </div>
+      
+
+            
+
           </div>
         </div>
         <Hamburger className="mobileviewcheck" size={20} toggled={isOpen} toggle={setOpen} />
@@ -211,3 +257,6 @@ const Main = () => {
 }
 
 export default Main
+
+
+
