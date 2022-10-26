@@ -284,7 +284,8 @@ const Trade = (props) => {
 					</div>
 					<div className="graph-info">
 						<div className="info-title"> Expected long/short rate</div>
-						<div className="info-values" ><span style={{ color: `${graphValues.expectedpay==1?"#E01B3C":"#1ECC89"}`}}>{graphValues.expectedpay==1?((-graphValues.Expectedlongfundingrate).toFixed(3)):(graphValues.Expectedlongfundingrate).toFixed(3)}%</span> / <span style={{ color: `${graphValues.expectedpay==1?"#1ECC89":"#E01B3C"}`}}>{graphValues.expectedpay==2?((-graphValues.Expectedshortfundingrate).toFixed(3)):(graphValues.Expectedshortfundingrate).toFixed(3)}%</span>
+						<div className="info-values" ><span style={{ color: `${graphValues.expectedpay==1?"#E01B3C":"#1ECC89"}`}}>{graphValues.expectedpay==1?((-graphValues.Expectedlongfundingrate).toFixed(3)):(graphValues.Expectedlongfundingrate).toFixed(3)}%</span> / <span style={{ color: `${graphValues.expectedpay==1?"#1ECC89":"#E01B3C"}`}}>{graphValues.expectedpay==2?((-
+							graphValues.Expectedshortfundingrate).toFixed(3)):(graphValues.Expectedshortfundingrate).toFixed(3)}%</span>
 						</div>
 					</div>
 				</div>
@@ -294,7 +295,7 @@ const Trade = (props) => {
 				{
 					!currentPosition ? (
 						<>
-							<h5>You can go Long or Short </h5>
+							<h5>By adding {graphValues.longfundingrate.direction == "POSITIVE" ? `long position, you can earn ${((graphValues.longfundingrate.value/PRECISION)*24*365).toFixed(2)}  %`:`short position, you can earn ${((graphValues.shortfundingrate.valu/PRECISION)*24*365).toFixed(2)}  %`}  APR </h5>
 							<div className="long-short-btns mt-4">
 								<button className={`longbtn  mx-1 btn  `} style={{ color: "white", fontWeight: "bold", background: "#1ECC89" }} onClick={() => {
 									setIsPosition("long")
