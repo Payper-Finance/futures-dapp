@@ -308,7 +308,7 @@ const Trade = (props) => {
 								}} >Short</button>
 							</div>
 						</>
-					) : (<h5>You have taken a position. Now you can change the margin </h5>)
+					) : (<h5>You have taken a position.  Now you can change the margin or increase/decrease the position. </h5>)
 				}
 
 			</div>
