@@ -114,7 +114,7 @@ connection.on("operations", (msg) => {
         if (!!data[i].initiator && !!data[i].parameter.entrypoint) {
           var OpHash = data[i].hash;
           positionAction(OpHash);
-          LiquidationFunction()
+          // LiquidationFunction()
         }
       }
       tradeaction();
@@ -733,30 +733,30 @@ app.post('/granularity', async (req, res) => {
 
 
 
-const LiquidationFunction = async () => {
-  let storage = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${process.env.VMMCONTRACT}/storage/`).then(result => {
-    return result.data
-  })
-  let positions = storage.positions
-  try{
-    Object.keys(positions).forEach(async (key, index) => {
-      await Tezos.contract.at(process.env.VMMCONTRACT).then((contract)=>{
-        contract.methods.liquidate(key).send().catch((err)=>{
-          console.log("Zenith :-rocket, error");
-          console.log(err)
-        })
-        .then(()=>{
-          console.log("Position Liquidated")
-        })
-      }).catch((err) => {
-          console.log("liquidation error " + err)
-        });
-      })
-  }
-  catch(err){
-    console.log("No Liquidation")
-  }
-}
+// const LiquidationFunction = async () => {
+//   let storage = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${process.env.VMMCONTRACT}/storage/`).then(result => {
+//     return result.data
+//   })
+//   let positions = storage.positions
+//   try{
+//     Object.keys(positions).forEach(async (key, index) => {
+//       await Tezos.contract.at(process.env.VMMCONTRACT).then((contract)=>{
+//         contract.methods.liquidate(key).send().catch((err)=>{
+//           console.log("Zenith :-rocket, error");
+//           console.log(err)
+//         })
+//         .then(()=>{
+//           console.log("Position Liquidated")
+//         })
+//       }).catch((err) => {
+//           console.log("liquidation error " + err)
+//         });
+//       })
+//   }
+//   catch(err){
+//     console.log("No Liquidation")
+//   }
+// }
 
 
 // if(positions[key].position==1){
@@ -840,9 +840,9 @@ var nextTick = function () {
       }
     }
   }
-  if(Date.parse(storage.upcoming_funding_time)- 300000 <= Date.now()){
-     LiquidationFunction()
-  }
+  // if(Date.parse(storage.upcoming_funding_time)- 300000 <= Date.now()){
+  //    LiquidationFunction()
+  // }
 
   setTimeout(timerFunction, nextTick());
 };
