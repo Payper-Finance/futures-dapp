@@ -295,7 +295,7 @@ const Trade = (props) => {
 				{
 					!currentPosition ? (
 						<>
-							<h5>By adding {graphValues.longfundingrate.direction == "POSITIVE" ? `long position, you can earn ${((graphValues.longfundingrate.value/PRECISION)*24*365).toFixed(2)}  %`:`short position, you can earn ${((graphValues.shortfundingrate.valu/PRECISION)*24*365).toFixed(2)}  %`}  APR </h5>
+							<h5>By adding {graphValues.longfundingrate.direction == "POSITIVE" ? `long position, you can earn ${((graphValues.longfundingrate.value/PRECISION)*24*365).toFixed(2)}  %`:`short position, you can earn ${((graphValues.shortfundingrate.value/PRECISION)*24*365).toFixed(2)}  %`}  APR </h5>
 							<div className="long-short-btns mt-4">
 								<button className={`longbtn  mx-1 btn  `} style={{ color: "white", fontWeight: "bold", background: "#1ECC89" }} onClick={() => {
 									setIsPosition("long")
