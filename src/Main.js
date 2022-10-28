@@ -201,7 +201,7 @@ const Main = () => {
           
           <div className={`tabs`} ><a href='https://discord.gg/dgBRfYunrw' target="_blank" rel="noopener noreferrer"><img style={{ width: "25px", height: "25px" }} src="img/discordnav.png" /> </a></div>
           <div className='btncustmdiv'>
-          <button style={{marginTop:"15px",borderRadius:"5px" ,marginRight:"10px",maxHeight:"30px",border:"none"}} onClick={toggleTheme}><img style ={{height:"25px",borderRadius:"10px"}} src={`${Theme=="Light"?"img/nightmode.png":"img/lightmode.png"}`}/></button>
+          <button style={{marginTop:"15px",borderRadius:"5px" ,marginRight:"10px",maxHeight:"30px",border:"none", background:`${Theme=="Light"?"aliceblue":"black"}`}} onClick={toggleTheme}><img style ={{height:"25px",borderRadius:"10px"}} src={`${Theme=="Light"?"img/nightmode.png":"img/lightmode.png"}`}/></button>
             <button style={{ right: "" }} className=" custom_btn" onClick={getToken} >
               {!Loading?<span>{tokenBalance == '' ? "Get Token" : `${tokenBalance} kUSD`}</span>:<ClipLoader
               color="#ffff"
