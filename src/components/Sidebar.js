@@ -20,7 +20,7 @@ const Sidebar = (props) => {
     <>
     <div style={Theme=="Light"?lightstyle:{}} className='sidebar '>
       <div className="coins">
-        <div className={`${coinSelect === 'tezos'? 'sidebar-sel': '' } coin my-3 d-flex text-start`} onClick={()=>{setCoinSelect('tezos')}} >
+        <div style ={Theme=="Light" && coinSelect=='tezos' ?{background:"#F6F3FA",color:"black"}:{}} className={`${coinSelect === 'tezos'? 'sidebar-sel': '' } coin my-3 d-flex text-start`} onClick={()=>{setCoinSelect('tezos')}} >
             <div className='mx-2'><img src="/img/tz.svg" style={{width:'20px'}} alt="" /></div>
             <div style={{minWidth:'80px'}}>Tezos <br />XTZ</div>
             <div  className='me-2 ms-auto text-end'>{maketPrice} kUSD</div>

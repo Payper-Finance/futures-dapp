@@ -458,7 +458,6 @@ function TradeChart(props) {
   }
   .active{
     background :#281e3d;
-    color:white !important;
   }
   .logohide{
     margin-top:-19px;
@@ -491,12 +490,11 @@ function TradeChart(props) {
 }
 
       `}</style>
-      {/* <div  id="chartcontrols"></div> */}
       <ul className='candletimediv'>
-        <button style={Theme=="Light"?{color:"black"}:{color:"aliceblue"}}  className={`${activecandle == '5minute' ? 'active' : ''} candletime`} onClick={() => setActivecandle("5minute")} >5min</button>
-        <button style={Theme=="Light"?{color:"black"}:{color:"aliceblue"}} className={`${activecandle == '15minute' ? 'active' : ''} candletime`} onClick={() => setActivecandle("15minute")} >15min</button>
-        <button style={Theme=="Light"?{color:"black"}:{color:"aliceblue"}}className={`${activecandle == 'hour' ? 'active' : ''} candletime`} onClick={() => setActivecandle("hour")}>Hour</button>
-        <button style={Theme=="Light"?{color:"black"}:{color:"aliceblue"}} className={`${activecandle == 'day' ? 'active' : ''} candletime`} onClick={() => setActivecandle("day")}>Day</button>
+        <button style={Theme=="Light" && activecandle =='5minute'?{color:"black",background:"#c99eff"}:Theme=="Light"?{color:"black"}:{color:"aliceblue"}}  className={`${activecandle == '5minute'&& Theme!="Light" ? 'active' : ''} candletime`} onClick={() => setActivecandle("5minute")} >5min</button>
+        <button style={Theme=="Light" && activecandle =='15minute'?{color:"black",background:"#c99eff"}:Theme=="Light"?{color:"black"}:{color:"aliceblue"}} className={`${activecandle == '15minute'&& Theme!="Light" ? 'active' : ''} candletime`} onClick={() => setActivecandle("15minute")} >15min</button>
+        <button style={Theme=="Light" && activecandle =='hour'?{color:"black",background:"#c99eff"}:Theme=="Light"?{color:"black"}:{color:"aliceblue"}} className={`${activecandle == 'hour'&& Theme!="Light" ? 'active' : ''} candletime`} onClick={() => setActivecandle("hour")}>Hour</button>
+        <button style={Theme=="Light" && activecandle =='day'?{color:"black",background:"#c99eff"}:Theme=="Light"?{color:"black"}:{color:"aliceblue"}} className={`${activecandle == 'day' && Theme!="Light" ? 'active' : ''} candletime`} onClick={() => setActivecandle("day")}>Day</button>
       </ul>
 
       <div id="chartdiv"></div>

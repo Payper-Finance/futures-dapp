@@ -6,7 +6,8 @@ export function ContexProvider({children}){
     const [CPosiitonUpdated,setCPosiitonUpdated] = useState(true);
     const [maketPrice,setMarketPrice] = useState("")
     const [kusdTokenBalance,setkusdTokenBalance] = useState(0)
-    const [Theme,setTheme] = useState("Dark")
+    const isBrowserDefaultDark =()=> window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const [Theme,setTheme] = useState(isBrowserDefaultDark() ? 'Dark' : 'Light');
     
     
     return(

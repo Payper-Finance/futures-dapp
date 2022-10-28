@@ -396,7 +396,7 @@ text-align: right;
 }
 
 .custom_btn:hover{
-  color: white !important;
+    color: antiquewhite !important;
   background-color: #59219d;
   border-color: #59219d;
   box-shadow: 0px 0px 24px -2px #59219d;

@@ -301,7 +301,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                 </Modal.Header>
                 <Modal.Body>
                     <span style={{ position: "absolute", marginTop: "7px", marginLeft: "15px" }}><img style={{ height: "25px" }} src='/img/kusd.png' /></span>
-                    <input value={addmarginvalue} type="number" onChange={async(event) => setaddmarginvalue((parseFloat(event.target.value)<=kusdTokenBalance)?event.target.value:addmarginvalue)} style={{ width: "100%", height: "40px", borderRadius: "5px", margin: "2px 0px", background: `${Theme =="Light"?"#59219D":"#30313d"}`, border: "none", textAlign: "right", padding: "0 10px" }} placeholder='Amount' />
+                    <input value={addmarginvalue} type="number" onChange={async(event) => setaddmarginvalue((parseFloat(event.target.value)<=kusdTokenBalance)?event.target.value:addmarginvalue)} style={{ width: "100%", height: "40px", borderRadius: "5px", margin: "2px 0px", background: `${Theme =="Light"?"#b77dff":"#30313d"}`, border: "none", textAlign: "right", padding: "0 10px" }} placeholder='Amount' />
                         <Box sx={{ width: 300 }} style={{marginLeft:"6px"}}>
                             <Slider
                                 defaultValue={0}
@@ -407,7 +407,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                 <Modal.Body>
 
                     <span style={{ position: "absolute", marginTop: "7px", marginLeft: "15px" }}><img style={{ height: "25px" }} src='/img/kusd.png' /></span>
-                    <input value={removemarginvalue} type="number" min="0" max="100000000" onChange={(event) => setremovemarginvalue(event.target.value)} style={{ width: "100%", height: "40px", borderRadius: "5px", margin: "2px 0px", background: `${Theme =="Light"?"#59219D":"#30313d"}`, border: "none", textAlign: "right", padding: "0 10px" }} placeholder='Amount' />
+                    <input value={removemarginvalue} type="number" min="0" max="100000000" onChange={(event) => setremovemarginvalue(event.target.value)} style={{ width: "100%", height: "40px", borderRadius: "5px", margin: "2px 0px", background: `${Theme =="Light"?"#b77dff":"#30313d"}`, border: "none", textAlign: "right", padding: "0 10px" }} placeholder='Amount' />
                     <Box sx={{ width: 300 }} style={{marginLeft:"6px"}}>
                             <Slider
                                 defaultValue={0}
@@ -620,7 +620,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                 <Modal.Body style={{ position: "relative", left: "10px" }}>
                     <div className='tradebox_amount'>
                         <span className='tradebox_inputicon'><img style={{ padding: "0 6px", marginTop: "-4px", height: "32px" }} src="img/kusd.png" alt="" />kUSD</span>
-                        <input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" onChange={(event) => setBaseValue(event.target.value, setOpenlongpriceImpact())} />
+                        <input value={baseValue} style={{ fontFamily: "'Inter', sans-serif",background:`${Theme=="Light"?"#b77dff":''}` }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" onChange={(event) => setBaseValue(event.target.value, setOpenlongpriceImpact())} />
                         <div style={{ width: "100%", position: "relative", fontSize: "11px", height: "10px", fontWeight: "bold", margin: "2px 0", padding: "2px 0",color:`${Theme=="Light"?"black":'aliceblue'}` }}>
                             <div style={{ position: "absolute", right: "10px" }}>
                                 <button style={{ color:`${Theme=="Light"?"black":'aliceblue'}` }} type='button' className='amount_percent_btn' onClick={() => { addBaseValue(25) }} >25%</button>
@@ -726,7 +726,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                 <Modal.Body style={{ position: "relative", left: "10px" }}>
                     <div className='tradebox_amount'>
                         <span className='tradebox_inputicon'><img style={{ padding: "0 6px", marginTop: "-4px", height: "32px" }} src="img/kusd.png" alt="" />kUSD</span>
-                        <input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" onChange={(event) => setBaseValue(event.target.value )}/>
+                        <input value={baseValue} style={{ fontFamily: "'Inter', sans-serif",background:`${Theme=="Light"?"#b77dff":''}` }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" onChange={(event) => setBaseValue(event.target.value )}/>
                         <div style={{ width: "100%", position: "relative", fontSize: "11px", height: "10px", fontWeight: "bold", margin: "2px 0", padding: "2px 0", color:`${Theme=="Light"?"black":'aliceblue'}` }}>
                             <div style={{ position: "absolute", right: "10px" }}>
                                 <button style={{ color:`${Theme=="Light"?"black":'aliceblue'}` }} type='button' className='amount_percent_btn' onClick={() => { decreasepositionvalue(25) }} >25%</button>
