@@ -14,7 +14,7 @@ import { parse } from 'qs';
 
 export default function Position({ positiondetail, graph, gethistory, Vmm }) {
 
-    const { setCPosiitonUpdated, CPosiitonUpdated, kusdTokenBalance } = useContext(UserContext)
+    const { setCPosiitonUpdated, CPosiitonUpdated, kusdTokenBalance,Theme } = useContext(UserContext)
     const [isTxn, setIsTxn] = useState(false);
     const [Addshow, setAddShow] = useState(false);
     const [Closeshow, setCloseShow] = useState(false);
@@ -185,6 +185,11 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
 
     return (
         <>
+        		{Theme=="Light"?(<style>{`
+		.modal-content{
+			background :aliceblue !important;
+		}
+		`}</style>):("")}
             <Snackbar show={snackbarshow} setshow={setSnackbarshow} type={type} />
             <section className='tradePostion'>
                 <div className='positon_Health'>
@@ -287,16 +292,16 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
 
             >
                 <Modal.Header style={{ border: "none" }} closeButton>
-                    <Modal.Title style={{ fontWeight: "bold" }} >Add Margin</Modal.Title>
-                    <Button style={{ background: "none", border: "none", position: "relative", left: '20px' }}><img style={{ height: "25px" }} onClick={() => {
+                    <Modal.Title style={{ fontWeight: "bold",color:`${Theme=="Light"?"black":'aliceblue'}` }} >Add Margin</Modal.Title>
+                    <Button style={{ background: "none", border: "none", position: "relative", left: '20px' }}><img style={{ height: `${Theme=="Light"?"20px":"25px"}`}} onClick={() => {
                         setAddShow(false)
                         setIsTxn(false)
                     }
-                    } src='/img/icons8-close-30.png' /></Button>
+                    } src={`${Theme=="Light"?"/img/blackclose.png":'/img/icons8-close-30.png'}`} /></Button>
                 </Modal.Header>
                 <Modal.Body>
                     <span style={{ position: "absolute", marginTop: "7px", marginLeft: "15px" }}><img style={{ height: "25px" }} src='/img/kusd.png' /></span>
-                    <input value={addmarginvalue} type="number" onChange={async(event) => setaddmarginvalue((parseFloat(event.target.value)<=kusdTokenBalance)?event.target.value:addmarginvalue)} style={{ width: "100%", height: "40px", borderRadius: "5px", margin: "2px 0px", background: "#30313d", border: "none", textAlign: "right", padding: "0 10px" }} placeholder='Amount' />
+                    <input value={addmarginvalue} type="number" onChange={async(event) => setaddmarginvalue((parseFloat(event.target.value)<=kusdTokenBalance)?event.target.value:addmarginvalue)} style={{ width: "100%", height: "40px", borderRadius: "5px", margin: "2px 0px", background: `${Theme =="Light"?"#59219D":"#30313d"}`, border: "none", textAlign: "right", padding: "0 10px" }} placeholder='Amount' />
                         <Box sx={{ width: 300 }} style={{marginLeft:"6px"}}>
                             <Slider
                                 defaultValue={0}
@@ -306,6 +311,8 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                                 min={0}
                                 max={kusdTokenBalance}
                             onChange={(event) => setaddmarginvalue(event.target.value)}
+                            color={'secondary'}
+							sx={{ color: `grey` }}
                             />
                         </Box>
                     {/* <div className='marginbodydiv' style={{ borderBottom: "0.5px solid #30313d", fontWeight: "bold" }}>
@@ -313,8 +320,8 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                         <p>{((positiondetail.collateral_amount/1000000).toFixed(2)/100)*8.5} kUSD</p>
                     </div> */}
                     <div className='marginbodydiv' style={{ marginTop: "10px" }}>
-                        <p>Position margin</p>
-                        <p>{(parseFloat((positiondetail.collateral_amount / PRECISION).toFixed(4)) + parseFloat(addmarginvalue)).toFixed(3)} kUSD</p>
+                        <p style={{color:`${Theme=="Light"?"black":'aliceblue'}`}}>Position margin</p>
+                        <p style={{color:`${Theme=="Light"?"black":'aliceblue'}`}}>{(parseFloat((positiondetail.collateral_amount / PRECISION).toFixed(4)) + parseFloat(addmarginvalue)).toFixed(3)} kUSD</p>
                     </div>
                 </Modal.Body>
                 <Modal.Footer style={{ border: "none" }} >
@@ -389,18 +396,18 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
 
             >
                 <Modal.Header style={{ border: "none" }} closeButton>
-                    <Modal.Title style={{ fontWeight: "bold" }} >Reduce Margin</Modal.Title>
-                    <Button style={{ background: "none", border: "none", position: "relative", left: '20px' }}><img style={{ height: "25px" }} onClick={() => {
+                    <Modal.Title style={{ fontWeight: "bold",color:`${Theme=="Light"?"black":'aliceblue'}` }} >Reduce Margin</Modal.Title>
+                    <Button style={{ background: "none", border: "none", position: "relative", left: '20px' }}><img style={{ height: `${Theme=="Light"?"20px":"25px"}`}} onClick={() => {
                         setCloseShow(false)
 
                         setIsTxn(false)
-                    }} src='/img/icons8-close-30.png' /></Button>
+                    }} src={`${Theme=="Light"?"/img/blackclose.png":'/img/icons8-close-30.png'}`}/></Button>
 
                 </Modal.Header>
                 <Modal.Body>
 
                     <span style={{ position: "absolute", marginTop: "7px", marginLeft: "15px" }}><img style={{ height: "25px" }} src='/img/kusd.png' /></span>
-                    <input value={removemarginvalue} type="number" min="0" max="100000000" onChange={(event) => setremovemarginvalue(event.target.value)} style={{ width: "100%", height: "40px", borderRadius: "5px", margin: "2px 0px", background: "#30313d", border: "none", textAlign: "right", padding: "0 10px" }} placeholder='Amount' />
+                    <input value={removemarginvalue} type="number" min="0" max="100000000" onChange={(event) => setremovemarginvalue(event.target.value)} style={{ width: "100%", height: "40px", borderRadius: "5px", margin: "2px 0px", background: `${Theme =="Light"?"#59219D":"#30313d"}`, border: "none", textAlign: "right", padding: "0 10px" }} placeholder='Amount' />
                     <Box sx={{ width: 300 }} style={{marginLeft:"6px"}}>
                             <Slider
                                 defaultValue={0}
@@ -410,6 +417,8 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                                 min ={0}
                                 max ={(marginRatio-0.3)*(parseFloat(positiondetail.vUSD_amount) / PRECISION)}
                             onChange={(event) => setremovemarginvalue(event.target.value)}
+                            color={'secondary'}
+							sx={{ color: `grey` }}
                             />
                         </Box>
                     {/* <div className='marginbodydiv' style={{ borderBottom: "0.5px solid #30313d", fontWeight: "bold" }}>
@@ -417,8 +426,8 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                         <p>{((positiondetail.collateral_amount/1000000).toFixed(2)/100)*8.5} kUSD</p>
                     </div> */}
                     <div className='marginbodydiv' style={{ marginTop: "10px" }}>
-                        <p>Position margin</p>
-                        <p>{(parseFloat((positiondetail.collateral_amount / PRECISION).toFixed(4)) - parseFloat(removemarginvalue)).toFixed(4)} kUSD</p>
+                        <p style={{color:`${Theme=="Light"?"black":'aliceblue'}`}}>Position margin</p>
+                        <p style={{color:`${Theme=="Light"?"black":'aliceblue'}`}}>{(parseFloat((positiondetail.collateral_amount / PRECISION).toFixed(4)) - parseFloat(removemarginvalue)).toFixed(4)} kUSD</p>
                     </div>
                 </Modal.Body>
                 <Modal.Footer style={{ border: "none" }} >
@@ -491,21 +500,21 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
 
             >
                 <Modal.Header style={{ border: "none" }} closeButton>
-                    <Modal.Title style={{ fontWeight: "bold" }} >Close Position</Modal.Title>
-                    <Button style={{ background: "none", border: "none", position: "relative", left: '20px' }}><img style={{ height: "25px" }} onClick={() => {
+                    <Modal.Title style={{ fontWeight: "bold",color:`${Theme=="Light"?"black":'aliceblue'}` }}  >Close Position</Modal.Title>
+                    <Button style={{ background: "none", border: "none", position: "relative", left: '20px' }}><img style={{ height: `${Theme=="Light"?"20px":"25px"}`}} onClick={() => {
                         setClosePosition(false)
                         setIsTxn(false)
-                    }} src='/img/icons8-close-30.png' /></Button>
+                    }} src={`${Theme=="Light"?"/img/blackclose.png":'/img/icons8-close-30.png'}`} /></Button>
                 </Modal.Header>
                 <Modal.Body>
                     <p style={{ fontSize: "14px", color: "#96979c" }}>Are you sure you want to close the position?</p>
 
                     <div className='marginbodydiv' style={{ borderBottom: "0.5px solid #30313d", fontWeight: "bold" }}>
-                        <p style={{ flexBasis: "55%" }}>Expected Close Price</p>
-                        <p>{expectedClose.toFixed(4)}</p>
+                        <p style={{ flexBasis: "55%",color:`${Theme=="Light"?"black":'aliceblue'}` }}>Expected Close Price</p>
+                        <p style={{color:`${Theme=="Light"?"black":'aliceblue'}`}}>{expectedClose.toFixed(4)}</p>
                     </div>
                     <div className='marginbodydiv' style={{ marginTop: "10px", fontWeight: "bold" }}>
-                        <p>Your Profit</p>
+                        <p style={{color:`${Theme=="Light"?"black":'aliceblue'}`}}>Your Profit</p>
                         <p>
                             {
 
@@ -601,35 +610,35 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                 aria-describedby="modal-modal-description"
             >
                 <Modal.Header style={{ border: "none", position: "relative", left: "10px" }} closeButton>
-                    <Modal.Title style={{ fontWeight: "bold" }} >Increase Position</Modal.Title>
-                    <Button style={{ background: "none", border: "none", position: "relative", left: '10px' }}><img style={{ height: "25px" }} onClick={() => {
+                    <Modal.Title style={{ fontWeight: "bold",color:`${Theme=="Light"?"black":'aliceblue'}` }} >Increase Position</Modal.Title>
+                    <Button style={{ background: "none", border: "none", position: "relative", left: '10px' }}><img style={{ height: `${Theme=="Light"?"20px":"25px"}`}} onClick={() => {
                         setIncreaseshow(false)
                         setIsTxn(false)
-                    }} src='/img/icons8-close-30.png' /></Button>
+                    }} src={`${Theme=="Light"?"/img/blackclose.png":'/img/icons8-close-30.png'}`} /></Button>
 
                 </Modal.Header>
                 <Modal.Body style={{ position: "relative", left: "10px" }}>
                     <div className='tradebox_amount'>
                         <span className='tradebox_inputicon'><img style={{ padding: "0 6px", marginTop: "-4px", height: "32px" }} src="img/kusd.png" alt="" />kUSD</span>
                         <input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" onChange={(event) => setBaseValue(event.target.value, setOpenlongpriceImpact())} />
-                        <div style={{ width: "100%", position: "relative", fontSize: "11px", height: "10px", fontWeight: "bold", margin: "2px 0", padding: "2px 0", color: "#a9a9a9" }}>
+                        <div style={{ width: "100%", position: "relative", fontSize: "11px", height: "10px", fontWeight: "bold", margin: "2px 0", padding: "2px 0",color:`${Theme=="Light"?"black":'aliceblue'}` }}>
                             <div style={{ position: "absolute", right: "10px" }}>
-                                <button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(25) }} >25%</button>
-                                <button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(50) }} >50%</button>
-                                <button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(75) }} >75%</button>
-                                <button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(100) }} >100%</button>
+                                <button style={{ color:`${Theme=="Light"?"black":'aliceblue'}` }} type='button' className='amount_percent_btn' onClick={() => { addBaseValue(25) }} >25%</button>
+                                <button style={{ color:`${Theme=="Light"?"black":'aliceblue'}` }} type='button' className='amount_percent_btn' onClick={() => { addBaseValue(50) }} >50%</button>
+                                <button style={{ color:`${Theme=="Light"?"black":'aliceblue'}` }} type='button' className='amount_percent_btn' onClick={() => { addBaseValue(75) }} >75%</button>
+                                <button style={{ color:`${Theme=="Light"?"black":'aliceblue'}` }} type='button' className='amount_percent_btn' onClick={() => { addBaseValue(100) }} >100%</button>
                             </div>
                         </div>
                     </div>
-                    <div style={{ marginTop: "10px" }} className='tradebox_leverage'>
-                        <h6>Leverage</h6>
+                    <div style={{ marginTop: "10px",background:`${Theme=="Light"?"#C99EFF":''}` }} className='tradebox_leverage'>
+                        <h6 style={{ color:`${Theme=="Light"?"black":'aliceblue'}` }}>Leverage</h6>
                         <Slider
                             aria-label="Temperature"
                             defaultValue={1}
                             className="tradebox_levslider"
                             value={rangeValue}
                             onChange={(event) => setRangeValue(event.target.value)}
-                            color={'primary'}
+                            color={'secondary'}
                             sx={{ color: `grey` }}
                             step={1}
                             marks
@@ -637,39 +646,39 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                             max={3}
                             style={{ width: '90%' }} /> <span style={{ position: "absolute", bottom: "6px", fontSize: "14px", right: "25px", fontWeight: "bold" }}>{rangeValue}x</span> <br />
                     </div>
-                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", fontWeight: "600", marginTop: "20px", marginLeft: "-8px" }}>You are buying in the long</p>
+                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", fontWeight: "600", marginTop: "20px", marginLeft: "-8px",color:`${Theme=="Light"?"black":'aliceblue'}` }}>You are buying in the long</p>
                     <table className='tradebox_table1' style={{ width: "100%" }}>
                         <tbody>
                             <tr style={{ width: "100%" }}>
                                 <td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Position size</td>
-                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseXrange == 0 ? ((baseValue == null) ? 0 : (baseValue / graph.marketprice).toFixed(4)) : ((baseXrange / graph.marketprice).toFixed(4))} XTZ <img src="img/tz.svg" /></td>
+                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}` }}>{baseXrange == 0 ? ((baseValue == null) ? 0 : (baseValue / graph.marketprice).toFixed(4)) : ((baseXrange / graph.marketprice).toFixed(4))} XTZ <img src="img/tz.svg" /></td>
                             </tr>
                             <tr style={{ width: "100%" }}>
                                 <td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Entry price</td>
-                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{graph.marketprice} kUSD <img style={{ width: "20px" }} src="img/kusd.png" /></td>
+                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}` }}>{graph.marketprice} kUSD <img style={{ width: "20px" }} src="img/kusd.png" /></td>
                             </tr>
                         </tbody>
                     </table>
-                    <hr style={{ position: "relative", left: "-10px", width: "100%", top: "20px" }} />
+                    <hr style={{ position: "relative", left: "-10px", width: "100%", top: "20px",color:`${Theme=="Light"?"black":'aliceblue'}` }} />
 
 
                     <table className='tradebox_table1' style={{ width: "100%" }}>
                         <tbody>
                             <tr style={{ width: "100%", }}>
                                 <td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Amount</td>
-                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseValue} kUSD</td>
+                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}` }}>{baseValue} kUSD</td>
                             </tr>
                             <tr style={{ width: "100%" }}>
                                 <td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Trading Fee</td>
-                                <td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{(baseValue / 100) * 2} kUSD</td>
+                                <td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}` }}>{(baseValue / 100) * 2} kUSD</td>
                             </tr>
                             <tr style={{ width: "100%" }}>
                                 <td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Price impact</td>
-                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseValue == 0 ? 0 : priceImpact.toFixed(4)}%</td>
+                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}` }}>{baseValue == 0 ? 0 : priceImpact.toFixed(4)}%</td>
                             </tr>
                             <tr style={{ width: "100%" }}>
                                 <td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Slippage tolerance</td>
-                                <td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>2%</td>
+                                <td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}` }}>2%</td>
                             </tr>
                         </tbody>
                     </table>
@@ -707,75 +716,75 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                 aria-describedby="modal-modal-description"
             >
                 <Modal.Header style={{ border: "none", position: "relative", left: "10px" }} closeButton>
-                    <Modal.Title style={{ fontWeight: "bold" }} >Decrease Position</Modal.Title>
-                    <Button style={{ background: "none", border: "none", position: "relative", left: '10px' }}><img style={{ height: "25px" }} onClick={() => {
+                    <Modal.Title style={{ fontWeight: "bold",color:`${Theme=="Light"?"black":'aliceblue'}` }} >Decrease Position</Modal.Title>
+                    <Button style={{ background: "none", border: "none", position: "relative", left: '10px' }}><img style={{ height: `${Theme=="Light"?"20px":"25px"}`}} onClick={() => {
                         setDecreaseshow(false)
                         setIsTxn(false)
-                    }} src='/img/icons8-close-30.png' /></Button>
+                    }} src={`${Theme=="Light"?"/img/blackclose.png":'/img/icons8-close-30.png'}`} /></Button>
 
                 </Modal.Header>
                 <Modal.Body style={{ position: "relative", left: "10px" }}>
                     <div className='tradebox_amount'>
                         <span className='tradebox_inputicon'><img style={{ padding: "0 6px", marginTop: "-4px", height: "32px" }} src="img/kusd.png" alt="" />kUSD</span>
                         <input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" onChange={(event) => setBaseValue(event.target.value )}/>
-                        <div style={{ width: "100%", position: "relative", fontSize: "11px", height: "10px", fontWeight: "bold", margin: "2px 0", padding: "2px 0", color: "#a9a9a9" }}>
+                        <div style={{ width: "100%", position: "relative", fontSize: "11px", height: "10px", fontWeight: "bold", margin: "2px 0", padding: "2px 0", color:`${Theme=="Light"?"black":'aliceblue'}` }}>
                             <div style={{ position: "absolute", right: "10px" }}>
-                                <button type='button' className='amount_percent_btn' onClick={() => { decreasepositionvalue(25) }} >25%</button>
-                                <button type='button' className='amount_percent_btn' onClick={() => { decreasepositionvalue(50) }} >50%</button>
-                                <button type='button' className='amount_percent_btn' onClick={() => { decreasepositionvalue(75) }} >75%</button>
-                                <button type='button' className='amount_percent_btn' onClick={() => { decreasepositionvalue(100) }} >100%</button>
+                                <button style={{ color:`${Theme=="Light"?"black":'aliceblue'}` }} type='button' className='amount_percent_btn' onClick={() => { decreasepositionvalue(25) }} >25%</button>
+                                <button style={{ color:`${Theme=="Light"?"black":'aliceblue'}` }} type='button' className='amount_percent_btn' onClick={() => { decreasepositionvalue(50) }} >50%</button>
+                                <button style={{ color:`${Theme=="Light"?"black":'aliceblue'}` }} type='button' className='amount_percent_btn' onClick={() => { decreasepositionvalue(75) }} >75%</button>
+                                <button style={{ color:`${Theme=="Light"?"black":'aliceblue'}` }} type='button' className='amount_percent_btn' onClick={() => { decreasepositionvalue(100) }} >100%</button>
                             </div>
                         </div>
                     </div>
-                    <div style={{ marginTop: "10px" }} className='tradebox_leverage'>
-                        <h6>Leverage</h6>
+                    <div style={{ marginTop: "10px",background:`${Theme=="Light"?"#C99EFF":''}` }} className='tradebox_leverage'>
+                        <h6 style={{ color:`${Theme=="Light"?"black":'aliceblue'}` }}>Leverage</h6>
                         <Slider
                             aria-label="Temperature"
                             defaultValue={1}
                             className="tradebox_levslider"
                             value={rangeValue}
                             onChange={(event) => setRangeValue(decreasePercentage>74?1:decreasePercentage==50? (event.target.value==3?2:event.target.value):event.target.value)}
-                            color={'primary'}
+                            color={'secondary'}
                             sx={{ color: `grey` }}
                             step={1}
                             marks
                             min={1}
                             max={3}
-                            style={{ width: '90%' }} /> <span style={{ position: "absolute", bottom: "6px", fontSize: "14px", right: "25px", fontWeight: "bold" }}>{rangeValue}x</span> <br />
+                            style={{ width: '90%' }} /> <span style={{ color:`${Theme=="Light"?"black":'aliceblue'}` ,position: "absolute", bottom: "6px", fontSize: "14px", right: "25px", fontWeight: "bold" }}>{rangeValue}x</span> <br />
                     </div>
-                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", fontWeight: "600", marginTop: "20px", marginLeft: "-8px" }}>You are buying in the long</p>
+                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", fontWeight: "600", marginTop: "20px", marginLeft: "-8px" ,color:`${Theme=="Light"?"black":'aliceblue'}`}}>You are buying in the long</p>
                     <table className='tradebox_table1' style={{ width: "100%" }}>
                         <tbody>
                             <tr style={{ width: "100%" }}>
                                 <td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Position size</td>
-                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseXrange == 0 ? ((baseValue == null) ? 0 : (baseValue / graph.marketprice).toFixed(2)) : ((baseXrange / graph.marketprice).toFixed(4))} XTZ <img src="img/tz.svg" /></td>
+                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}`  }}>{baseXrange == 0 ? ((baseValue == null) ? 0 : (baseValue / graph.marketprice).toFixed(2)) : ((baseXrange / graph.marketprice).toFixed(4))} XTZ <img src="img/tz.svg" /></td>
                             </tr>
                             <tr style={{ width: "100%" }}>
                                 <td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Entry price</td>
-                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{graph.marketprice} vUSD <img style={{ width: "20px" }} src="img/kusd.png" /></td>
+                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}` }}>{graph.marketprice} vUSD <img style={{ width: "20px" }} src="img/kusd.png" /></td>
                             </tr>
                         </tbody>
                     </table>
-                    <hr style={{ position: "relative", left: "-10px", width: "100%", top: "20px" }} />
+                    <hr style={{ position: "relative", left: "-10px", width: "100%", top: "20px",color:`${Theme=="Light"?"black":'aliceblue'}` }} />
 
 
                     <table className='tradebox_table1' style={{ width: "100%" }}>
                         <tbody>
                             <tr style={{ width: "100%", }}>
                                 <td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Amount</td>
-                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseValue} kUSD</td>
+                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}` }}>{baseValue} kUSD</td>
                             </tr>
                             <tr style={{ width: "100%" }}>
                                 <td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Trading Fee</td>
-                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{(baseValue / 100) * 2} kUSD</td>
+                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}` }}>{(baseValue / 100) * 2} kUSD</td>
                             </tr>
                             <tr style={{ width: "100%" }}>
                                 <td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Price impact</td>
-                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseValue == 0 ? 0 : priceImpact.toFixed(2)}%</td>
+                                <td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}` }}>{baseValue == 0 ? 0 : priceImpact.toFixed(2)}%</td>
                             </tr>
                             <tr style={{ width: "100%" }}>
                                 <td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Slippage tolerance</td>
-                                <td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>2%</td>
+                                <td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}` }}>2%</td>
                             </tr>
                         </tbody>
 

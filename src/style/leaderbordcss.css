@@ -5,7 +5,7 @@
     min-height: 100vh !important;
     z-index: 3 !important;
     top: 60px;
-    background-color: #0e0f18 !important;
+    background-color: #0e0f18 ;
     padding-top: 5vh;
     overflow-y: scroll ;
 
@@ -25,12 +25,9 @@
     border: 1px solid #59219d;
     height: 35px;
     margin-bottom: 20px;
-    color: whitesmoke !important;
 
 }
-input::placeholder{
-  color: whitesmoke;
-}
+
 input, select, textarea{
   color: whitesmoke;
 }
@@ -53,7 +50,7 @@ input, select, textarea{
   width: 100%;
     border: 0.5px solid #59219d;
     margin-bottom: 0;
-    background: #281e3d !important;
+    background: #281e3d ;
 } 
 .Leaderboardcontainer th{
       height: 45px;
@@ -84,7 +81,7 @@ tbody, td, tfoot, th, thead, tr {
   min-height: 310px !important;
   border: 0.5px solid #59219d;
   margin-bottom: 0;
-  background: #281e3d !important;
+  background: #281e3d ;
 }
 .table > :not(caption) > * > * {
     padding: .5rem .5rem;
@@ -92,7 +89,7 @@ tbody, td, tfoot, th, thead, tr {
   }
   .pagination{
     width: 100%;
-    border-radius:  0 0 10px 10px;
+    border-radius:  0 0px 10px 10px;
   }
   .middlepagination{
     width: 100%;
@@ -100,14 +97,7 @@ tbody, td, tfoot, th, thead, tr {
     font-size: 12px;
   }
 
-  .page-item a{
-  
-    background: #59219d !important;
-    color: whitesmoke !important;
-    border: none !important;
-    font-size: 13px;
 
-  }
   .page-item :hover{
   
     background: #59219d !important;
@@ -115,8 +105,6 @@ tbody, td, tfoot, th, thead, tr {
     border: none !important;
   }
   .page-item {
-  
-    background: #59219d !important;
     color: whitesmoke !important;
     border: none !important;
     box-shadow: none;
@@ -144,7 +132,6 @@ tbody, td, tfoot, th, thead, tr {
   min-height: 510px !important;
   border: 0.5px solid #59219d;
   margin-bottom: 0;
-  background: #281e3d !important;
 }
   }
 

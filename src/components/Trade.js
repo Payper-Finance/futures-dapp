@@ -16,12 +16,10 @@ import PositionTable from './PositionTable';
 import Snackbar from './Snackbar'
 import UserContext from "../ContextProvider.js";
 import { PRECISION, CONTRACT_ADDRESS } from '../utils/config';
-import { math } from '@amcharts/amcharts5';
 
 
 const style = {
 	position: 'absolute',
-	background: " #141724",
 	top: '50%',
 	left: '50%',
 	transform: 'translate(-50%, -50%)',
@@ -30,7 +28,7 @@ const style = {
 };
 
 const Trade = (props) => {
-	const { setCPosiitonUpdated, CPosiitonUpdated, setMarketPrice, kusdTokenBalance } = useContext(UserContext)
+	const { setCPosiitonUpdated, CPosiitonUpdated, setMarketPrice, kusdTokenBalance,Theme } = useContext(UserContext)
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -62,10 +60,10 @@ const Trade = (props) => {
 			message: "",
 			transaction: ""
 		}
-	)
+)
 
 
-	const getHistory = async () => {
+const getHistory = async () => {
 		const address = await getAccount()
 
 		const history = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${CONTRACT_ADDRESS}/storage`)
@@ -224,8 +222,6 @@ const Trade = (props) => {
 
 	}
 
-
-
 	const setOpenlongpriceImpact = () => {
 
 		let perUsd = Vmm.vUSD_amount / Vmm.token_amount
@@ -248,7 +244,15 @@ const Trade = (props) => {
 
 
 	return (
+		<>
+		{Theme=="Light"?(<style>{`
+		.modal-content{
+			background :aliceblue !important;
+		}
+		`}</style>):("")}
+		
 		<div>
+			
 			<Snackbar show={snackbarshow} setshow={setSnackbarshow} type={type} />
 			<link rel="stylesheet" href="/styles/trade.css" />
 			<div className="coin-name d-flex m-3">
@@ -258,7 +262,9 @@ const Trade = (props) => {
 					<h6 className='text-start'>{coinSelect === 'tezos' ? 'Tezos' : coinSelect === 'btc' ? 'Bitcoin' : 'Ethereum'}</h6>
 				</div>
 			</div>
-			<div className="trade-graph-enclosure">
+			<div 
+			style={Theme=="Light"?{background:'#C99EFF'}:{}}
+			 className="trade-graph-enclosure">
 				<div className="graph-infos d-flex text-start">
 					<div className="graph-info">
 						<div className="info-title">Market Price</div>
@@ -291,7 +297,7 @@ const Trade = (props) => {
 				</div>
 			</div>
 
-			<div className="long-short-enclosure">
+			<div style={Theme=="Light"?{color:"black",background:"#AC69FF"}:{}} className="long-short-enclosure">
 				{
 					!currentPosition ? (
 						<>
@@ -313,7 +319,7 @@ const Trade = (props) => {
 
 			</div>
 
-			<div className='trade_chart'>
+			<div className='trade_chart' style={Theme=="Light"?{color:"black",background:"aliceblue",border:"1px solid black"}:{}}>
 				<TradeChart />
 
 			</div>
@@ -331,7 +337,7 @@ const Trade = (props) => {
 
 
 
-			<div className="history-enclosure text-white">
+			<div className="history-enclosure text-white" style={Theme=="Light"?{color:"black",background:"#AC69FF"}:{}}>
 
 
 				<div style={{ display: "flex" }}>
@@ -351,8 +357,8 @@ const Trade = (props) => {
 				aria-labelledby="modal-modal-title"
 				aria-describedby="modal-modal-description"
 			>
-				<Box sx={style} className="tradebox_main" component="form" noValidate autoComplete="off">
-					<Typography id="modal-modal-title" variant="h4" component="h2" style={{ position: "relative", left: '-10px', width: '100%', fontFamily: "'Inter', sans-serif", fontWeight: "800", fontSize: "25px" }}>
+				<Box style={Theme=="Light"?{background:"aliceblue"}:{background: "#141724"}} sx={style} className="tradebox_main" component="form" noValidate autoComplete="off">
+					<Typography id="modal-modal-title" variant="h4" component="h2" style={Theme=="Light"?{color:"black", position: "relative", left: '-10px', width: '100%', fontFamily: "'Inter', sans-serif", fontWeight: "800", fontSize: "25px" }:{position: "relative", left: '-10px', width: '100%', fontFamily: "'Inter', sans-serif", fontWeight: "800", fontSize: "25px" }} >
 						Long
 					</Typography>
 					<div className='tradebox_amount'>
@@ -360,40 +366,40 @@ const Trade = (props) => {
 						<input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" onChange={(event) => setBaseValue(event.target.value, setOpenlongpriceImpact())} />
 						<div style={{ width: "100%", fontSize: "11px", height: "10px", fontWeight: "bold", margin: "2px 0", padding: "2px 0", color: "#a9a9a9" }}>
 							<div style={{ position: "absolute", right: "10px" }}>
-								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(25) }} >25%</button>
-								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(50) }} >50%</button>
-								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(75) }} >75%</button>
-								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(100) }} >100%</button>
+								<button style={Theme=="Light"?{color:"black"}:{}} type='button' className='amount_percent_btn' onClick={() => { addBaseValue(25) }} >25%</button>
+								<button style={Theme=="Light"?{color:"black"}:{}} type='button' className='amount_percent_btn' onClick={() => { addBaseValue(50) }} >50%</button>
+								<button style={Theme=="Light"?{color:"black"}:{}} type='button' className='amount_percent_btn' onClick={() => { addBaseValue(75) }} >75%</button>
+								<button style={Theme=="Light"?{color:"black"}:{}} type='button' className='amount_percent_btn' onClick={() => { addBaseValue(100) }} >100%</button>
 							</div>
 						</div>
 					</div>
 
-					<div className='tradebox_leverage'>
-						<h6>Leverage</h6>
+					<div className='tradebox_leverage' style={Theme=="Light"?{background:"#C99EFF"}:{}}>
+						<h6 style={Theme=="Light"?{color:"black"}:{}}>Leverage</h6>
 						<Slider
 							aria-label="Temperature"
 							defaultValue={1}
 							className="tradebox_levslider"
 							value={rangeValue}
 							onChange={(event) => setRangeValue(event.target.value)}
-							color={'primary'}
+							color={'secondary'}
 							sx={{ color: `grey` }}
 							step={1}
 							marks
 							min={1}
 							max={3}
-							style={{ width: '90%' }} /> <span style={{ position: "absolute", bottom: "6px", fontSize: "14px", right: "25px", fontWeight: "bold" }}>{rangeValue}x</span> <br />
+							style={{ width: '90%' }} /> <span style={{ position: "absolute", bottom: "6px", fontSize: "14px", right: "25px", fontWeight: "bold",color:`${Theme=="Light"?"black":''}` }}>{rangeValue}x</span> <br />
 					</div>
 					<p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", fontWeight: "600", paddingTop: "20px", marginLeft: "-0px" }}>You are buying in the long</p>
 					<table className='tradebox_table1' style={{ width: "100%" }}>
 						<tbody>
 							<tr style={{ width: "100%" }}>
 								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Position size</td>
-								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseXrange == 0 ? ((baseValue == null) ? 0 : (baseValue / graphValues.marketprice).toFixed(2)) : ((baseXrange / graphValues.marketprice).toFixed(4))} XTZ <img src="img/tz.svg" /></td>
+								<td style={Theme=="Light"?{color:"black",width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif"}:{width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif"}}  >{baseXrange == 0 ? ((baseValue == null) ? 0 : (baseValue / graphValues.marketprice).toFixed(2)) : ((baseXrange / graphValues.marketprice).toFixed(4))} XTZ <img src="img/tz.svg" /></td>
 							</tr>
 							<tr style={{ width: "100%" }}>
 								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Entry price</td>
-								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{graphValues.marketprice} kUSD <img style={{ width: "20px" }} src="img/kusd.png" /></td>
+								<td style={Theme=="Light"?{color:"black",width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif"}:{width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif"}} >{graphValues.marketprice} kUSD <img style={{ width: "20px" }} src="img/kusd.png" /></td>
 							</tr>
 						</tbody>
 					</table>
@@ -404,19 +410,19 @@ const Trade = (props) => {
 						<tbody>
 							<tr style={{ width: "100%", }}>
 								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Amount</td>
-								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseValue} kUSD</td>
+								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}` }}>{baseValue} kUSD</td>
 							</tr>
 							<tr style={{ width: "100%" }}>
 								<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Trading fee</td>
-								<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{(baseValue / 100) * 2} kUSD</td>
+								<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}`  }}>{(baseValue / 100) * 2} kUSD</td>
 							</tr>
 							<tr style={{ width: "100%" }}>
 								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Price impact</td>
-								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseValue == 0 ? 0 : priceImpact.toFixed(2)}%</td>
+								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" ,color:`${Theme=="Light"?"black":'aliceblue'}` }}>{baseValue == 0 ? 0 : priceImpact.toFixed(2)}%</td>
 							</tr>
 							<tr style={{ width: "100%" }}>
 								<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Slippage tolerance</td>
-								<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>2%</td>
+								<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}`  }}>2%</td>
 							</tr>
 						</tbody>
 					</table>
@@ -431,48 +437,48 @@ const Trade = (props) => {
 				aria-labelledby="modal-modal-title"
 				aria-describedby="modal-modal-description"
 			>
-				<Box sx={style} className="tradebox_main" component="form" noValidate autoComplete="off">
-					<Typography id="modal-modal-title" variant="h4" component="h2" style={{ position: "relative", left: '-10px', width: '100%', fontFamily: "'Inter', sans-serif", fontWeight: "800", fontSize: "25px" }}>
+				<Box  style={Theme=="Light"?{background:"aliceblue"}:{background: "#141724"}} sx={style} className="tradebox_main" component="form" noValidate autoComplete="off">
+					<Typography id="modal-modal-title" variant="h4" component="h2" style={{ color:`${Theme=="Light"?"black":"aliceblue"}`,position: "relative", left: '-10px', width: '100%', fontFamily: "'Inter', sans-serif", fontWeight: "800", fontSize: "25px" }}>
 						Short
 					</Typography>
 					<div className='tradebox_amount'>
 						<span className='tradebox_inputicon'><img style={{ padding: "0 6px", marginTop: "-4px", height: "32px" }} src="img/kusd.png" alt="" />kUSD</span>
 						<input value={baseValue} style={{ fontFamily: "'Inter', sans-serif" }} type="number" min="0" max="100000000" step="0.01" className="tradebox" id="outlined-basic" placeholder="Amount" variant="outlined" onChange={(event) => setBaseValue(event.target.value, setOpenlongpriceImpact())} />
-						<div style={{ width: "100%", fontSize: "11px", height: "10px", fontWeight: "bold", margin: "2px 0", padding: "2px 0", color: "#a9a9a9" }}>
+						<div style={{ width: "100%", fontSize: "11px", height: "10px", fontWeight: "bold", margin: "2px 0", padding: "2px 0",  color:`${Theme=="Light"?"black":"aliceblue"}` }}>
 							<div style={{ position: "absolute", right: "10px" }}>
-								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(25) }} >25%</button>
-								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(50) }} >50%</button>
-								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(75) }} >75%</button>
-								<button type='button' className='amount_percent_btn' onClick={() => { addBaseValue(100) }} >100%</button>
+								<button style={{ color:`${Theme=="Light"?"black":"aliceblue"}`}} type='button' className='amount_percent_btn' onClick={() => { addBaseValue(25) }} >25%</button>
+								<button style={{ color:`${Theme=="Light"?"black":"aliceblue"}`}} type='button' className='amount_percent_btn' onClick={() => { addBaseValue(50) }} >50%</button>
+								<button style={{ color:`${Theme=="Light"?"black":"aliceblue"}`}} type='button' className='amount_percent_btn' onClick={() => { addBaseValue(75) }} >75%</button>
+								<button style={{ color:`${Theme=="Light"?"black":"aliceblue"}`}} type='button' className='amount_percent_btn' onClick={() => { addBaseValue(100) }} >100%</button>
 							</div>
 						</div>
 					</div>
-					<div className='tradebox_leverage'>
-						<h6>Leverage</h6>
+					<div className='tradebox_leverage' style={Theme=="Light"?{background:"#C99EFF"}:{}}>
+						<h6 style={Theme=="Light"?{color:"black"}:{}}>Leverage</h6>
 						<Slider
 							aria-label="Temperature"
 							defaultValue={1}
 							className="tradebox_levslider"
 							value={rangeValue}
 							onChange={(event) => setRangeValue(event.target.value)}
-							color={'primary'}
+							color={'secondary'}
 							sx={{ color: `grey` }}
 							step={1}
 							marks
 							min={1}
 							max={3}
-							style={{ width: '90%' }} /> <span style={{ position: "absolute", bottom: "6px", fontSize: "14px", right: "25px", fontWeight: "bold" }}>{rangeValue}x</span> <br />
+							style={{ width: '90%' }} /> <span style={{color:`${Theme=="Light"?"black":""}`, position: "absolute", bottom: "6px", fontSize: "14px", right: "25px", fontWeight: "bold" }}>{rangeValue}x</span> <br />
 					</div>
 					<p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", fontWeight: "600", paddingTop: "20px", marginLeft: "-0px" }}>You are buying in the long</p>
 					<table className='tradebox_table1' style={{ width: "100%" }}>
 						<tbody>
 							<tr style={{ width: "100%" }}>
 								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Position size</td>
-								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseXrange == 0 ? ((baseValue == null) ? 0 : (baseValue / graphValues.marketprice).toFixed(2)) : ((baseXrange / graphValues.marketprice).toFixed(4))} XTZ <img src="img/tz.svg" /></td>
+								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":"aliceblue"}` }}>{baseXrange == 0 ? ((baseValue == null) ? 0 : (baseValue / graphValues.marketprice).toFixed(2)) : ((baseXrange / graphValues.marketprice).toFixed(4))} XTZ <img src="img/tz.svg" /></td>
 							</tr>
 							<tr style={{ width: "100%" }}>
 								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", color: "#797979", fontWeight: "600" }}>Entry price</td>
-								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{graphValues.marketprice} kUSD <img style={{ width: "20px" }} src="img/kusd.png" /></td>
+								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":"aliceblue"}` }}>{graphValues.marketprice} kUSD <img style={{ width: "20px" }} src="img/kusd.png" /></td>
 							</tr>
 						</tbody>
 
@@ -483,19 +489,19 @@ const Trade = (props) => {
 					<table className='tradebox_table1' style={{ width: "100%" }}>
 						<tr style={{ width: "100%", }}>
 							<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Amount</td>
-							<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseValue} kUSD</td>
+							<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" ,color:`${Theme=="Light"?"black":'aliceblue'}`  }}>{baseValue} kUSD</td>
 						</tr>
 						<tr style={{ width: "100%" }}>
 							<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Trading fee</td>
-							<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{(baseValue / 100) * 2} kUSD</td>
+							<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif" ,color:`${Theme=="Light"?"black":'aliceblue'}`  }}>{(baseValue / 100) * 2} kUSD</td>
 						</tr>
 						<tr style={{ width: "100%" }}>
 							<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Price impact</td>
-							<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>{baseValue == 0 ? 0 : priceImpact.toFixed(2)}%</td>
+							<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}`  }}>{baseValue == 0 ? 0 : priceImpact.toFixed(2)}%</td>
 						</tr>
 						<tr style={{ width: "100%" }}>
 							<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Slippage tolerance</td>
-							<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif" }}>2%</td>
+							<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}`  }}>2%</td>
 						</tr>
 					</table>
 					{isTxn ? <span style={{ width: "100% !important", position: "relative", left: "35%" }}><ScaleLoader color='#E01B3C' width={7} margin={6} /> </span> : <Button className="tradebox_button" style={{ align: 'center', width: '100%', borderRadius: "8px", marginTop: "20px", fontWeight: "600", backgroundColor: "#E01B3C", fontFamily: "'Inter', sans-serif" }} variant="contained"
@@ -503,6 +509,7 @@ const Trade = (props) => {
 				</Box>
 			</Modal> : ""}
 		</div>
+		</>
 	)
 }
 

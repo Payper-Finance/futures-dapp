@@ -6,15 +6,19 @@ import { PRECISION,CONTRACT_ADDRESS} from '../utils/config';
 import UserContext from "../ContextProvider.js";
 
 const Sidebar = (props) => {
-    const {coinSelect, setCoinSelect,stake} = props
-    const {maketPrice } = useContext(UserContext)
-
+  const {maketPrice,Theme} = useContext(UserContext)
+  const {coinSelect, setCoinSelect,stake} = props
+    const lightstyle = {
+      background:"#B77DFF",
+      color:"aliceblue"
+    }
     useEffect(()=>{
 
     },[maketPrice])
+ 
   return (
     <>
-    <div style={{height:`${stake=='stake'?'100%':""}`}} className='sidebar '>
+    <div style={Theme=="Light"?lightstyle:{}} className='sidebar '>
       <div className="coins">
         <div className={`${coinSelect === 'tezos'? 'sidebar-sel': '' } coin my-3 d-flex text-start`} onClick={()=>{setCoinSelect('tezos')}} >
             <div className='mx-2'><img src="/img/tz.svg" style={{width:'20px'}} alt="" /></div>

@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect,useContext} from 'react'
 import "../style/leaderbordcss.css"
 import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import axios from 'axios'
 import { ClipLoader } from 'react-spinners'
-
+import UserContext from "../ContextProvider.js";
 
 
 
 export default function LeaderBoard() {
+  const {Theme} = useContext(UserContext)
 
   const [searchaddress,setsearchAddress] = useState("")
   const [isEmpty,setIsEmpty] = useState(false)
@@ -109,26 +110,61 @@ export default function LeaderBoard() {
 
 
   return (
-    <div className='LeaderboardMain'>
+    <>
+    {
+      Theme=="Light"?( <style>{`
+      .page-item a{
+  
+        background: #ac69ff ;
+        color: whitesmoke !important;
+        border: none !important;
+        font-size: 13px;
+    
+      }
+      .page-item:first-child .page-link{
+        border-top-left-radius: 0 !important;
+      }
+      .page-item:last-child .page-link {
+        border-top-right-radius: 0 !important;
+      }
+    `}</style>):( <style>{`
+    .page-item a{
+
+      background: #59219d ;
+      color: whitesmoke !important;
+      border: none !important;
+      font-size: 13px;
+  
+    }
+    .page-item:first-child .page-link{
+      border-top-left-radius: 0 !important;
+    }
+    .page-item:last-child .page-link {
+      border-top-right-radius:0 !important;
+    }
+  `}</style>)
+    }
+   
+    <div style={Theme=="Light"?{background:"aliceblue"}:{} } className='LeaderboardMain'>
       <div className='Leaderboardcontainer'>
-        <input  placeholder='Search..'  onChange={e=>onchange(e.target.value)}  />
-        <h2>
+        <input style={Theme=="Light"?{background:"aliceblue",color:'black',border:"1px solid black"}:{} }  placeholder='Search..'  onChange={e=>onchange(e.target.value)}  />
+        <h2 style={Theme=="Light"?{background:"#ac69ff"}:{} }>
           All Traders
         </h2>
         <div className='table_div'>
           {
             isEmpty?(
-<table>
-          <thead>
-          <tr>
-            <th className='leaderboard_head'>Rank</th>
-            <th className='leaderboard_head'>Address</th>
-            <th className='leaderboard_head'>Liquidation</th>
-            <th className='leaderboard_head'>Total Trades</th>
-            <th className='leaderboard_head'>PnL</th>
+<table style={Theme=="Light"?{background:"#ac69ff",color:'black'}:{} }>
+          <thead style={Theme=="Light"?{background:"#c99eff", color:"black"}:{}} >
+          <tr >
+            <th style={Theme=="Light"?{color:"black"}:{}} className='leaderboard_head'>Rank</th>
+            <th style={Theme=="Light"?{ color:"black"}:{}} className='leaderboard_head'>Address</th>
+            <th style={Theme=="Light"?{ color:"black"}:{}} className='leaderboard_head'>Liquidation</th>
+            <th style={Theme=="Light"?{ color:"black"}:{}} className='leaderboard_head'>Total Trades</th>
+            <th style={Theme=="Light"?{color:"black"}:{}} className='leaderboard_head'>PnL</th>
           </tr>
           </thead>
-          <tbody>
+          <tbody style={Theme=="Light"?{background:"aliceblue", color:"black"}:{}} >
             
           
             {
@@ -136,12 +172,12 @@ export default function LeaderBoard() {
                 
                   array.slice(startrange, range).map((item, index) => {
                     return (
-                      <tr key={index}>
-                        <td className='leaderboard_td' >{item.rank+1}</td>
-                        <td className='leaderboard_td'>{item.Address}</td>
-                        <td className='leaderboard_td'>{item.LiquidationCount== undefined?0:item.LiquidationCount}</td>
-                        <td className='leaderboard_td'>{item.CompletedPosition.length}</td>
-                        <td className='leaderboard_td' style={{color:`${item.Totalpnl<0?"#e01b3c":"#198754"}`,fontWeight:"bold"}}>${parseFloat(item.Totalpnl).toFixed(2)}</td>
+                      <tr style={Theme=="Light"?{background:"#c99eff", color:"aliceblue"}:{}}  key={index}>
+                        <td style={Theme=="Light"?{background:"#c99eff", color:"aliceblue"}:{}} className='leaderboard_td' >{item.rank+1}</td>
+                        <td style={Theme=="Light"?{background:"#c99eff", color:"aliceblue"}:{}} className='leaderboard_td'>{item.Address}</td>
+                        <td style={Theme=="Light"?{background:"#c99eff", color:"aliceblue"}:{}} className='leaderboard_td'>{item.LiquidationCount== undefined?0:item.LiquidationCount}</td>
+                        <td style={Theme=="Light"?{background:"#c99eff", color:"aliceblue"}:{}} className='leaderboard_td'>{item.CompletedPosition.length}</td>
+                        <td  className='leaderboard_td' style={{color:`${item.Totalpnl<0?"#e01b3c":"#198754"}`,fontWeight:"bold"}}>${parseFloat(item.Totalpnl).toFixed(2)}</td>
                       </tr>
                     )
                   })
@@ -153,7 +189,7 @@ export default function LeaderBoard() {
         </table>
             ):(
               <div style={{width:"100%",height:"250px",marginTop:'100px',display:"flex",justifyContent:"center",alignItem:"center"}}>
-<ClipLoader color='#ffff' width={20} margin={0} />
+<ClipLoader color={Theme=="Light"?"black":"#ffff"} width={20} margin={0} />
 
                 </div>
             )
@@ -175,5 +211,6 @@ export default function LeaderBoard() {
 
       </div>
     </div>
+    </>
   )
 }

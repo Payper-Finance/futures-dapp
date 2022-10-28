@@ -1,6 +1,7 @@
-import React, { useRef, useLayoutEffect, useState, useEffect } from 'react';
+import React, { useRef, useLayoutEffect, useState, useEffect,useContext } from 'react';
 import am5themes_Responsive from "@amcharts/amcharts5/themes/Responsive";
 import am5themes_Dark from "@amcharts/amcharts5/themes/Dark";
+import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import * as am5stock from "@amcharts/amcharts5/stock";
@@ -9,13 +10,14 @@ import iO from 'socket.io-client'
 import qs from 'qs'
 import axios from 'axios';
 import Position from './Position';
-
+import UserContext from '../ContextProvider';
 
 const socket = iO('https://zenith-api-l8hhy.ondigitalocean.app/');
 
 
 
 function TradeChart(props) {
+  const {Theme} = useContext(UserContext)
   const [activecandle, setActivecandle] = useState("5minute")
   const chartRef = useRef(null);
 
@@ -35,12 +37,23 @@ function TradeChart(props) {
       fill: am5.color(0xE01B3C),
       stroke: am5.color(0xE01B3C)
     });
-
-    root.setThemes([
-      am5themes_Dark.new(root),
-      am5themes_Responsive.new(root),
-      myTheme
-    ]);
+    {
+      Theme=="Light"?(
+        root.setThemes([
+          am5themes_Responsive.new(root),
+          am5themes_Animated.new(root),
+          myTheme
+        ])
+      ):(
+        root.setThemes([
+          am5themes_Dark.new(root),
+          am5themes_Responsive.new(root),
+          am5themes_Animated.new(root),
+          myTheme
+        ])
+  )
+    }
+  
     
 
     let stockChart = root.container.children.push(
@@ -379,7 +392,7 @@ function TradeChart(props) {
     return () => {
       root.dispose();
     };
-  }, [activecandle]);
+  }, [activecandle,Theme]);
 
 
 
@@ -445,7 +458,7 @@ function TradeChart(props) {
   }
   .active{
     background :#281e3d;
-    
+    color:white !important;
   }
   .logohide{
     margin-top:-19px;
@@ -459,7 +472,6 @@ function TradeChart(props) {
     margin:0 8px;
     min-width:60px;
     border-radius:5px;
-    color:white;
     border:none;
     background:none;
   }
@@ -481,14 +493,14 @@ function TradeChart(props) {
       `}</style>
       {/* <div  id="chartcontrols"></div> */}
       <ul className='candletimediv'>
-        <button className={`${activecandle == '5minute' ? 'active' : ''} candletime`} onClick={() => setActivecandle("5minute")} >5min</button>
-        <button className={`${activecandle == '15minute' ? 'active' : ''} candletime`} onClick={() => setActivecandle("15minute")} >15min</button>
-        <button className={`${activecandle == 'hour' ? 'active' : ''} candletime`} onClick={() => setActivecandle("hour")}>Hour</button>
-        <button className={`${activecandle == 'day' ? 'active' : ''} candletime`} onClick={() => setActivecandle("day")}>Day</button>
+        <button style={Theme=="Light"?{color:"black"}:{color:"aliceblue"}}  className={`${activecandle == '5minute' ? 'active' : ''} candletime`} onClick={() => setActivecandle("5minute")} >5min</button>
+        <button style={Theme=="Light"?{color:"black"}:{color:"aliceblue"}} className={`${activecandle == '15minute' ? 'active' : ''} candletime`} onClick={() => setActivecandle("15minute")} >15min</button>
+        <button style={Theme=="Light"?{color:"black"}:{color:"aliceblue"}}className={`${activecandle == 'hour' ? 'active' : ''} candletime`} onClick={() => setActivecandle("hour")}>Hour</button>
+        <button style={Theme=="Light"?{color:"black"}:{color:"aliceblue"}} className={`${activecandle == 'day' ? 'active' : ''} candletime`} onClick={() => setActivecandle("day")}>Day</button>
       </ul>
 
       <div id="chartdiv"></div>
-      <span className='logohide'></span>
+      <span style={Theme=="Light"?{background:"aliceblue"}:{}} className='logohide'></span>
 
     </>
   );

@@ -104,6 +104,7 @@ border-radius: 6px;
 }
 .amount_percent_btn:hover{
     background:#59219d ;
+    color:white !important;
 
 }
 @media screen and (max-width:768px)and (min-width:540px){
@@ -118,13 +119,11 @@ border-radius: 6px;
         min-width: 80%;
         max-width: 45vh;
         min-height: 500px !important;
-        height: 550px;
 
     }
     .css-h206zr{
         padding: 15px !important;
         min-height: 500px !important;
-        height: 550px;
 
     }
     .modal-content{

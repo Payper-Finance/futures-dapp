@@ -1,16 +1,17 @@
-
+import React, { useState, useEffect, useContext } from 'react'
 import Main from './Main';
-import {Routes,Route} from 'react-router-dom'
-import TradeChart from './components/TradeChart';
+import UserContext from './ContextProvider'
 
 function App() {
-  return (
-    <div className="App">
-      <Routes>
-        <Route path="/chart" element={<TradeChart/>}/>
-        <Route path="/" element={<Main/>}/>
-      </Routes>
+  const { setTheme,Theme} = useContext(UserContext)
+  const lightstyle ={
+    background:"aliceBlue",
+    color:"black"
+  }
 
+  return (
+    <div className="App" style={Theme=="Light"?lightstyle:{}} >
+      <Main />
     </div>
   );
 }

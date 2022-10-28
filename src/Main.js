@@ -19,7 +19,7 @@ import Popover from '@mui/material/Popover';
 
 
 const Main = () => {
-  const { setCPosiitonUpdated, CPosiitonUpdated,setkusdTokenBalance} = useContext(UserContext)
+  const { setCPosiitonUpdated, CPosiitonUpdated,setkusdTokenBalance,setTheme,Theme} = useContext(UserContext)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [Loading, setLoading] = useState(false)
   const [address, setAddress] = useState("")
@@ -31,6 +31,8 @@ const Main = () => {
   const [tokenBalance, setTokenBalance] = useState("")
   const [popoverOpen, setpopoverOpen] = useState(false)
   const [type, setType] = useState(
+
+
     {
       type: "",
       message: "",
@@ -139,24 +141,67 @@ const Main = () => {
     setTradeOrStake(event)
     setOpen(false)
   }
+  const toggleTheme =()=>{
+    if(Theme == "Dark"){
+      setTheme("Light")
+    }
+    else{
+      setTheme("Dark")
+    }
+  }
 
 
   return (
+    <>
+    {
+      Theme=="Light"?(
+<style>{`
+    .css-3bmhjh-MuiPaper-root-MuiPopover-paper{
+      background-color:aliceblue !important ;
+      margin-top: 43px;
+      right: 40px !important;
+      left: auto !important;
+  }
+  .css-1e6y48t-MuiButtonBase-root-MuiButton-root{
+    color: black;
+}
+.popbtn{
+  color:black !important;
+}
+    `}</style>
+      ):(
+<style>{`
+    .css-3bmhjh-MuiPaper-root-MuiPopover-paper{
+      background-color:#0E0F18 !important ;
+      margin-top: 43px;
+      right: 40px !important;
+      left: auto !important;
+  }
+  .css-1e6y48t-MuiButtonBase-root-MuiButton-root{
+    color: white;
+}
+
+    `}</style>
+      )
+    }
+    
     <div className='mainbox d-flex' >
       <Snackbar1 show={show} setshow={setshow} type={type} />
       <link rel="stylesheet" href="/styles/main.css" />
       <div className="nav-tab d-flex w-100 ">
-        <div className='Logo'><img style={{ width: "40px", height: "40px", marginRight: "10px" }} src="img/Logo.png" />Zenith</div>
+        <div style={Theme=="Light"?{background:"#AC69FF"}:{}} className='Logo'><img style={{ width: "40px", height: "40px", marginRight: "10px" }} src="img/Logo.png" />Zenith</div>
 
-        <div className='tradeNav d-flex '>
+        <div style={Theme=="Light"?{background:"#AC69FF"}:{}} className='tradeNav d-flex '>
         <div className={`tabs`} ><a href='https://zenith.payperfi.com' target="_blank" rel="noopener noreferrer"><img style={{ width: "25px", height: "25px" }} src="img/home.png" /> </a></div>
           <div className={`${tradeOrStake === 'trade' ? 'tabs-sel' : ''} tabs`} onClick={() => { setTradeOrStake('trade') }}>Trade</div>
           <div className={`${tradeOrStake === 'stake' ? 'tabs-sel' : ''} tabs`} /*onClick={() => { setTradeOrStake('stake') }}*/>Stake <span className="comingsoon">coming soon</span></div>
           <div className={`${tradeOrStake === 'leaderboard' ? 'tabs-sel' : ''} tabs`} onClick={() => { setTradeOrStake('leaderboard') }}>Leaderboard</div>
           <div className={`tabs`} ><a href='https://docs.payperfi.com/' style={{ color: "white", textDecoration: "none" }} target="_blank" rel="noopener noreferrer"> Docs </a></div>
           
+          
           <div className={`tabs`} ><a href='https://discord.gg/dgBRfYunrw' target="_blank" rel="noopener noreferrer"><img style={{ width: "25px", height: "25px" }} src="img/discordnav.png" /> </a></div>
           <div className='btncustmdiv'>
+          <button style={{marginTop:"15px",borderRadius:"5px" ,marginRight:"10px",maxHeight:"30px",border:"none"}} onClick={toggleTheme}><img style ={{height:"25px",borderRadius:"10px"}} src={`${Theme=="Light"?"img/nightmode.png":"img/lightmode.png"}`}/></button>
             <button style={{ right: "" }} className=" custom_btn" onClick={getToken} >
               {!Loading?<span>{tokenBalance == '' ? "Get Token" : `${tokenBalance} kUSD`}</span>:<ClipLoader
               color="#ffff"
@@ -189,12 +234,13 @@ transformOrigin={{
 }}
 onClose={()=>setpopoverOpen(false)}
 onRequestClose={()=>setpopoverOpen(false)}
+
 >
- <Typography sx={{ p: 0 }}><button className=" custom_btn" style={{border:"none",marginRight:"0"}} onClick={()=>{ onDisconnectWallet()
+ <Typography sx={{ p: 0 }}><button className=" custom_btn popbtn" style={{border:"none",marginRight:"0"}} onClick={()=>{ onDisconnectWallet()
  setpopoverOpen(false)
 }}
  >Disconnect</button></Typography>
- <Typography sx={{ p: 0 }}><button className=" custom_btn" style={{border:"none",marginRight:"0"}} onClick={() => navigator.clipboard
+ <Typography sx={{ p: 0 }}><button className=" custom_btn popbtn" style={{border:"none",marginRight:"0"}} onClick={() => navigator.clipboard
  .writeText(address)
  .then((res) => alert("Address Copied"))}>Copy Address</button></Typography>
 </Popover>
@@ -238,6 +284,7 @@ onRequestClose={()=>setpopoverOpen(false)}
 
 
           <p className=" mobile_tabs" onClick={!account ? onConnectWallet : onDisconnectWallet} >{!account ? <span>Connect Wallet</span> : "Disconnect"}</p>
+          <p style={{marginTop:"15px",borderRadius:"5px" ,marginRight:"10px",maxHeight:"30px",border:"none"}} onClick={toggleTheme}>{Theme=="Light"?<>Nightmode</>:<>Lightmode</>}</p>
 
         </div>
       </div>
@@ -253,6 +300,7 @@ onRequestClose={()=>setpopoverOpen(false)}
       </div>
 
     </div>
+    </>
   )
 }
 
