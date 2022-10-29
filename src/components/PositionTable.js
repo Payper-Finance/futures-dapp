@@ -46,7 +46,7 @@ const { CPosiitonUpdated ,kusdTokenBalance,Theme} = useContext(UserContext)
     <tbody >
         
             
-        
+
         {
             getData.length != 0 ? (
                 getData.map((item, index) => {

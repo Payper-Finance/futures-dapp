@@ -264,7 +264,7 @@ const getHistory = async () => {
 				<div className="graph-infos d-flex text-start">
 					<div className="graph-info">
 						<div className="info-title">Market Price</div>
-						<div className="info-values " style={{ color: "#1ECC89" }}>{graphValues.marketprice} kUSD</div>
+						<div className="info-values " style={{ color: `${Theme=="Light"?'rgb(4, 169, 104)':"#1ECE89"}` }}>{graphValues.marketprice} kUSD</div>
 					</div>
 					<div className="graph-info">
 						<div className="info-title">Index Price</div>
@@ -278,26 +278,27 @@ const getHistory = async () => {
 					<div className="graph-info">
 						<div className="info-title"> Long funding rate</div>
 
-						<div className="info-values " style={{ color: `${graphValues.longfundingrate.direction == "POSITIVE" && graphValues.longfundingrate.value / PRECISION != 0 ? "#1ECC89" : (graphValues.longfundingrate.direction == "NEGATIVE" && graphValues.longfundingrate.value / PRECISION != 0) ? "#E01B3C" : "white"}` }}> {graphValues.longfundingrate.direction == "POSITIVE" ?(graphValues.longfundingrate.value / PRECISION).toFixed(3):(-graphValues.longfundingrate.value / PRECISION).toFixed(3)}% </div>
+						<div className="info-values " style={{ color: `${graphValues.longfundingrate.direction == "POSITIVE" && graphValues.longfundingrate.value / PRECISION != 0 ? `${Theme=="Light"?'rgb(4, 169, 104)':"#1ECE89"}` : (graphValues.longfundingrate.direction == "NEGATIVE" && graphValues.longfundingrate.value / PRECISION != 0) ? "#E01B3C" : "white"}` }}> {graphValues.longfundingrate.direction == "POSITIVE" ?(graphValues.longfundingrate.value / PRECISION).toFixed(3):(-graphValues.longfundingrate.value / PRECISION).toFixed(3)}% </div>
 					</div>
 					<div className="graph-info">
 						<div className="info-title"> Short funding rate</div>
-						<div className="info-values" style={{ color: `${graphValues.shortfundingrate.direction == "POSITIVE" ? "#1ECC89" : graphValues.shortfundingrate.direction == "NEGATIVE" && graphValues.shortfundingrate.value / PRECISION != 0 ? "#E01B3C" : "white"}` }}>{graphValues.shortfundingrate.direction == "POSITIVE" ?(graphValues.shortfundingrate.value / PRECISION).toFixed(3):(-graphValues.shortfundingrate.value / PRECISION).toFixed(3)}%</div>
+						<div className="info-values" style={{ color: `${graphValues.shortfundingrate.direction == "POSITIVE" ? `${Theme=="Light"?'rgb(4, 169, 104)':"#1ECE89"}` : graphValues.shortfundingrate.direction == "NEGATIVE" && graphValues.shortfundingrate.value / PRECISION != 0 ? "#E01B3C" : "white"}` }}>{graphValues.shortfundingrate.direction == "POSITIVE" ?(graphValues.shortfundingrate.value / PRECISION).toFixed(3):(-graphValues.shortfundingrate.value / PRECISION).toFixed(3)}%</div>
 					</div>
 					<div className="graph-info">
 						<div className="info-title"> Expected long/short rate</div>
-						<div className="info-values" ><span style={{ color: `${graphValues.expectedpay==1?"#E01B3C":"#1ECC89"}`}}>{graphValues.expectedpay==1?((-graphValues.Expectedlongfundingrate).toFixed(3)):(graphValues.Expectedlongfundingrate).toFixed(3)}%</span> / <span style={{ color: `${graphValues.expectedpay==1?"#1ECC89":"#E01B3C"}`}}>{graphValues.expectedpay==2?((-
+						
+						<div className="info-values" ><span style={{ color: `${graphValues.expectedpay==1?"#E01B3C":`${Theme=="Light"?'rgb(4, 169, 104)':"#1ECE89"}`}`}}>{graphValues.expectedpay==1?((-graphValues.Expectedlongfundingrate).toFixed(3)):(graphValues.Expectedlongfundingrate).toFixed(3)}%</span> / <span style={{ color: `${graphValues.expectedpay==1?"#1ECC89":"#E01B3C"}`}}>{graphValues.expectedpay==2?((-
 							graphValues.Expectedshortfundingrate).toFixed(3)):(graphValues.Expectedshortfundingrate).toFixed(3)}%</span>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<div style={Theme=="Light"?{color:"black",background:"#AC69FF"}:{}} className="long-short-enclosure">
+			<div style={Theme=="Light"?{background:"#AC69FF",color:"aliceblue"}:{}} className="long-short-enclosure">
 				{
 					!currentPosition ? (
 						<>
-							<h5>By adding {graphValues.longfundingrate.direction == "POSITIVE" ? `long position, you can earn ${((graphValues.longfundingrate.value/PRECISION)*24*365).toFixed(2)}  %`:`short position, you can earn ${((graphValues.shortfundingrate.value/PRECISION)*24*365).toFixed(2)}  %`}  APR </h5>
+							<h5>By adding {graphValues.longfundingrate.direction == "POSITIVE" ? `long position, you can earn upto ${((graphValues.longfundingrate.value/PRECISION)*24*365).toFixed(2)}  %`:`short position, you can earn ${((graphValues.shortfundingrate.value/PRECISION)*24*365).toFixed(2)}  %`}  APR </h5>
 							<div className="long-short-btns mt-4">
 								<button className={`longbtn  mx-1 btn  `} style={{ color: "white", fontWeight: "bold", background: "#1ECC89" }} onClick={() => {
 									setIsPosition("long")

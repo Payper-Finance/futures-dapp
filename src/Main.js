@@ -80,6 +80,7 @@ const Main = () => {
       setAccount(accounts);
       setAddress(accounts)
       await gettokendata();
+
     })();
   }, [CPosiitonUpdated, address, account]);
 
@@ -148,6 +149,8 @@ const Main = () => {
     else{
       setTheme("Dark")
     }
+    localStorage.setItem('theme', Theme=="Dark"?"Light":"Dark")
+
   }
 
 

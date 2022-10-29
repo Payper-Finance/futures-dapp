@@ -140,13 +140,13 @@ body{
 }
 
 .long-short-enclosure h5{
-    font-size: 16px;
+    font-size: 0.9rem;
+    font-weight: bold;
 }
 .long-short-enclosure button{
     padding: 3px 25px !important;
 }
 .longbtn{
- 
     margin:0 1rem;
 }
 .shortbtn{
