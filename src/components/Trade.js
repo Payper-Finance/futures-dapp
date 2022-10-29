@@ -401,19 +401,19 @@ const getHistory = async () => {
 					<table className='tradebox_table1' style={{ width: "100%" }}>
 						<tbody>
 							<tr style={{ width: "100%", }}>
-								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Amount</td>
+								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600",color:`${Theme=="Light"?"#797979":' "#C0C0C0"'}` }}>Amount</td>
 								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}` }}>{baseValue} kUSD</td>
 							</tr>
 							<tr style={{ width: "100%" }}>
-								<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Trading fee</td>
+								<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color:`${Theme=="Light"?"#797979":' "#C0C0C0"'}` }}>Trading fee</td>
 								<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}`  }}>{(baseValue / 100) * 2} kUSD</td>
 							</tr>
 							<tr style={{ width: "100%" }}>
-								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Price impact</td>
+								<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color:`${Theme=="Light"?"#797979":' "#C0C0C0"'}` }}>Price impact</td>
 								<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" ,color:`${Theme=="Light"?"black":'aliceblue'}` }}>{baseValue == 0 ? 0 : priceImpact.toFixed(2)}%</td>
 							</tr>
 							<tr style={{ width: "100%" }}>
-								<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Slippage tolerance</td>
+								<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color:`${Theme=="Light"?"#797979":' "#C0C0C0"'}`}}>Slippage tolerance</td>
 								<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}`  }}>2%</td>
 							</tr>
 						</tbody>
@@ -480,19 +480,19 @@ const getHistory = async () => {
 
 					<table className='tradebox_table1' style={{ width: "100%" }}>
 						<tr style={{ width: "100%", }}>
-							<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Amount</td>
+							<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color:`${Theme=="Light"?"#797979":' "#C0C0C0"'}` }}>Amount</td>
 							<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif" ,color:`${Theme=="Light"?"black":'aliceblue'}`  }}>{baseValue} kUSD</td>
 						</tr>
 						<tr style={{ width: "100%" }}>
-							<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Trading fee</td>
+							<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color:`${Theme=="Light"?"#797979":' "#C0C0C0"'}` }}>Trading fee</td>
 							<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif" ,color:`${Theme=="Light"?"black":'aliceblue'}`  }}>{(baseValue / 100) * 2} kUSD</td>
 						</tr>
 						<tr style={{ width: "100%" }}>
-							<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Price impact</td>
+							<td style={{ width: "40%", fontFamily: "'Inter', sans-serif", fontWeight: "600",color:`${Theme=="Light"?"#797979":' "#C0C0C0"'}` }}>Price impact</td>
 							<td style={{ width: "60%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}`  }}>{baseValue == 0 ? 0 : priceImpact.toFixed(2)}%</td>
 						</tr>
 						<tr style={{ width: "100%" }}>
-							<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color: "#C0C0C0" }}>Slippage tolerance</td>
+							<td style={{ width: "70%", fontFamily: "'Inter', sans-serif", fontWeight: "600", color:`${Theme=="Light"?"#797979":' "#C0C0C0"'}` }}>Slippage tolerance</td>
 							<td style={{ width: "30%", textAlign: "end", fontFamily: "'Inter', sans-serif",color:`${Theme=="Light"?"black":'aliceblue'}`  }}>2%</td>
 						</tr>
 					</table>
