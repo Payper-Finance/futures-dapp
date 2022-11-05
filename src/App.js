@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Main from './Main';
 import UserContext from './ContextProvider'
+import TradeChart from './components/TradeChart';
 
 function App() {
   const { setTheme,Theme} = useContext(UserContext)

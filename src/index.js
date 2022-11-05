@@ -4,14 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { SnackbarProvider } from "notistack";
-import { BrowserRouter } from 'react-router-dom';
 import { ContexProvider } from './ContextProvider.js';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ContexProvider>
-  <BrowserRouter>
     <App />
-  </BrowserRouter>
   </ContexProvider>
 );
 

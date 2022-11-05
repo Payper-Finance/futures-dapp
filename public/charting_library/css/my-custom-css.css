@@ -1,0 +1,10 @@
+:root:not(.theme-dark){
+    --tv-color-pane-background:#F0F8FF !important;
+}
+.theme-dark:root{
+    --tv-color-pane-background:#000614 !important;
+
+}
+/* html.theme-dark .group-3uonVBsm {
+    background-color: #000614 !important;
+} */

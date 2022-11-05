@@ -11,7 +11,6 @@ export function ContexProvider({children}){
        var theme =  localStorage.getItem('theme')
        return theme
     }
-    console.log(setThemeInStorage())
     const [Theme,setTheme] = useState(setThemeInStorage() != null?(setThemeInStorage):(isBrowserDefaultDark() ? 'Dark' : 'Light'));
     
     

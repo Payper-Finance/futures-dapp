@@ -109,8 +109,7 @@ const getHistory = async () => {
 			expectedlongrate = (history.data.total_short/history.data.total_long)*percentagevalue 
 		}
 
-		console.log(expectedlongrate)
-		console.log(expectedshortrate)
+
 		setGraphValues({
 			marketprice: (parseFloat(history.data.current_mark_price) / PRECISION).toFixed(4),
 			indexprice: (parseFloat(history.data.current_index_price) / PRECISION).toFixed(4),

@@ -10,7 +10,6 @@ const { TradeDataHour, TradeDataDay, TradeDataMinute } = require("./models/Trade
 const PositionHistory = require('./models/PositionHistory')
 const TokenIssue = require('./models/TokensAddress')
 const { validateAddress } = require("@taquito/utils")
-// const signalR = require('@aspnet/signalr');
 const signalR = require("@microsoft/signalr");
 const { TezosToolkit } = require("@taquito/taquito");
 const { InMemorySigner } = require("@taquito/signer");
@@ -77,7 +76,7 @@ iO.on('connection', (client) => {
   TradeDataMinute.watch([{ $match: { operationType: { $in: ['insert'] } } }]).
     on('change', data => {
       console.log('Insert action triggered'); //getting triggered thrice
-      client.emit("data3", data.fullDocument.Close);
+      client.emit("data4", data.fullDocument.Close);
     });
   TradeDataMinute.watch([{ $match: { operationType: { $in: ['update'] } } }]).
     on('change', data => {
@@ -464,9 +463,6 @@ const tradeaction = async () => {
     return
   }
   else {
-
-
-
     if (marketpricedata > previous_data_Minute[0].High) {
       var newvalues = { $set: { time: previous_data_Minute[0].Date, Open: previous_data_Minute[0].Open, Close: marketpricedata, High: marketpricedata, Low: previous_data_Minute[0].Low } };
 
@@ -519,11 +515,7 @@ const tradeaction = async () => {
         console.log("1 document upDated");
       })
     }
-
-
-
-
-
+    
 
     if (marketpricedata > previous_data_Day[0].High) {
       var newvalues = { $set: { time: previous_data_Day[0].Date, Open: previous_data_Day[0].Open, Close: marketpricedata, High: marketpricedata, Low: previous_data_Day[0].Low } };
@@ -566,13 +558,13 @@ const getData = async () => {
   return result
 }
 
-app.post('/granularity', async (req, res) => {
-
-  if (req.body.granularity == "5minute") {
+app.get('/granularity/', async (req, res) => {
+  console.log(req.query.candle)
+  if (req.query.candle == "5minute") {
     const result = await getData();
     res.send(result.reverse())
   }
-  else if (req.body.granularity == "15minute") {
+  else if (req.query.candle == "15minute") {
     var newdate_Minute = new Date().getMinutes();
     let x = 0
     if(newdate_Minute%15>=5 && newdate_Minute%15<10){
@@ -616,182 +608,21 @@ app.post('/granularity', async (req, res) => {
     }
     res.send(newarr)
   }
-  else if (req.body.granularity == "hour") {
+  else if (req.query.candle == "hour") {
     const result = await TradeDataHour.find({}).then(function (data) {
       return data
     }).catch(err => console.log(err))
-
-
-
-
-    // let newarr = []
-    // for (let i = 0; i < result.length; i = i + 12) {
-    //   let Open = result[i].Open;
-    //   let High = result[i].High;
-    //   let Low = result[i].Low;
-    //   let Close = result[i].Close;
-    //   for (let j = i; j < i + 12; j++) {
-    //     if (j + 1 > result.length) {
-    //       break
-    //     }
-    //     if (High < result[j].High) {
-    //       High = result[j].High
-    //     }
-    //     if (Low > result[j].Low) {
-    //       Low = result[j].Low
-    //     }
-    //     Close = result[j].Close
-    //   }
-    //   let data = {
-    //     Date: result[i].Date,
-    //     Open: Open,
-    //     High: High,
-    //     Low: Low,
-    //     Close: Close,
-    //   }
-    //   newarr.push(data)
-    // }
-
-
     res.send(result)
   }
-  else if (req.body.granularity == "day") {
+  else if (req.query.candle == "day") {
     const result = await TradeDataDay.find({}).then(function (data) {
       return data
     }).catch(err => console.log(err))
-
-    // let newarr = []
-    // for (let i = 0; i < result.length; i = i + 288) {
-    //   let Open = result[i].Open;
-    //   let High = result[i].High;
-    //   let Low = result[i].Low;
-    //   let Close = result[i].Close;
-    //   for (let j = i; j < i + 288; j++) {
-    //     if (j + 1 > result.length) {
-    //       break
-    //     }
-    //     if (High < result[j].High) {
-    //       High = result[j].High
-    //     }
-    //     if (Low > result[j].Low) {
-    //       Low = result[j].Low
-    //     }
-    //     Close = result[j].Close
-    //   }
-    //   let data = {
-    //     Date: result[i].Date,
-    //     Open: Open,
-    //     High: High,
-    //     Low: Low,
-    //     Close: Close,
-    //   }
-    //   newarr.push(data)
-    // }
     res.send(result)
   }
 })
 
 
-
-
-
-
-// SendTestToken-------------------------------------------------------------------------------------------------------------------
-
-// app.post("/getToken", async (req, res) => {
-//   try {
-//     const address = req.body.address;
-//     const valid = validateAddress(address)
-//     const result = await TokenIssue.findOne({ Address: address })
-//     Tezos.setProvider({
-//       signer: new InMemorySigner(process.env.PVT_KEY),
-//       });
-//     if (valid == 3) {
-//       if (!result) {
-//         await Tezos.contract
-// 		.at("KT1D5xQy9x7YSgrzTzLJx9tEQ6qK9pSW2vfz") 
-// 		.then(async(contract) => {
-// 			contract.methods.mint(address, 1000*PRECISION).send().then(async()=>{
-//         await TokenIssue.create({Address: address, TokenIssue: 1000})
-//       });
-// 		})
-//         res.send("Issued")
-//       } else {
-//         res.send("Already Issued")
-//       }
-
-//     }
-//     else {
-//       res.send("false")
-//     }
-//   }
-//   catch (err) {
-//     res.status(404).send(false)
-//   }
-
-// })
-
-
-
-// const LiquidationFunction = async () => {
-//   let storage = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${process.env.VMMCONTRACT}/storage/`).then(result => {
-//     return result.data
-//   })
-//   let positions = storage.positions
-//   try{
-//     Object.keys(positions).forEach(async (key, index) => {
-//       await Tezos.contract.at(process.env.VMMCONTRACT).then((contract)=>{
-//         contract.methods.liquidate(key).send().catch((err)=>{
-//           console.log("Zenith :-rocket, error");
-//           console.log(err)
-//         })
-//         .then(()=>{
-//           console.log("Position Liquidated")
-//         })
-//       }).catch((err) => {
-//           console.log("liquidation error " + err)
-//         });
-//       })
-//   }
-//   catch(err){
-//     console.log("No Liquidation")
-//   }
-// }
-
-
-// if(positions[key].position==1){
-// let Vmmtoken = storage.vmm.token_amount + (positions[key].position_value);
-// let x = storage.vmm.vUSD_amount - (storage.vmm.invariant / Vmmtoken)
-// let final = (positions[key].collateral_amount)+(x - positions[key].vUSD_amount)+ positions[key].funding_amount
-// let marginRatio = final / positions[key].vUSD_amount;
-
-// if(marginRatio < 0.085){
-
-
-// else{
-// let Vmmtoken = storage.vmm.token_amount - (positions[key].position_value);
-// let x =  (storage.vmm.invariant / Vmmtoken) - storage.vmm.vUSD_amount 
-// let final = (positions[key].collateral_amount)+( positions[key].vUSD_amount -x)+ positions[key].funding_amount
-// let marginRatio = final / positions[key].vUSD_amount;
-
-// if(marginRatio < 0.85){
-
-// }
-// }
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-// Updation-------------------------------------------------------------------------------------------------------------------
 
 var nextTick = function () {
   return 300000 - (new Date().getTime() % 300000);
@@ -804,8 +635,6 @@ var nextTick = function () {
   var newdate_Minute = new Date().getMinutes();
   var newdate_Hour = new Date().getHours();
   var previous_data_Minute = await TradeDataMinute.find().limit(1).sort({ $natural: -1 }).limit(1);
-  console.log(newdate_Minute)
-  console.log(newdate_Hour)
   if ((previous_data_Minute.length == 0)) {
     let data = {
       Date: new Date(),
@@ -817,33 +646,23 @@ var nextTick = function () {
     TradeDataMinute.create(data)
     TradeDataHour.create(data)
     TradeDataDay.create(data)
-
   }
   else {
 
     if (newdate_Minute % 5 == 0) {
-      console.log("candle formed 1")
-      var previous_data_Minute = await TradeDataMinute.find().limit(1).sort({ $natural: -1 }).limit(1);
-      console.log(newdate_Minute - previous_data_Minute[0].Date.getMinutes())
-      if (newdate_Minute - previous_data_Minute[0].Date.getMinutes() >= 5) {
-        var newvalues = { Date: new Date(), Open: marketpricedata, Close: marketpricedata, High: marketpricedata, Low: marketpricedata };
-        await TradeDataMinute.create(newvalues);
-        console.log("candle formed 3")
-      } 
+      var newvalues = { Date: new Date(), Open: marketpricedata, Close: marketpricedata, High: marketpricedata, Low: marketpricedata };
+      await TradeDataMinute.create(newvalues);
+       
       if (newdate_Minute == 0) {
         var newvalues = { Date: new Date(), Open: marketpricedata, Close: marketpricedata, High: marketpricedata, Low: marketpricedata };
         TradeDataHour.create(newvalues);
       }
-      if (newdate_Hour == 0) {
+      if (newdate_Hour == 0 && newdate_Minute == 0) {
         var newvalues = { Date: new Date(), Open: marketpricedata, Close: marketpricedata, High: marketpricedata, Low: marketpricedata };
         TradeDataDay.create(newvalues);
       }
     }
   }
-  // if(Date.parse(storage.upcoming_funding_time)- 300000 <= Date.now()){
-  //    LiquidationFunction()
-  // }
-
   setTimeout(timerFunction, nextTick());
 };
 var timeout = setTimeout(timerFunction, nextTick());
