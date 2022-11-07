@@ -38,7 +38,7 @@ app.use(function (req, res, next) {
 app.use(bodyParser.raw());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
-const server = app.listen(8000, () => {
+const server = app.listen(process.env.PORT || 5000, () => {
   console.log('Started in 8000 PORT')
 })
 
@@ -349,15 +349,6 @@ const positionAction = async (opHash) => {
     console.log(err)
   }
 }
-
-
-
-
-
-
-
-
-
 
 
 // LEADERBOARD DATA -------------------------------------------------------------------------------------------------------------------
