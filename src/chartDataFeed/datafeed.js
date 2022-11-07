@@ -14,9 +14,9 @@ const lastBarsCache = new Map();
 const configurationData = {
     supported_resolutions: ["5", "15", "60", "D"],
     exchanges: [{
-        value: 'Bitfinex',
-        name: 'Bitfinex',
-        desc: 'Bitfinex',
+        value: 'Zenith',
+        name: 'Zenith',
+        desc: 'Zenith',
     },
     {
         // `exchange` argument for the `searchSymbols` method, if a user selects this exchange
@@ -62,7 +62,7 @@ export default {
             type: symbolName,
             session: '24x7',
             timezone: 'Etc/UTC',
-            exchange: "Bitfinex",
+            exchange: "Zenith",
             minmov: 1,
             pricescale: 100,
             has_intraday: true,

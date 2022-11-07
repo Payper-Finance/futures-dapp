@@ -517,9 +517,8 @@
 // Datafeed implementation, will be added later
 import Datafeed from '../chartDataFeed/datafeed.js';
 import {useEffect, useLayoutEffect,useContext} from 'react';
-import {widget} from '../charting_library/charting_library.esm.js'
+import {widget} from '../charting_library/'
 import UserContext from "../ContextProvider.js";
-
 
 export default function TradeChart() {
 	const {Theme } = useContext(UserContext)
@@ -546,11 +545,13 @@ export default function TradeChart() {
 				"symbolWatermarkProperties.transparency": 90,
 				"scalesProperties.textColor" : "#AAA",
 			},
+			// logo: ""
+			logo: {
+				image: "../../public/img/Logo.png",
+				link: "https://zenith.payperfi.com/"
+			},
+		
 		});
-		tvWidget.onChartReady(function() {
-			console.log("chart is ready!!")
-		})
-	
 	},[Theme])
 
 	
