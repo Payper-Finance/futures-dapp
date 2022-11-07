@@ -27,11 +27,13 @@ Tezos.setProvider({
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((result) => { console.log("connected to db") }).catch((err) => { console.log(err) });
 
-
-
-
-
-app.use(cors({ origin: '*' }));
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
 
 app.use(bodyParser.raw());
 app.use(bodyParser.json());
@@ -156,8 +158,16 @@ const positionAction = async (opHash) => {
     let address;
     if(action=="liquidate"){
       address = transaction.parameter.value
-      const liquidationResult = await PositionHistory.findOne({ Address: address })    
-      let liquidationcount = parseInt(liquidationResult.LiquidationCount) + 1;
+      const liquidationResult = await PositionHistory.findOne({ Address: address })
+      let liquidationcount
+      if(liquidationResult.LiquidationCount == null){
+        liquidationcount =1;
+      }
+      else{
+        
+        liquidationcount = parseInt(liquidationResult.LiquidationCount) + 1;
+      }
+      
     await PositionHistory.findOneAndUpdate({ Address: key }, {
       $set: {
         LiquidationCount: liquidationcount
@@ -353,13 +363,18 @@ const positionAction = async (opHash) => {
 // LEADERBOARD DATA -------------------------------------------------------------------------------------------------------------------
 
 app.get('/leaderboard', async (req, res) => {
-  const result = await PositionHistory.find({}).then(function (data) {
-    return data
-  }).catch(err => console.log(err))
-  result.sort(function (a, b) {
-    return parseFloat(a.Totalpnl) - parseFloat(b.Totalpnl);
-  });
-  res.send(result)
+  try{
+    const result = await PositionHistory.find({}).then(function (data) {
+      return data
+    }).catch(err => console.log(err))
+    result.sort(function (a, b) {
+      return parseFloat(a.Totalpnl) - parseFloat(b.Totalpnl);
+    });
+
+    res.send(result)
+  }catch(err){
+    console.log(err)
+  }
 })
 
 
