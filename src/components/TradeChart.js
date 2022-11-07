@@ -542,7 +542,9 @@ export default function TradeChart() {
 				"paneProperties.background":`${Theme=="Dark"?"#000614":"#F0F8FF"}`,
 				"paneProperties.backgroundType": "solid",
 				"mainSeriesProperties.candleStyle.upColor": "#1ecc89",
-				"mainSeriesProperties.candleStyle.downColor": "#e01b3c"
+				"mainSeriesProperties.candleStyle.downColor": "#e01b3c",
+				"symbolWatermarkProperties.transparency": 90,
+				"scalesProperties.textColor" : "#AAA",
 			},
 		});
 		tvWidget.onChartReady(function() {
