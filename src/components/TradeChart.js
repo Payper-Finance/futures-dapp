@@ -517,7 +517,7 @@
 // Datafeed implementation, will be added later
 import Datafeed from '../chartDataFeed/datafeed.js';
 import {useEffect, useLayoutEffect,useContext} from 'react';
-import {widget} from '../charting_library/'
+import { widget } from '../charting_library/'
 import UserContext from "../ContextProvider.js";
 
 export default function TradeChart() {
@@ -525,7 +525,7 @@ export default function TradeChart() {
 
 	useLayoutEffect(()=> {
 		let tvWidget = new widget({
-			symbol: 'Zenith:XTZ/kUSD', // default symbol
+			symbol: 'XTZ/kUSD PERP', // default symbol
 			interval: '5', // default interval
 			fullscreen: false, // displays the chart in the fullscreen mode
 			container: 'tv_chart_container',
