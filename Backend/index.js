@@ -557,7 +557,7 @@ const tradeaction = async () => {
 // SEND CANDLE DATA -------------------------------------------------------------------------------------------------------------------
 const getData = async () => {
 
-  const result = await TradeDataMinute.find({}).sort({ _id: -1 }).limit(100, function (data) {
+  const result = await TradeDataMinute.find({}).sort({ _id: -1 }).limit(864, function (data) {
     return data.reverse()
   }).catch(err => console.log(err))
 
@@ -637,7 +637,8 @@ var nextTick = function () {
   let storage = await axios.get(`https://api.ghostnet.tzkt.io/v1/contracts/${process.env.VMMCONTRACT}/storage/`).then(result => {
     return result.data
   })
-  let marketpricedata = (storage.current_mark_price / PRECISION).toFixed(3)
+  console.log("run_______________")
+  let marketpricedata = (storage.current_mark_price / PRECISION).toFixed(4)
   var newdate_Minute = new Date().getMinutes();
   var newdate_Hour = new Date().getHours();
   var previous_data_Minute = await TradeDataMinute.find().limit(1).sort({ $natural: -1 }).limit(1);
@@ -656,16 +657,21 @@ var nextTick = function () {
   else {
 
     if (newdate_Minute % 5 == 0) {
+      console.log("run 5 ___________ newdate_Minute")
       var newvalues = { Date: new Date(), Open: marketpricedata, Close: marketpricedata, High: marketpricedata, Low: marketpricedata };
       await TradeDataMinute.create(newvalues);
        
       if (newdate_Minute == 0) {
         var newvalues = { Date: new Date(), Open: marketpricedata, Close: marketpricedata, High: marketpricedata, Low: marketpricedata };
         TradeDataHour.create(newvalues);
+      console.log("run 1hour ___________ newdate_Hour")
+
       }
       if (newdate_Hour == 0 && newdate_Minute == 0) {
         var newvalues = { Date: new Date(), Open: marketpricedata, Close: marketpricedata, High: marketpricedata, Low: marketpricedata };
         TradeDataDay.create(newvalues);
+      console.log("run 1day ___________ newdate_Hour")
+
       }
     }
   }

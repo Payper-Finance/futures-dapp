@@ -62,7 +62,7 @@ export default {
             type: symbolName,
             session: '24x7',
             timezone: 'Etc/UTC',
-            exchange: "Bitfinex",
+            exchange: "Zenith",
             minmov: 1,
             pricescale: 100,
             has_intraday: true,

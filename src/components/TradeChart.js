@@ -517,7 +517,7 @@
 // Datafeed implementation, will be added later
 import Datafeed from '../chartDataFeed/datafeed.js';
 import {useEffect, useLayoutEffect,useContext} from 'react';
-import {widget} from '../charting_library/charting_library.esm.js'
+import {widget} from '../charting_library/charting_library.esm'
 import UserContext from "../ContextProvider.js";
 
 
