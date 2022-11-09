@@ -517,16 +517,19 @@
 // Datafeed implementation, will be added later
 import Datafeed from '../chartDataFeed/datafeed.js';
 import {useEffect, useLayoutEffect,useContext} from 'react';
+<<<<<<< HEAD
 import {widget} from '../charting_library/charting_library.esm'
+=======
+import { widget } from '../charting_library/'
+>>>>>>> 1d7fc6da68013e5b9be3f823181411ed1575e91a
 import UserContext from "../ContextProvider.js";
-
 
 export default function TradeChart() {
 	const {Theme } = useContext(UserContext)
 
 	useLayoutEffect(()=> {
 		let tvWidget = new widget({
-			symbol: 'Zenith:XTZ/kUSD', // default symbol
+			symbol: 'XTZ/kUSD PERP', // default symbol
 			interval: '5', // default interval
 			fullscreen: false, // displays the chart in the fullscreen mode
 			container: 'tv_chart_container',
@@ -546,11 +549,13 @@ export default function TradeChart() {
 				"symbolWatermarkProperties.transparency": 90,
 				"scalesProperties.textColor" : "#AAA",
 			},
+			// logo: ""
+			logo: {
+				image: "../../public/img/Logo.png",
+				link: "https://zenith.payperfi.com/"
+			},
+		
 		});
-		tvWidget.onChartReady(function() {
-			console.log("chart is ready!!")
-		})
-	
 	},[Theme])
 
 	
