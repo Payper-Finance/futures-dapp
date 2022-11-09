@@ -78,7 +78,7 @@ iO.on('connection', (client) => {
   TradeDataMinute.watch([{ $match: { operationType: { $in: ['insert'] } } }]).
     on('change', data => {
       console.log('Insert action triggered'); //getting triggered thrice
-      client.emit("data4", data.fullDocument.Close);
+      client.emit("data3", data.fullDocument.Close);
     });
   TradeDataMinute.watch([{ $match: { operationType: { $in: ['update'] } } }]).
     on('change', data => {

@@ -40,14 +40,14 @@ export function generateSymbol(exchange, fromSymbol, toSymbol) {
 }
 
 export function parseFullSymbol(fullSymbol) {
-	const match = fullSymbol.match(/^(\w+):(\w+)\/(\w+)$/);
+	const match = fullSymbol.match(/^(\w+)\/(\w+) (\w+)$/);
+	console.log(match)
 	if (!match) {
 		return null;
 	}
 
 	return {
-		exchange: match[1],
-		fromSymbol: match[2],
-		toSymbol: match[3],
+		fromSymbol: match[1],
+		toSymbol: match[2],
 	};
 }

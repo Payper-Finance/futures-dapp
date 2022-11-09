@@ -1,6 +1,7 @@
 import { parseFullSymbol } from './helpers.js';
 import io from 'socket.io-client'
-const socket = io('https://zenith-api-l8hhy.ondigitalocean.app/');
+const socket = io('http://localhost:5000/');
+// const socket = io('https://zenith-api-l8hhy.ondigitalocean.app/');
 const channelToSubscription = new Map();
 socket.on('connect', () => {
 	console.log('[socket] Connected');
@@ -28,9 +29,36 @@ socket.on('data4', data => {
 	
 	const lastDailyBar = subscriptionItem.lastDailyBar;
 	console.log(subscriptionItem.resolution)
+	let bar;
+	
+		bar = {
+			...lastDailyBar,
+			high: Math.max(lastDailyBar.high, tradePrice),
+			low: Math.min(lastDailyBar.low, tradePrice),
+			close: tradePrice
+		};
+		console.log('[socket] Update the latest bar by price', tradePrice);
+	
+	subscriptionItem.lastDailyBar = bar;
+
+
+	subscriptionItem.handlers.forEach(handler => handler.callback(bar));
+});
+socket.on('data3', data => {
+	console.log('[socket] Message:', data);
+	const tradePrice = parseFloat(data);
+	const channelString = `0~${"Zenith"}~${"XTZ"}~${"kUSD"}`;
+	const subscriptionItem = channelToSubscription.get(channelString);
+	console.log(subscriptionItem)
+
+   
+	if (subscriptionItem === undefined) {
+		return;
+	}
+	
+	console.log(subscriptionItem.resolution)
 	let date = Date.now();
 	let bar;
-	if (((date - lastDailyBar.time) / 1000) >= 300){
 		bar = {
 			time: date,
 			open: tradePrice,
@@ -39,15 +67,7 @@ socket.on('data4', data => {
 			close: tradePrice,
 		};
 		console.log('[socket] Generate new bar', bar);
-	} else {
-		bar = {
-			...lastDailyBar,
-			high: Math.max(lastDailyBar.high, tradePrice),
-			low: Math.min(lastDailyBar.low, tradePrice),
-			close: tradePrice
-		};
-		console.log('[socket] Update the latest bar by price', tradePrice);
-	}
+
 	subscriptionItem.lastDailyBar = bar;
 
 
@@ -65,8 +85,8 @@ export function subscribeOnStream(
 	) {
 
 	const parsedSymbol = parseFullSymbol(symbolInfo.name);
-	const channelString = `0~${parsedSymbol.exchange}~${parsedSymbol.fromSymbol}~${parsedSymbol.toSymbol}`;
-	console.log(resolution)
+	console.log(symbolInfo)
+	const channelString = `0~${symbolInfo.exchange}~${parsedSymbol.fromSymbol}~${parsedSymbol.toSymbol}`;
 	const handler = {
 		id: subscribeUID,
 		callback: onRealtimeCallback,

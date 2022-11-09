@@ -13,30 +13,7 @@ import {
 const lastBarsCache = new Map();
 const configurationData = {
     supported_resolutions: ["5", "15", "60", "D"],
-    exchanges: [{
-        value: 'Zenith',
-        name: 'Zenith',
-        desc: 'Zenith',
-    },
-    {
-        // `exchange` argument for the `searchSymbols` method, if a user selects this exchange
-        value: 'Kraken',
-
-        // filter name
-        name: 'Kraken',
-
-        // full exchange name displayed in the filter popup
-        desc: 'Kraken bitcoin exchange',
-    },
-    ],
-    symbols_types: [{
-        name: 'crypto',
-
-        // `symbolType` argument for the `searchSymbols` method, if a user selects this symbol type
-        value: 'crypto',
-    },
-        // ...
-    ],
+   
 };
 
 
@@ -54,7 +31,7 @@ export default {
         onResolveErrorCallback,
     ) => {
         console.log('[resolveSymbol]: Method call', symbolName);
-
+        console.log(symbolName)
         const symbolInfo = {
             ticker: symbolName,
             name: symbolName,
@@ -79,6 +56,7 @@ export default {
 
     getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback) => {
         const { from, to, firstDataRequest } = periodParams;
+        
         console.log('[getBars]: Method call', symbolInfo, resolution, from, to);
         // const parsedSymbol = parseFullSymbol(symbolInfo.full_name);
 

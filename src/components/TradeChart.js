@@ -517,11 +517,7 @@
 // Datafeed implementation, will be added later
 import Datafeed from '../chartDataFeed/datafeed.js';
 import {useEffect, useLayoutEffect,useContext} from 'react';
-<<<<<<< HEAD
 import {widget} from '../charting_library/charting_library.esm'
-=======
-import { widget } from '../charting_library/'
->>>>>>> 1d7fc6da68013e5b9be3f823181411ed1575e91a
 import UserContext from "../ContextProvider.js";
 
 export default function TradeChart() {

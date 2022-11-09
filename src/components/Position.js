@@ -212,7 +212,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                                     )
                                 }
                                 kUSD</p>
-                            <p>{marginRatio}</p>
+                            <p>{marginRatio.toFixed(4)}</p>
                             {/* <p>{((positiondetail.collateral_amount/1000000).toFixed(2)/100)*8.5} kUSD</p> */}
                         </div>
                     </div>
@@ -309,7 +309,7 @@ export default function Position({ positiondetail, graph, gethistory, Vmm }) {
                                 valueLabelDisplay="auto"
                                 value={addmarginvalue}
                                 min={0}
-                                max={kusdTokenBalance}
+                                max={kusdTokenBalance-0.05}
                             onChange={(event) => setaddmarginvalue(event.target.value)}
                             color={'secondary'}
 							sx={{ color: `grey` }}
