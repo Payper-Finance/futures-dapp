@@ -1,6 +1,6 @@
 import { parseFullSymbol } from './helpers.js';
 import io from 'socket.io-client'
-const socket = io('http://localhost:5000/');
+const socket = io('http://localhost:3001');
 // const socket = io('https://zenith-api-l8hhy.ondigitalocean.app/');
 const channelToSubscription = new Map();
 socket.on('connect', () => {

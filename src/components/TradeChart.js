@@ -522,7 +522,6 @@ import UserContext from "../ContextProvider.js";
 
 export default function TradeChart() {
 	const {Theme } = useContext(UserContext)
-
 	useLayoutEffect(()=> {
 		let tvWidget = new widget({
 			symbol: 'XTZ/kUSD PERP', // default symbol

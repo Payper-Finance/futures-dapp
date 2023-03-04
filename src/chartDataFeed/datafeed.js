@@ -76,7 +76,7 @@ export default {
             data.forEach(bar => {
                 let date = new Date(bar.Date)
                 let time = Math.floor(date.getTime() / 1000)
-                if (time >= from && time < to) {
+                // if (time >= from && time < to) {
                     bars = [...bars, {
                         time: time * 1000,
                         low: bar.Low,
@@ -84,7 +84,7 @@ export default {
                         open: bar.Open,
                         close: bar.Close,
                     }];
-                }
+                // }
             });
             if (firstDataRequest) {
                 lastBarsCache.set(symbolInfo.name, {

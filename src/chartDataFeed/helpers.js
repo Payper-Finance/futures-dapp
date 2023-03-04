@@ -24,7 +24,7 @@ export async function makeApiDataRequest(granularity) {
 		if(granularity=='1D'){
 			x = "day"
 		}
-		let data = await axios.get(`https://zenith-api-l8hhy.ondigitalocean.app/granularity?candle=${x}`)
+		let data = await axios.get(`http://localhost:3001/ApiRoutes/granularity?candle=${x}`)
 		  return data.data
 	} catch (error) {
 		throw new Error(`CryptoCompare request error: ${error.status}`);
